@@ -1,0 +1,218 @@
+//
+//  Location.swift
+//  Created by BBruch on 08.04.20.
+//
+
+import Foundation
+
+struct Location {
+    let client: Client
+    let networkHandler: NetworkHandler = NetworkHandler()
+    
+    /**
+     Request loaction by id.
+     - Parameters:
+     - id: ID of the location.
+     - Returns: Location model struct.
+     */
+    func getLocationByID(id: Int, completion: @escaping (Result<LocationModel, Error>) -> Void) {
+        networkHandler.performAPIRequestByMethod(method: "location/"+String(id)) {result in switch result {
+        case .success(let data):
+            if let location: LocationModel = self.networkHandler.decodeJSONData(data: data) {
+                completion(.success(location))
+            } else {
+                print("JSON decoding error")
+            }
+        case .failure(let error):
+            completion(.failure(error))
+            }}
+    }
+    
+    /**
+     Request loaction by URL.
+     - Parameters:
+     - url: URL of the location.
+     - Returns: Location model struct.
+     */
+    func getLocationByURL(url: String, completion: @escaping (Result<LocationModel, Error>) -> Void) {
+        networkHandler.performAPIRequestByURL(url: url) {result in switch result {
+        case .success(let data):
+            if let location: LocationModel = self.networkHandler.decodeJSONData(data: data) {
+                completion(.success(location))
+            } else {
+                print("JSON decoding error")
+            }
+        case .failure(let error):
+            completion(.failure(error))
+            }}
+    }
+    
+    /**
+     Request multiple locations by IDs.
+     - Parameters:
+     - ids: Location ids.
+     - Returns: Array of location model struct.
+     */
+    func getLocationsByID(ids: [Int], completion: @escaping (Result<[LocationModel], Error>) -> Void) {
+        let stringIDs = ids.map { String($0) }
+        networkHandler.performAPIRequestByMethod(method: "location/"+stringIDs.joined(separator: ",")) {result in switch result {
+        case .success(let data):
+            if let locations: [LocationModel] = self.networkHandler.decodeJSONData(data: data) {
+                completion(.success(locations))
+            } else {
+                print("JSON decoding error")
+            }
+        case .failure(let error):
+            completion(.failure(error))
+            }}
+    }
+    
+    /**
+     Request loactions by page number.
+     - Parameters:
+     - page: Number of result page.
+     - Returns: Array of Location model struct.
+     */
+    func getLocationsByPageNumber(pageNumber: Int, completion: @escaping (Result<[LocationModel], Error>) -> Void) {
+        networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(pageNumber)) {result in switch result {
+        case .success(let data):
+            if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                completion(.success(infoModel.results))
+            } else {
+                print("JSON decoding error")
+            }
+        case .failure(let error):
+            completion(.failure(error))
+            }}
+    }
+    
+    /**
+     Request all locations.
+     - Returns: Array of Location model struct.
+     */
+    func getAllLocations(completion: @escaping (Result<[LocationModel], Error>) -> Void) {
+        var allLocations = [LocationModel]()
+        networkHandler.performAPIRequestByMethod(method: "location") {result in switch result {
+        case .success(let data):
+            if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                allLocations = infoModel.results
+                let locationsDispatchGroup = DispatchGroup()
+                
+                for index in 2...infoModel.info.pages {
+                    locationsDispatchGroup.enter()
+                    self.getLocationsByPageNumber(pageNumber: index) {result in switch result {
+                    case .success(let locations):
+                        allLocations.append(contentsOf:locations)
+                        locationsDispatchGroup.leave()
+                    case .failure(let error):
+                        completion(.failure(error))
+                        }}
+                }
+                locationsDispatchGroup.notify(queue: DispatchQueue.main) {
+                    completion(.success(allLocations.sorted { $0.id < $1.id }))
+                }
+            } else {
+                print("JSON decoding error")
+            }
+        case .failure(let error):
+            completion(.failure(error))
+            }}
+    }
+    
+    /**
+     Create location filter with given parameters.
+     - Parameters:
+     - name: The name of the location.
+     - type: The type or the location.
+     - dimension: The dimension of the location.
+     - Returns: LocationFilter
+     */
+    func createLocationFilter(name: String?, type: String?, dimension: String?) -> LocationFilter {
+        
+        let parameterDict: [String: String] = [
+            "name" : name ?? "",
+            "type" : type ?? "",
+            "dimension" : dimension ?? ""
+        ]
+        
+        var query = "location/?"
+        for (key, value) in parameterDict {
+            if value != "" {
+                query.append(key+"="+value+"&")
+            }
+        }
+        
+        let filter = LocationFilter(name: parameterDict["name"]!, type: parameterDict["type"]!, dimension: parameterDict["dimension"]!, query: query)
+        return filter
+    }
+    
+    /**
+     Request locations with given filter.
+     - Parameters:
+     - filter: LocationFilter struct (provides requestURL with query options).
+     - Returns: Array of Location model struct.
+     */
+    func getLocationsByFilter(filter: LocationFilter, completion: @escaping (Result<[LocationModel], Error>) -> Void) {
+        
+        networkHandler.performAPIRequestByMethod(method: filter.query) {result in switch result {
+        case .success(let data):
+            if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                completion(.success(infoModel.results))
+            } else {
+                print("JSON decoding error")
+            }
+        case .failure(let error):
+            completion(.failure(error))
+            }}
+    }
+}
+
+/**
+ Struct to store location filter properties.
+ # Properties
+ - **name**: *The name of the location.*
+ - **type**: *The type of the location.*
+ - **dimension**: *The dimension of the location.*
+ - **query**: *URL query for HTTP request.*
+ */
+struct LocationFilter {
+    let name: String
+    let type: String
+    let dimension: String
+    let query: String
+}
+
+/**
+ LocationInfoModel struct for decoding info json response.
+ # Properties
+ - **info**: *Information about location count and pagination.*
+ - **results**: *First page with 20 locations.*
+ # SeeAlso
+ - **Info**: *Info struct in Network.swift.*
+ - **LocationModel**: *LocationModel struct in Location.swift.*
+ */
+struct LocationInfoModel: Codable {
+    let info: Info
+    let results: [LocationModel]
+}
+
+/**
+ Episode struct for decoding episode json response.
+ # Properties
+ - **id**: *The id of the location.*
+ - **name**: *The name of the location.*
+ - **type**: *The type of the location.*
+ - **dimension**: *The dimension in which the location is located.*
+ - **residents**: *List of location who have been last seen in the location.*
+ - **url**: *Link to location's own endpoint.*
+ - **created**: *Time at which the location was created in the database.*
+ */
+struct LocationModel: Codable, Identifiable  {
+    let id: Int
+    let name: String
+    let type: String
+    let dimension: String
+    let residents: [String]
+    let url: String
+    let created: String
+}
