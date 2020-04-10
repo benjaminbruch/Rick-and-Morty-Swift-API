@@ -1,3 +1,4 @@
-# rick-morty-swift-api
+# The Rick and Morty API Swift Client
+Swift implementation for the Rick and Morty API https://rickandmortyapi.com/
 
-A description of this package.
+[![Build Status](https://img.shields.io/travis/rust-lang/rust?logo=travis)](https://travis-ci.org/benjaminbruch/rick-morty-swift-api)
