@@ -1,0 +1,9 @@
+jobs:
+  include:
+  - stage: OSX test
+    os: osx
+    osx_image: xcode11.3
+    language: swift
+    script:
+    - swift package update
+    - swift test
