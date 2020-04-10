@@ -7,5 +7,6 @@ jobs:
     script:
     - swift package update
     - swift test --enable-code-coverage
+    - llvm-cov export -format="lcov" .build/debug/SwiftLoggerPackageTests.xctest -instr-profile .build/debug/codecov/default.profdata > info.lcov
 after_success:
   - bash <(curl -s https://codecov.io/bash)
