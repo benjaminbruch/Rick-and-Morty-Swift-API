@@ -18,8 +18,8 @@ final class CharacterTests: XCTestCase {
         case .success(let character):
             print(character.name)
             expectation.fulfill()
-        case.failure(let error):
-            print(error)
+        case.failure( _):
+            break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -30,8 +30,8 @@ final class CharacterTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Test error handling for id")
         
         client.character().getCharacterByID(id: -1) {result in switch result {
-        case .success(let character):
-            print(character.name)
+        case .success( _):
+            break
         case.failure(let error):
             print(error)
             expectation.fulfill()
@@ -48,8 +48,8 @@ final class CharacterTests: XCTestCase {
         case .success(let character):
             print(character.name)
             expectation.fulfill()
-        case.failure(let error):
-            print(error)
+        case.failure( _):
+            break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -60,8 +60,8 @@ final class CharacterTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Test error handling for URL")
         
         client.character().getCharacterByURL(url: "") {result in switch result {
-        case .success(let character):
-            print(character.name)
+        case .success( _):
+            break
         case.failure(let error):
             print(error)
             expectation.fulfill()
@@ -80,8 +80,8 @@ final class CharacterTests: XCTestCase {
         case .success(let characters):
             characters.forEach() { print ($0.name) }
             expectation.fulfill()
-        case.failure(let error):
-            print(error)
+        case.failure( _):
+            break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -95,8 +95,8 @@ final class CharacterTests: XCTestCase {
         case .success(let characters):
             characters.forEach() { print ($0.name) }
             expectation.fulfill()
-        case.failure(let error):
-            print(error)
+        case .failure( _):
+            break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -107,8 +107,8 @@ final class CharacterTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Test error handling for page")
         
         client.character().getCharactersByPageNumber(pageNumber: 123) {result in switch result {
-        case .success(let characters):
-            characters.forEach() { print ($0.name) }
+        case .success( _):
+            break
         case.failure(let error):
             print(error)
             expectation.fulfill()
@@ -125,8 +125,8 @@ final class CharacterTests: XCTestCase {
         case .success(let characters):
             characters.forEach() { print ($0.name) }
             expectation.fulfill()
-        case.failure(let error):
-            print(error)
+        case.failure( _):
+            break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -142,8 +142,8 @@ final class CharacterTests: XCTestCase {
         case .success(let characters):
             characters.forEach() { print ($0.name) }
             expectation.fulfill()
-        case.failure(let error):
-            print(error)
+        case.failure( _):
+            break
             }
         }
         wait(for: [expectation], timeout: 10.0)

@@ -18,8 +18,8 @@ final class NetworkHandlerTests: XCTestCase {
         case .success( _):
             print("Data received")
             expectation.fulfill()
-        case.failure(let error):
-            print(error)
+        case.failure( _):
+            break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -31,7 +31,7 @@ final class NetworkHandlerTests: XCTestCase {
         
         networkHandler.performAPIRequestByMethod(method: "123") {result in switch result {
         case .success( _):
-            print("Data received")
+            break
         case.failure(let error):
             print(error)
             expectation.fulfill()
@@ -48,8 +48,8 @@ final class NetworkHandlerTests: XCTestCase {
         case .success( _):
             print("Data received")
             expectation.fulfill()
-        case.failure(let error):
-            print(error)
+        case.failure( _):
+            break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -61,7 +61,7 @@ final class NetworkHandlerTests: XCTestCase {
         
         networkHandler.performAPIRequestByURL(url: "") {result in switch result {
         case .success( _):
-            print("Data received")
+            break
         case.failure(let error):
             print(error)
             expectation.fulfill()
@@ -80,8 +80,8 @@ final class NetworkHandlerTests: XCTestCase {
                 print(decodedData.name)
                 expectation.fulfill()
             }
-        case.failure(let error):
-            print(error)
+        case.failure( _):
+            break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -100,8 +100,8 @@ final class NetworkHandlerTests: XCTestCase {
                 print("decoding failed")
                 expectation.fulfill()
             }
-        case.failure(let error):
-            print(error)
+        case.failure( _):
+            break
             }
         }
         wait(for: [expectation], timeout: 10.0)
