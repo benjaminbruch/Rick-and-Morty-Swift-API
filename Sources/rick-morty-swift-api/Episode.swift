@@ -20,8 +20,6 @@ struct Episode {
         case .success(let data):
             if let episode: EpisodeModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(episode))
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
@@ -39,8 +37,6 @@ struct Episode {
         case .success(let data):
             if let episode: EpisodeModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(episode))
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
@@ -59,8 +55,6 @@ struct Episode {
         case .success(let data):
             if let episodes: [EpisodeModel] = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(episodes))
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
@@ -78,8 +72,6 @@ struct Episode {
         case .success(let data):
             if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(infoModel.results))
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
@@ -111,8 +103,6 @@ struct Episode {
                 episodesDispatchGroup.notify(queue: DispatchQueue.main) {
                     completion(.success(allEpisodes.sorted { $0.id < $1.id }))
                 }
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
@@ -156,8 +146,6 @@ struct Episode {
         case .success(let data):
             if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(infoModel.results))
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))

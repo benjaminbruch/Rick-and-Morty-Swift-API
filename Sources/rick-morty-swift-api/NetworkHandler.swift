@@ -62,7 +62,6 @@ struct NetworkHandler {
                 completion(.success(data))
             case .failure(_ ):
                 completion(.failure(.apiError))
-                break
                 }
             }.resume()
         } else {
@@ -89,7 +88,6 @@ struct NetworkHandler {
                 completion(.success(data))
             case .failure(_ ):
                 completion(.failure(.apiError))
-                break
                 }
             }.resume()
         } else {

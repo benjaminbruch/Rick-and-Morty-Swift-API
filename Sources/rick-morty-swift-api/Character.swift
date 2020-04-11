@@ -20,8 +20,6 @@ struct Character {
         case .success(let data):
             if let character: CharacterModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(character))
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
@@ -39,8 +37,6 @@ struct Character {
         case .success(let data):
             if let character: CharacterModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(character))
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
@@ -59,8 +55,6 @@ struct Character {
         case .success(let data):
             if let characters: [CharacterModel] = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(characters))
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
@@ -78,8 +72,6 @@ struct Character {
         case .success(let data):
             if let infoModel: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(infoModel.results))
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
@@ -111,8 +103,6 @@ struct Character {
                 charactersDispatchGroup.notify(queue: DispatchQueue.main) {
                     completion(.success(allCharacters.sorted { $0.id < $1.id }))
                 }
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
@@ -162,8 +152,6 @@ struct Character {
         case .success(let data):
             if let infoModel: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(infoModel.results))
-            } else {
-                print("JSON decoding error")
             }
         case .failure(let error):
             completion(.failure(error))
