@@ -3,5 +3,8 @@ import XCTest
 import rick_morty_swift_apiTests
 
 var tests = [XCTestCaseEntry]()
-tests += rick_morty_swift_apiTests.allTests()
+tests += CharacterTests.allTests()
+tests += EpisodeTests.allTests()
+tests += LocationTests.allTests()
+tests += NetworkHandler.allTests()
 XCTMain(tests)

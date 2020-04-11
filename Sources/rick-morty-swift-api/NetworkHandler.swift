@@ -1,5 +1,5 @@
 //
-//  Network.swift
+//  NetworkHandler.swift
 //  Created by BBruch on 08.04.20.
 //
 
@@ -26,9 +26,11 @@ struct Info: Codable {
  - **invalidResponse**: *HTTP request error*
  - **apiError**: *API request error.*
  */
-enum NetworkError: Error {
+enum NetworkHandlerError: Error {
+    case invalidURL
     case invalidResponse
     case apiError
+    case decodingError
 }
 
 /**
@@ -47,7 +49,7 @@ struct NetworkHandler {
      - method: URL for API request.
      - Returns: HTTP data response.
      */
-    func performAPIRequestByMethod(method: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    func performAPIRequestByMethod(method: String, completion: @escaping (Result<Data, NetworkHandlerError>) -> Void) {
         if let url = URL(string: baseURL+method) {
             print("HTTP-Request: "+baseURL+method)
             let urlSession = URLSession.shared
@@ -63,6 +65,8 @@ struct NetworkHandler {
                 break
                 }
             }.resume()
+        } else {
+            completion(.failure(.invalidURL))
         }
     }
     
@@ -72,7 +76,7 @@ struct NetworkHandler {
      - url: URL for API request.
      - Returns: HTTP data response.
      */
-    func performAPIRequestByURL(url: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    func performAPIRequestByURL(url: String, completion: @escaping (Result<Data, NetworkHandlerError>) -> Void) {
         if let url = URL(string: url) {
             print(url)
             let urlSession = URLSession.shared
@@ -88,6 +92,8 @@ struct NetworkHandler {
                 break
                 }
             }.resume()
+        } else {
+            completion(.failure(.invalidURL))
         }
     }
     
