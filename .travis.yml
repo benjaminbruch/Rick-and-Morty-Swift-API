@@ -6,4 +6,7 @@ jobs:
     language: swift
     script:
     - swift package update
-    - swift test
+    - swift test --enable-code-coverage  
+    - xcrun llvm-cov export -format="lcov" .build/debug/rick-morty-swift-apiPackageTests.xctest/Contents/MacOS/rick-morty-swift-apiPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
