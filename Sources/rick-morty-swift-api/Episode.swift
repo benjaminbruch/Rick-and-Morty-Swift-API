@@ -5,17 +5,20 @@
 
 import Foundation
 
-struct Episode {
+/**
+Episode struct contains all functions to request episode(s) information(s).
+*/
+public struct Episode {
     let client: Client
     let networkHandler: NetworkHandler = NetworkHandler()
     
     /**
      Request episode by id.
-     - Parameters:
-     - id: ID of the episode.
-     - Returns: Episode model struct.
+    - Parameters:
+        - id: ID of the episode.
+        - Returns: Episode model struct.
      */
-    func getEpisodeByID(id: Int, completion: @escaping (Result<EpisodeModel, Error>) -> Void) {
+    public func getEpisodeByID(id: Int, completion: @escaping (Result<EpisodeModel, Error>) -> Void) {
         networkHandler.performAPIRequestByMethod(method: "episode/"+String(id)) {result in switch result {
         case .success(let data):
             if let episode: EpisodeModel = self.networkHandler.decodeJSONData(data: data) {
@@ -28,11 +31,11 @@ struct Episode {
     
     /**
      Request episode by URL.
-     - Parameters:
-     - url: URL of the episode.
-     - Returns: Episode model struct.
+    - Parameters:
+        - url: URL of the episode.
+    - Returns: Episode model struct.
      */
-    func getEpisodeByURL(url: String, completion: @escaping (Result<EpisodeModel, Error>) -> Void) {
+    public func getEpisodeByURL(url: String, completion: @escaping (Result<EpisodeModel, Error>) -> Void) {
         networkHandler.performAPIRequestByURL(url: url) {result in switch result {
         case .success(let data):
             if let episode: EpisodeModel = self.networkHandler.decodeJSONData(data: data) {
@@ -46,10 +49,10 @@ struct Episode {
     /**
      Request multiple episodes by IDs.
      - Parameters:
-     - ids: Episodes ids.
+        - ids: Episodes ids.
      - Returns: Array of episode model struct.
      */
-    func getEpisodesByID(ids: [Int], completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
+    public func getEpisodesByID(ids: [Int], completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
         let stringIDs = ids.map { String($0) }
         networkHandler.performAPIRequestByMethod(method: "episode/"+stringIDs.joined(separator: ",")) {result in switch result {
         case .success(let data):
@@ -64,10 +67,10 @@ struct Episode {
     /**
      Request episodes by page number.
      - Parameters:
-     - page: Number of result page.
+        - page: Number of result page.
      - Returns: Array of Episode model struct.
      */
-    func getEpisodesByPageNumber(pageNumber: Int, completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
+    public func getEpisodesByPageNumber(pageNumber: Int, completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
         networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(pageNumber)) {result in switch result {
         case .success(let data):
             if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
@@ -82,7 +85,7 @@ struct Episode {
      Request all episodes.
      - Returns: Array of Episode model struct.
      */
-    func getAllEpisodes(completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
+    public func getAllEpisodes(completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
         var allEpisodes = [EpisodeModel]()
         networkHandler.performAPIRequestByMethod(method: "episode") {result in switch result {
         case .success(let data):
@@ -112,8 +115,8 @@ struct Episode {
     /**
      Create episode filter with given parameters.
      - Parameters:
-     - name: Filter by the given name.
-     - episode: Filter by the given episode code.
+        - name: Filter by the given name.
+        - episode: Filter by the given episode code.
      - Returns: EpisodeFilter
      */
     func createEpisodeFilter(name: String?, episode: String?) -> EpisodeFilter {
@@ -137,10 +140,10 @@ struct Episode {
     /**
      Request episodes with given filter.
      - Parameters:
-     - filter: EpisodesFilter struct (provides requestURL with query options).
+        - filter: EpisodesFilter struct (provides requestURL with query options).
      - Returns: Array of Episodes model struct.
      */
-    func getEpisodesByFilter(filter: EpisodeFilter, completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
+    public func getEpisodesByFilter(filter: EpisodeFilter, completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
         
         networkHandler.performAPIRequestByMethod(method: filter.query) {result in switch result {
         case .success(let data):
@@ -155,12 +158,12 @@ struct Episode {
 
 /**
  Struct to store episode filter properties.
- # Properties
- - **name**: *The name of the episode.*
- - **episode**: *The code of the episode.*
- - **query**: *URL query for HTTP request.*
+ ### Properties
+ - **name**: The name of the episode.
+ - **episode**: The code of the episode.
+ - **query**: URL query for HTTP request.
  */
-struct EpisodeFilter {
+public struct EpisodeFilter {
     let name: String
     let episode: String
     let query: String
@@ -168,31 +171,32 @@ struct EpisodeFilter {
 
 /**
  EpisodeInfoModel struct for decoding info json response.
- # Properties
- - **info**: *Information about episode count and pagination.*
- - **results**: *First page with 20 episodes.*
- # SeeAlso
- - **Info**: *Info struct in Network.swift.*
- - **EpisodeModel**: *EpisodeModel struct in Episode.swift.*
+ ### Properties
+ - **info**: Information about episode count and pagination.
+ - **results**: First page with 20 episodes.
+ 
+ ### SeeAlso
+ - **Info**: Info struct in Network.swift.
+ - **EpisodeModel**: EpisodeModel struct in Episode.swift.
  */
-struct EpisodeInfoModel: Codable {
+public struct EpisodeInfoModel: Codable {
     let info: Info
     let results: [EpisodeModel]
 }
 
 /**
  Episode struct for decoding episode json response.
- # Properties
- - **id**: *The id of the episode.*
- - **name**: *The name of the episode.*
- - **airdDate**: *The air date of the episode.*
- - **episode**: *The code of the episode.*
- - **characters**: *List of characters who have been seen in the episode.*
- - **url**: *Link to the episode's own endpoint.*
- - **created**: *Time at which the episode was created in the database.*
+ ### Properties
+ - **id**: The id of the episode.
+ - **name**: The name of the episode.
+ - **airdDate**: The air date of the episode.
+ - **episode**: The code of the episode.
+ - **characters**: List of characters who have been seen in the episode.
+ - **url**: Link to the episode's own endpoint.
+ - **created**: Time at which the episode was created in the database.
  */
-struct EpisodeModel: Codable, Identifiable {
-    let id: Int
+public struct EpisodeModel: Codable, Identifiable {
+    public let id: Int
     let name: String
     let airDate: String = "air_date"
     let episode: String

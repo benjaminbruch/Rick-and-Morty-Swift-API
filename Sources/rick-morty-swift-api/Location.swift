@@ -5,17 +5,20 @@
 
 import Foundation
 
-struct Location {
+/**
+Location struct contains all functions to request location(s) information(s).
+*/
+public struct Location {
     let client: Client
     let networkHandler: NetworkHandler = NetworkHandler()
     
     /**
-     Request loaction by id.
-     - Parameters:
-     - id: ID of the location.
-     - Returns: Location model struct.
-     */
-    func getLocationByID(id: Int, completion: @escaping (Result<LocationModel, Error>) -> Void) {
+    Request loaction by id.
+    - Parameters:
+        - id: ID of the location.
+    - Returns: Location model struct.
+    */
+    public func getLocationByID(id: Int, completion: @escaping (Result<LocationModel, Error>) -> Void) {
         networkHandler.performAPIRequestByMethod(method: "location/"+String(id)) {result in switch result {
         case .success(let data):
             if let location: LocationModel = self.networkHandler.decodeJSONData(data: data) {
@@ -29,10 +32,10 @@ struct Location {
     /**
      Request loaction by URL.
      - Parameters:
-     - url: URL of the location.
+        - url: URL of the location.
      - Returns: Location model struct.
      */
-    func getLocationByURL(url: String, completion: @escaping (Result<LocationModel, Error>) -> Void) {
+    public func getLocationByURL(url: String, completion: @escaping (Result<LocationModel, Error>) -> Void) {
         networkHandler.performAPIRequestByURL(url: url) {result in switch result {
         case .success(let data):
             if let location: LocationModel = self.networkHandler.decodeJSONData(data: data) {
@@ -46,10 +49,10 @@ struct Location {
     /**
      Request multiple locations by IDs.
      - Parameters:
-     - ids: Location ids.
+        - ids: Location ids.
      - Returns: Array of location model struct.
      */
-    func getLocationsByID(ids: [Int], completion: @escaping (Result<[LocationModel], Error>) -> Void) {
+    public func getLocationsByID(ids: [Int], completion: @escaping (Result<[LocationModel], Error>) -> Void) {
         let stringIDs = ids.map { String($0) }
         networkHandler.performAPIRequestByMethod(method: "location/"+stringIDs.joined(separator: ",")) {result in switch result {
         case .success(let data):
@@ -64,10 +67,10 @@ struct Location {
     /**
      Request loactions by page number.
      - Parameters:
-     - page: Number of result page.
+        - page: Number of result page.
      - Returns: Array of Location model struct.
      */
-    func getLocationsByPageNumber(pageNumber: Int, completion: @escaping (Result<[LocationModel], Error>) -> Void) {
+    public func getLocationsByPageNumber(pageNumber: Int, completion: @escaping (Result<[LocationModel], Error>) -> Void) {
         networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(pageNumber)) {result in switch result {
         case .success(let data):
             if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
@@ -82,7 +85,7 @@ struct Location {
      Request all locations.
      - Returns: Array of Location model struct.
      */
-    func getAllLocations(completion: @escaping (Result<[LocationModel], Error>) -> Void) {
+    public func getAllLocations(completion: @escaping (Result<[LocationModel], Error>) -> Void) {
         var allLocations = [LocationModel]()
         networkHandler.performAPIRequestByMethod(method: "location") {result in switch result {
         case .success(let data):
@@ -112,9 +115,9 @@ struct Location {
     /**
      Create location filter with given parameters.
      - Parameters:
-     - name: The name of the location.
-     - type: The type or the location.
-     - dimension: The dimension of the location.
+        - name: The name of the location.
+        - type: The type or the location.
+        - dimension: The dimension of the location.
      - Returns: LocationFilter
      */
     func createLocationFilter(name: String?, type: String?, dimension: String?) -> LocationFilter {
@@ -139,10 +142,10 @@ struct Location {
     /**
      Request locations with given filter.
      - Parameters:
-     - filter: LocationFilter struct (provides requestURL with query options).
+        - filter: LocationFilter struct (provides requestURL with query options).
      - Returns: Array of Location model struct.
      */
-    func getLocationsByFilter(filter: LocationFilter, completion: @escaping (Result<[LocationModel], Error>) -> Void) {
+    public func getLocationsByFilter(filter: LocationFilter, completion: @escaping (Result<[LocationModel], Error>) -> Void) {
         
         networkHandler.performAPIRequestByMethod(method: filter.query) {result in switch result {
         case .success(let data):
@@ -157,13 +160,13 @@ struct Location {
 
 /**
  Struct to store location filter properties.
- # Properties
- - **name**: *The name of the location.*
- - **type**: *The type of the location.*
- - **dimension**: *The dimension of the location.*
- - **query**: *URL query for HTTP request.*
+ ### Properties
+ - **name**: The name of the location.
+ - **type**: The type of the location.
+ - **dimension**: The dimension of the location.
+ - **query**: URL query for HTTP request.
  */
-struct LocationFilter {
+public struct LocationFilter {
     let name: String
     let type: String
     let dimension: String
@@ -172,31 +175,32 @@ struct LocationFilter {
 
 /**
  LocationInfoModel struct for decoding info json response.
- # Properties
- - **info**: *Information about location count and pagination.*
- - **results**: *First page with 20 locations.*
- # SeeAlso
- - **Info**: *Info struct in Network.swift.*
- - **LocationModel**: *LocationModel struct in Location.swift.*
+ ### Properties
+ - **info**: Information about location count and pagination.
+ - **results**: First page with 20 locations.
+ 
+ ### SeeAlso
+ - **Info**: Info struct in Network.swift.
+ - **LocationModel**: LocationModel struct in Location.swift.
  */
-struct LocationInfoModel: Codable {
+public struct LocationInfoModel: Codable {
     let info: Info
     let results: [LocationModel]
 }
 
 /**
  Episode struct for decoding episode json response.
- # Properties
- - **id**: *The id of the location.*
- - **name**: *The name of the location.*
- - **type**: *The type of the location.*
- - **dimension**: *The dimension in which the location is located.*
- - **residents**: *List of location who have been last seen in the location.*
- - **url**: *Link to location's own endpoint.*
- - **created**: *Time at which the location was created in the database.*
+ ### Properties
+ - **id**: The id of the location.
+ - **name**: The name of the location.
+ - **type**: The type of the location.
+ - **dimension**: The dimension in which the location is located.
+ - **residents**: List of location who have been last seen in the location.
+ - **url**: Link to location's own endpoint.
+ - **created**: Time at which the location was created in the database.
  */
-struct LocationModel: Codable, Identifiable  {
-    let id: Int
+public struct LocationModel: Codable, Identifiable  {
+    public let id: Int
     let name: String
     let type: String
     let dimension: String

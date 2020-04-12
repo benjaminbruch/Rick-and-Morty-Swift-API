@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CharacterModel Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/CharacterModel" class="dashAnchor"></a>
+    <a title="CharacterModel Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        CharacterModel Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Character.html">Character</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:20rick_morty_swift_api15CharacterFilterV">CharacterFilter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:20rick_morty_swift_api18CharacterInfoModelV">CharacterInfoModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:20rick_morty_swift_api22CharacterLocationModelV">CharacterLocationModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CharacterModel.html">CharacterModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:20rick_morty_swift_api20CharacterOriginModelV">CharacterOriginModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Client.html">Client</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Episode.html">Episode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:20rick_morty_swift_api13EpisodeFilterV">EpisodeFilter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:20rick_morty_swift_api16EpisodeInfoModelV">EpisodeInfoModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/EpisodeModel.html">EpisodeModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Location.html">Location</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:20rick_morty_swift_api14LocationFilterV">LocationFilter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:20rick_morty_swift_api17LocationInfoModelV">LocationInfoModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/LocationModel.html">LocationModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs.html#/s:20rick_morty_swift_api14NetworkHandlerV">NetworkHandler</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>CharacterModel</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">CharacterModel</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Identifiable</span></code></pre>
+
+                </div>
+              </div>
+            <p>Character struct for decoding character json response.</p>
+<h3 id='properties' class='heading'>Properties</h3>
+
+<ul>
+<li><strong>id</strong>: The id of the character.</li>
+<li><strong>name</strong>: The name of the character.</li>
+<li><strong>status</strong>: The status of the character (&lsquo;Alive&rsquo;, &lsquo;Dead&rsquo; or &lsquo;unknown&rsquo;).</li>
+<li><strong>species</strong>: The species of the character.</li>
+<li><strong>type</strong>: The type or subspecies of the character.</li>
+<li><strong>gender</strong>: The gender of the character (&lsquo;Female&rsquo;, &lsquo;Male&rsquo;, &lsquo;Genderless&rsquo; or &lsquo;unknown&rsquo;).</li>
+<li><strong>origin</strong>: Name and link to the character&rsquo;s origin location.</li>
+<li><strong>location</strong>: Name and link to the character&rsquo;s last known location endpoint.</li>
+<li><strong>image</strong>: Link to the character&rsquo;s image. All images are 300x300px and most are medium shots or portraits since they are intended to be used as avatars.</li>
+<li><strong>episodes</strong>: List of episodes in which this character appeared.</li>
+<li><strong>url</strong>: Link to the character&rsquo;s own URL endpoint.</li>
+<li><strong>created</strong>: Time at which the character was created in the database.</li>
+</ul>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s12IdentifiableP2id2IDQzvp"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s12IdentifiableP2id2IDQzvp">id</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-04-12)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

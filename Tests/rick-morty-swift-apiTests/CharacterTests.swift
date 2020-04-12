@@ -156,8 +156,8 @@ final class CharacterTests: XCTestCase {
         let filter = client.character().createCharacterFilter(name: "Test", status: .alive, species: "Test", type: "Test", gender: .female)
         
         client.character().getCharactersByFilter(filter: filter) {result in switch result {
-        case .success(let characters):
-            characters.forEach() { print ($0.name) }
+        case .success( _):
+            break
         case.failure(let error):
             print(error)
             expectation.fulfill()

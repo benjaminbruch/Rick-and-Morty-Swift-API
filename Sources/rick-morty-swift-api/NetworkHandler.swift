@@ -7,11 +7,11 @@ import Foundation
 
 /**
  ResponseInfo struct for decoding api response info.
- # Properties
- - **count**: *The length of the response.*
- - **pages**: *The amount of pages.*
- - **next**: *Link to the next page (if it exists)*
- - **prev**: *Link to the previous page (if it exists).*
+ ### Properties
+ - **count**: The length of the response.
+ - **pages**: The amount of pages.
+ - **next**: Link to the next page (if it exists)
+ - **prev**: Link to the previous page (if it exists).
  */
 struct Info: Codable {
     let count: Int
@@ -22,9 +22,11 @@ struct Info: Codable {
 
 /**
  Types of network errors
- # Properties
- - **invalidResponse**: *HTTP request error*
- - **apiError**: *API request error.*
+ ### Properties
+ - **invalidURL**: URL request error.
+ - **invalidResponse**: HTTP request error.
+ - **apiError**: API request error.
+ - **decodingError**: Decoding request error.
  */
 enum NetworkHandlerError: Error {
     case invalidURL
@@ -35,18 +37,18 @@ enum NetworkHandlerError: Error {
 
 /**
  Struct for handling network requests and decoding JSON data
- # Functions
+ ### Functions
  - **performAPIRequestByMethod**
  - **performAPIRequestByURL**
  - **decodeJSONData**
  */
-struct NetworkHandler {
+public struct NetworkHandler {
     let baseURL: String = "https://rickandmortyapi.com/api/"
     
     /**
      Perform API request with given method.
      - Parameters:
-     - method: URL for API request.
+        - method: URL for API request.
      - Returns: HTTP data response.
      */
     func performAPIRequestByMethod(method: String, completion: @escaping (Result<Data, NetworkHandlerError>) -> Void) {
@@ -60,7 +62,7 @@ struct NetworkHandler {
                     return
                 }
                 completion(.success(data))
-            case .failure(_ ):
+            case .failure( _):
                 completion(.failure(.apiError))
                 }
             }.resume()
@@ -72,7 +74,7 @@ struct NetworkHandler {
     /**
      Perform API request with given URL.
      - Parameters:
-     - url: URL for API request.
+        - url: URL for API request.
      - Returns: HTTP data response.
      */
     func performAPIRequestByURL(url: String, completion: @escaping (Result<Data, NetworkHandlerError>) -> Void) {
@@ -86,7 +88,7 @@ struct NetworkHandler {
                     return
                 }
                 completion(.success(data))
-            case .failure(_ ):
+            case .failure( _):
                 completion(.failure(.apiError))
                 }
             }.resume()
@@ -98,7 +100,7 @@ struct NetworkHandler {
     /**
      Decode JSON response for codable struct model.
      - Parameters:
-     - data: HTTP data response.
+        - data: HTTP data response.
      - Returns: Model struct of associated variable type.
      */
     func decodeJSONData<T: Codable>(data: Data) -> T? {

@@ -29,7 +29,7 @@ final class NetworkHandlerTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test for error handling in request by method")
         
-        networkHandler.performAPIRequestByMethod(method: "123") {result in switch result {
+        networkHandler.performAPIRequestByMethod(method: "character/1234") {result in switch result {
         case .success( _):
             break
         case.failure(let error):
@@ -55,11 +55,26 @@ final class NetworkHandlerTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testNetworkRequestByURLError() {
+    func testNetworkRequestByURLInvalidURLError() {
         
-        let expectation = XCTestExpectation(description: "Test for error handling in request by method")
+        let expectation = XCTestExpectation(description: "Test for error handling in request by URL")
         
         networkHandler.performAPIRequestByURL(url: "") {result in switch result {
+        case .success( _):
+            break
+        case.failure(let error):
+            print(error)
+            expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testNetworkRequestByURLInvalidResponseError() {
+        
+        let expectation = XCTestExpectation(description: "Test for error handling in request by URL")
+        
+        networkHandler.performAPIRequestByURL(url: networkHandler.baseURL+"123") {result in switch result {
         case .success( _):
             break
         case.failure(let error):
@@ -93,9 +108,7 @@ final class NetworkHandlerTests: XCTestCase {
         
         networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1") {result in switch result {
         case .success(let data):
-            if let decodedData: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                print(decodedData.info.count)
-                print("decoding successful")
+            if let _: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
             } else {
                 print("decoding failed")
                 expectation.fulfill()
@@ -111,7 +124,8 @@ final class NetworkHandlerTests: XCTestCase {
         ("testNetworkRequestByMethod", testNetworkRequestByMethod),
         ("testNetworkRequestByMethodError", testNetworkRequestByMethodError),
         ("testNetworkRequestByURL", testNetworkRequestByURL),
-        ("testNetworkRequestByURLError", testNetworkRequestByURLError),
+        ("testNetworkRequestByURLInvalidURLError", testNetworkRequestByURLInvalidURLError),
+        ("testNetworkRequestByURLInvalidResponseError",testNetworkRequestByURLInvalidResponseError),
         ("testJSONResponseDataParsing", testJSONResponseDataParsing),
         ("testJSONResponseDataParsingError", testJSONResponseDataParsingError),
     ]

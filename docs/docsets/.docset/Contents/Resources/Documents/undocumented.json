@@ -1,0 +1,33 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/bbbruch/Documents/Skills/rick-morty-swift-api/Sources/rick-morty-swift-api/NetworkHandler.swift",
+      "line": 32,
+      "symbol": "NetworkHandlerError.invalidURL",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bbbruch/Documents/Skills/rick-morty-swift-api/Sources/rick-morty-swift-api/NetworkHandler.swift",
+      "line": 33,
+      "symbol": "NetworkHandlerError.invalidResponse",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bbbruch/Documents/Skills/rick-morty-swift-api/Sources/rick-morty-swift-api/NetworkHandler.swift",
+      "line": 34,
+      "symbol": "NetworkHandlerError.apiError",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/bbbruch/Documents/Skills/rick-morty-swift-api/Sources/rick-morty-swift-api/NetworkHandler.swift",
+      "line": 35,
+      "symbol": "NetworkHandlerError.decodingError",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/bbbruch/Documents/Skills/rick-morty-swift-api"
+}
