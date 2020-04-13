@@ -51,7 +51,7 @@ rmClient.character().getAllCharacters() {result in switch result {
         }
 ```
 
-*For more examples, please refer to the [Documentation](https://example.com) or visit [Test Section][test-link]*
+*For more examples, please refer to the [Documentation][doc-link] or visit [Test Section][test-link]*
 
 
 <!-- CONTRIBUTING -->
