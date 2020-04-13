@@ -83,6 +83,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 * [Rick and Morty API Github](https://github.com/afuh/rick-and-morty-api)
 * [Shields.io](https://shields.io)
 * [GitHub Pages](https://pages.github.com)
+* [Jazzy](https://github.com/realm/jazzy)
+* [CodeCov](https://codecov.io)
+* [TravisCI](https://travis-ci.org/)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
