@@ -9,6 +9,9 @@ import Foundation
 Location struct contains all functions to request location(s) information(s).
 */
 public struct Location {
+    
+    public init(client: Client) {self.client = client}
+    
     let client: Client
     let networkHandler: NetworkHandler = NetworkHandler()
     

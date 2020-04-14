@@ -10,6 +10,8 @@ import Foundation
  */
 public struct Client {
     
+    public init() {}
+    
     /**
      Access character struct.
      - Returns: Character struct.

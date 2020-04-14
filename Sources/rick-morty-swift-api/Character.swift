@@ -9,6 +9,9 @@ import Foundation
 Character struct contains all functions to request character(s) information(s).
 */
 public struct Character {
+    
+    public init(client: Client) {self.client = client}
+    
     let client: Client
     let networkHandler: NetworkHandler = NetworkHandler()
     

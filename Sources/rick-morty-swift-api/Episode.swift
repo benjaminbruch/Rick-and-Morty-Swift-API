@@ -9,6 +9,9 @@ import Foundation
 Episode struct contains all functions to request episode(s) information(s).
 */
 public struct Episode {
+    
+    public init(client: Client) {self.client = client}
+    
     let client: Client
     let networkHandler: NetworkHandler = NetworkHandler()
     
