@@ -86,6 +86,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 * [Jazzy](https://github.com/realm/jazzy)
 * [CodeCov](https://codecov.io)
 * [TravisCI](https://travis-ci.org/)
+* [Best-Readme-Template](https://github.com/othneildrew/Best-README-Template)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
