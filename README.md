@@ -1,12 +1,12 @@
 # The Rick and Morty API Swift Client
-Swift implementation for the [Rick and Morty API][api-link]
+Swift implementation to the **awesome** [Rick and Morty API][api-link]
 
 [![build status][travis-badge]][travis-link]
 [![codecoverage][codecov-badge]][codecov-link]
 [![documentation][doc-badge]][doc-link]
 [![license][license-badge]][license-link]
 
-![cover.alphacoders][banner-image]
+[![cover.alphacoders][banner-image]][banner-link]
 
 
 
@@ -101,6 +101,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [license-link]: /LICENSE
 [linkedinContactMe-badge]: https://img.shields.io/badge/linkedIN-CONTACT%20ME-blue?style=for-the-badge
 [linkedin-link]: https://www.linkedin.com/in/benjamin-bruch
-[banner-image]: https://coverfiles.alphacoders.com/478/47827.png
+[banner-image]: https://initiate.alphacoders.com/images/812/stretched-3440-1440-812062.png?5618
+[banner-link]: https://wall.alphacoders.com/big.php?i=812062&lang=German
 [test-link]: /Tests/rick-morty-swift-apiTests
 [api-link]:  https://rickandmortyapi.com/
