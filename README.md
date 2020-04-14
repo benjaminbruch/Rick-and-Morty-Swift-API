@@ -96,7 +96,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [codecov-link]: https://codecov.io/gh/benjaminbruch/rick-morty-swift-api
 [doc-badge]: /docs/badge.svg
 [doc-link]: https://benjaminbruch.github.io/rick-morty-swift-api/docs/index.html
-[license-badge]: https://img.shields.io/github/license/benjaminbruch/rick-morty-swift-api?color=brightgreen"
+[license-badge]: https://img.shields.io/github/license/benjaminbruch/rick-morty-swift-api?color=brightgreen
 [license-link]: /LICENSE
 [linkedinContactMe-badge]: https://img.shields.io/badge/linkedIN-CONTACT%20ME-blue?style=for-the-badge
 [linkedin-link]: https://www.linkedin.com/in/benjamin-bruch
