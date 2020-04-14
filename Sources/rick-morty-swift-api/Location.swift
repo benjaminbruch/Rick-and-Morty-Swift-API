@@ -170,10 +170,10 @@ public struct Location {
  - **query**: URL query for HTTP request.
  */
 public struct LocationFilter {
-    let name: String
-    let type: String
-    let dimension: String
-    let query: String
+    public let name: String
+    public let type: String
+    public let dimension: String
+    public let query: String
 }
 
 /**
@@ -186,7 +186,7 @@ public struct LocationFilter {
  - **Info**: Info struct in Network.swift.
  - **LocationModel**: LocationModel struct in Location.swift.
  */
-public struct LocationInfoModel: Codable {
+struct LocationInfoModel: Codable {
     let info: Info
     let results: [LocationModel]
 }
@@ -204,10 +204,10 @@ public struct LocationInfoModel: Codable {
  */
 public struct LocationModel: Codable, Identifiable  {
     public let id: Int
-    let name: String
-    let type: String
-    let dimension: String
-    let residents: [String]
-    let url: String
-    let created: String
+    public let name: String
+    public let type: String
+    public let dimension: String
+    public let residents: [String]
+    public let url: String
+    public let created: String
 }

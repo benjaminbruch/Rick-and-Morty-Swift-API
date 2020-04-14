@@ -167,9 +167,9 @@ public struct Episode {
  - **query**: URL query for HTTP request.
  */
 public struct EpisodeFilter {
-    let name: String
-    let episode: String
-    let query: String
+    public let name: String
+    public let episode: String
+    public let query: String
 }
 
 /**
@@ -182,7 +182,7 @@ public struct EpisodeFilter {
  - **Info**: Info struct in Network.swift.
  - **EpisodeModel**: EpisodeModel struct in Episode.swift.
  */
-public struct EpisodeInfoModel: Codable {
+struct EpisodeInfoModel: Codable {
     let info: Info
     let results: [EpisodeModel]
 }
@@ -200,10 +200,10 @@ public struct EpisodeInfoModel: Codable {
  */
 public struct EpisodeModel: Codable, Identifiable {
     public let id: Int
-    let name: String
-    let airDate: String = "air_date"
-    let episode: String
-    let characters: [String]
-    let url: String
-    let created: String
+    public let name: String
+    public let airDate: String = "air_date"
+    public let episode: String
+    public let characters: [String]
+    public let url: String
+    public let created: String
 }

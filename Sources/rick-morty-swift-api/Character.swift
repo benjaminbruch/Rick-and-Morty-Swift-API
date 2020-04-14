@@ -177,12 +177,12 @@ public struct Character {
     - **query**: URL query for HTTP request.
  */
 public struct CharacterFilter {
-    let name: String
-    let status: String
-    let species: String
-    let type: String
-    let gender: String
-    let query: String
+    public let name: String
+    public let status: String
+    public let species: String
+    public let type: String
+    public let gender: String
+    public let query: String
 }
 
 /**
@@ -195,7 +195,7 @@ public struct CharacterFilter {
  - **Info**: Info struct in Network.swift.
  - **CharacterModel**: CharacterModel struct in Character.swift.
  */
-public struct CharacterInfoModel: Codable {
+struct CharacterInfoModel: Codable {
     let info: Info
     let results: [CharacterModel]
 }
@@ -218,17 +218,17 @@ public struct CharacterInfoModel: Codable {
  */
 public  struct CharacterModel: Codable, Identifiable {
     public let id: Int
-    let name: String
-    let status: String
-    let species: String
-    let type: String
-    let gender: String
-    let origin: CharacterOriginModel
-    let location: CharacterLocationModel
-    let image: String
-    let episode: [String]
-    let url: String
-    let created: String
+    public let name: String
+    public let status: String
+    public let species: String
+    public let type: String
+    public let gender: String
+    public let origin: CharacterOriginModel
+    public let location: CharacterLocationModel
+    public let image: String
+    public let episode: [String]
+    public let url: String
+    public let created: String
 }
 
 /**
@@ -238,8 +238,8 @@ public  struct CharacterModel: Codable, Identifiable {
     - **url**: Link to the origin's own URL endpoint.
  */
 public struct CharacterOriginModel: Codable {
-    let name: String
-    let url: String
+    public let name: String
+    public let url: String
 }
 
 /**
@@ -249,8 +249,8 @@ public struct CharacterOriginModel: Codable {
     - **url**: Link to the location's own URL endpoint.
  */
 public struct CharacterLocationModel: Codable {
-    let name: String
-    let url: String
+    public let name: String
+    public let url: String
 }
 
 /**
