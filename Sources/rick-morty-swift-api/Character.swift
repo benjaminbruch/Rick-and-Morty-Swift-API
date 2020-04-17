@@ -256,7 +256,7 @@ public struct CharacterLocationModel: Codable {
 /**
  Enum to filter by status
  */
-enum Status: String {
+public enum Status: String {
     case alive = "alive"
     case dead = "dead"
     case unknown = "unknown"
@@ -266,7 +266,7 @@ enum Status: String {
 /**
  Enum to filter by gender
  */
-enum Gender: String {
+public enum Gender: String {
     case female = "female"
     case male = "male"
     case genderless = "genderless"
