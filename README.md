@@ -33,7 +33,7 @@ For instructions how to add a Swift package to your projects look here:
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Example to get all characters as an array of character strcut:
+Example to get all characters as an array of character struct:
 
 **1. Init client:**
 ```swift
