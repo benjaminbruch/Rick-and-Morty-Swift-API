@@ -216,7 +216,7 @@ struct CharacterInfoModel: Codable {
     - **url**: Link to the character's own URL endpoint.
     - **created**: Time at which the character was created in the database.
  */
-public  struct CharacterModel: Codable, Identifiable {
+public struct CharacterModel: Codable, Identifiable {
     public let id: Int
     public let name: String
     public let status: String
