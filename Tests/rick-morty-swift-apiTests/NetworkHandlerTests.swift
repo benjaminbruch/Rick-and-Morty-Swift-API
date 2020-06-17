@@ -14,12 +14,13 @@ final class NetworkHandlerTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Perform network request with given method")
         
-        networkHandler.performAPIRequestByMethod(method: "character/1") {result in switch result {
-        case .success( _):
-            print("Data received")
-            expectation.fulfill()
-        case.failure( _):
-            break
+        networkHandler.performAPIRequestByMethod(method: "character/1") {
+            switch $0 {
+            case .success( _):
+                print("Data received")
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -29,12 +30,13 @@ final class NetworkHandlerTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test for error handling in request by method")
         
-        networkHandler.performAPIRequestByMethod(method: "character/1234") {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            print(error)
-            expectation.fulfill()
+        networkHandler.performAPIRequestByMethod(method: "character/1234") {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -44,12 +46,13 @@ final class NetworkHandlerTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Perform network request with given URL")
         
-        networkHandler.performAPIRequestByURL(url: networkHandler.baseURL) {result in switch result {
-        case .success( _):
-            print("Data received")
-            expectation.fulfill()
-        case.failure( _):
-            break
+        networkHandler.performAPIRequestByURL(url: networkHandler.baseURL) {
+            switch $0 {
+            case .success( _):
+                print("Data received")
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -59,12 +62,13 @@ final class NetworkHandlerTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test for error handling in request by URL")
         
-        networkHandler.performAPIRequestByURL(url: "") {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            print(error)
-            expectation.fulfill()
+        networkHandler.performAPIRequestByURL(url: "") {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -74,12 +78,13 @@ final class NetworkHandlerTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test for error handling in request by URL")
         
-        networkHandler.performAPIRequestByURL(url: networkHandler.baseURL+"123") {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            print(error)
-            expectation.fulfill()
+        networkHandler.performAPIRequestByURL(url: networkHandler.baseURL+"123") {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -89,14 +94,15 @@ final class NetworkHandlerTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test decoding data response")
         
-        networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1") {result in switch result {
-        case .success(let data):
-            if let decodedData: CharacterModel = self.networkHandler.decodeJSONData(data: data) {
-                print(decodedData.name)
-                expectation.fulfill()
-            }
-        case.failure( _):
-            break
+        networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1") {
+            switch $0 {
+            case .success(let data):
+                if let decodedData: CharacterModel = self.networkHandler.decodeJSONData(data: data) {
+                    print(decodedData.name)
+                    expectation.fulfill()
+                }
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -106,15 +112,16 @@ final class NetworkHandlerTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test decoding data response")
         
-        networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1") {result in switch result {
-        case .success(let data):
-            if let _: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
-            } else {
-                print("decoding failed")
-                expectation.fulfill()
-            }
-        case.failure( _):
-            break
+        networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1") {
+            switch $0 {
+            case .success(let data):
+                if let _: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                } else {
+                    print("decoding failed")
+                    expectation.fulfill()
+                }
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)

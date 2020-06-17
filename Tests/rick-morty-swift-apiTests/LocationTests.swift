@@ -14,12 +14,13 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request one location by id")
         
-        client.location().getLocationByID(id: 1) {result in switch result {
-        case .success(let location):
-            print(location.name)
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.location().getLocationByID(id: 1) {
+            switch $0 {
+            case .success(let location):
+                print(location.name)
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -29,12 +30,13 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for id")
         
-        client.location().getLocationByID(id: -1) {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            print(error)
-            expectation.fulfill()
+        client.location().getLocationByID(id: -1) {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -44,12 +46,13 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request one location by URL")
         
-        client.location().getLocationByURL(url: "https://rickandmortyapi.com/api/location/1") {result in switch result {
-        case .success(let location):
-            print(location.name)
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.location().getLocationByURL(url: "https://rickandmortyapi.com/api/location/1") {
+            switch $0 {
+            case .success(let location):
+                print(location.name)
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -59,12 +62,13 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for URL")
         
-        client.location().getLocationByURL(url: "") {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            expectation.fulfill()
-            print(error)
+        client.location().getLocationByURL(url: "") {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                expectation.fulfill()
+                print(error)
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -74,12 +78,13 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request location by page number")
         
-        client.location().getLocationsByPageNumber(pageNumber: 1) {result in switch result {
-        case .success(let locations):
-            locations.forEach() { print ($0.name) }
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.location().getLocationsByPageNumber(pageNumber: 1) {
+            switch $0 {
+            case .success(let locations):
+                locations.forEach() { print ($0.name) }
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -89,12 +94,13 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for page")
         
-        client.location().getLocationsByPageNumber(pageNumber: 123) {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            expectation.fulfill()
-            print(error)
+        client.location().getLocationsByPageNumber(pageNumber: 123) {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                expectation.fulfill()
+                print(error)
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -104,12 +110,13 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request multiple locations by ids")
         
-        client.location().getLocationsByID(ids: [1,2,3]) {result in switch result {
-        case .success(let locations):
-            locations.forEach() { print ($0.name) }
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.location().getLocationsByID(ids: [1,2,3]) {
+            switch $0 {
+            case .success(let locations):
+                locations.forEach() { print ($0.name) }
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -119,12 +126,13 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request all locations")
         
-        client.location().getAllLocations() {result in switch result {
-        case .success(let locations):
-            locations.forEach() { print ($0.name) }
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.location().getAllLocations() {
+            switch $0 {
+            case .success(let locations):
+                locations.forEach() { print ($0.name) }
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -136,12 +144,13 @@ final class LocationTests: XCTestCase {
         
         let filter = client.location().createLocationFilter(name: "earth", type: nil, dimension: nil)
         
-        client.location().getLocationsByFilter(filter: filter) {result in switch result {
-        case .success(let locations):
-            locations.forEach() { print ($0.name) }
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.location().getLocationsByFilter(filter: filter) {
+            switch $0 {
+            case .success(let locations):
+                locations.forEach() { print ($0.name) }
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -153,12 +162,13 @@ final class LocationTests: XCTestCase {
         
         let filter = client.location().createLocationFilter(name: "Test", type: "Test", dimension: "Test")
         
-        client.location().getLocationsByFilter(filter: filter) {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            print(error)
-            expectation.fulfill()
+        client.location().getLocationsByFilter(filter: filter) {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10.0)

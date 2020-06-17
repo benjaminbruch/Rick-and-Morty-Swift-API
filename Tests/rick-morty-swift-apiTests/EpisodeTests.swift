@@ -14,12 +14,13 @@ final class EpisodeTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request one episode by ID")
         
-        client.episode().getEpisodeByID(id: 1) {result in switch result {
-        case .success(let episode):
-            print(episode.name)
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.episode().getEpisodeByID(id: 1) {
+            switch $0 {
+            case .success(let episode):
+                print(episode.name)
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -29,12 +30,13 @@ final class EpisodeTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for id")
         
-        client.episode().getEpisodeByID(id: -1) {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            print(error)
-            expectation.fulfill()
+        client.episode().getEpisodeByID(id: -1) {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -44,12 +46,13 @@ final class EpisodeTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request one episode by URL")
         
-        client.episode().getEpisodeByURL(url: "https://rickandmortyapi.com/api/episode/1") {result in switch result {
-        case .success(let episode):
-            print(episode.name)
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.episode().getEpisodeByURL(url: "https://rickandmortyapi.com/api/episode/1") {
+            switch $0 {
+            case .success(let episode):
+                print(episode.name)
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -59,12 +62,13 @@ final class EpisodeTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for URL")
         
-        client.episode().getEpisodeByURL(url: "") {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            print(error)
-            expectation.fulfill()
+        client.episode().getEpisodeByURL(url: "") {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -74,12 +78,13 @@ final class EpisodeTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request multiple episodes by IDs")
         
-        client.episode().getEpisodesByID(ids: [1,2,3]) {result in switch result {
-        case .success(let episodes):
-            episodes.forEach() { print ($0.name) }
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.episode().getEpisodesByID(ids: [1,2,3]) {
+            switch $0 {
+            case .success(let episodes):
+                episodes.forEach() { print ($0.name) }
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -89,12 +94,13 @@ final class EpisodeTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request episodes by page number")
         
-        client.episode().getEpisodesByPageNumber(pageNumber: 1) {result in switch result {
-        case .success(let episodes):
-            episodes.forEach() { print ($0.name) }
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.episode().getEpisodesByPageNumber(pageNumber: 1) {
+            switch $0 {
+            case .success(let episodes):
+                episodes.forEach() { print ($0.name) }
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -104,12 +110,13 @@ final class EpisodeTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for page")
         
-        client.episode().getEpisodesByPageNumber(pageNumber: 123) {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            print(error)
-            expectation.fulfill()
+        client.episode().getEpisodesByPageNumber(pageNumber: 123) {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -119,12 +126,13 @@ final class EpisodeTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request all episodes")
         
-        client.episode().getAllEpisodes() {result in switch result {
-        case .success(let episodes):
-            episodes.forEach() { print ($0.name) }
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.episode().getAllEpisodes() {
+            switch $0 {
+            case .success(let episodes):
+                episodes.forEach() { print ($0.name) }
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -136,12 +144,13 @@ final class EpisodeTests: XCTestCase {
         
         let filter = client.episode().createEpisodeFilter(name: "Pilot", episode: nil)
         
-        client.episode().getEpisodesByFilter(filter: filter) {result in switch result {
-        case .success(let episodes):
-            episodes.forEach() { print ($0.name) }
-            expectation.fulfill()
-        case.failure( _):
-            break
+        client.episode().getEpisodesByFilter(filter: filter) {
+            switch $0 {
+            case .success(let episodes):
+                episodes.forEach() { print ($0.name) }
+                expectation.fulfill()
+            case.failure( _):
+                break
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -153,12 +162,13 @@ final class EpisodeTests: XCTestCase {
         
         let filter = client.episode().createEpisodeFilter(name: "Test", episode: "123")
         
-        client.episode().getEpisodesByFilter(filter: filter) {result in switch result {
-        case .success( _):
-            break
-        case.failure(let error):
-            print(error)
-            expectation.fulfill()
+        client.episode().getEpisodesByFilter(filter: filter) {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10.0)

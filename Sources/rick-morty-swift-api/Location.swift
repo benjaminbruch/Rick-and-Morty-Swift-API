@@ -22,14 +22,16 @@ public struct Location {
     - Returns: Location model struct.
     */
     public func getLocationByID(id: Int, completion: @escaping (Result<LocationModel, Error>) -> Void) {
-        networkHandler.performAPIRequestByMethod(method: "location/"+String(id)) {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByMethod(method: "location/"+String(id)) {
+            switch $0 {
+            case .success(let data):
             if let location: LocationModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(location))
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
     /**
@@ -39,14 +41,16 @@ public struct Location {
      - Returns: Location model struct.
      */
     public func getLocationByURL(url: String, completion: @escaping (Result<LocationModel, Error>) -> Void) {
-        networkHandler.performAPIRequestByURL(url: url) {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByURL(url: url) {
+            switch $0 {
+            case .success(let data):
             if let location: LocationModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(location))
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
     /**
@@ -57,14 +61,16 @@ public struct Location {
      */
     public func getLocationsByID(ids: [Int], completion: @escaping (Result<[LocationModel], Error>) -> Void) {
         let stringIDs = ids.map { String($0) }
-        networkHandler.performAPIRequestByMethod(method: "location/"+stringIDs.joined(separator: ",")) {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByMethod(method: "location/"+stringIDs.joined(separator: ",")) {
+            switch $0 {
+            case .success(let data):
             if let locations: [LocationModel] = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(locations))
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
     /**
@@ -74,14 +80,16 @@ public struct Location {
      - Returns: Array of Location model struct.
      */
     public func getLocationsByPageNumber(pageNumber: Int, completion: @escaping (Result<[LocationModel], Error>) -> Void) {
-        networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(pageNumber)) {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(pageNumber)) {
+            switch $0 {
+            case .success(let data):
             if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(infoModel.results))
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
     /**
@@ -90,29 +98,33 @@ public struct Location {
      */
     public func getAllLocations(completion: @escaping (Result<[LocationModel], Error>) -> Void) {
         var allLocations = [LocationModel]()
-        networkHandler.performAPIRequestByMethod(method: "location") {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByMethod(method: "location") {
+            switch $0 {
+            case .success(let data):
             if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
                 allLocations = infoModel.results
                 let locationsDispatchGroup = DispatchGroup()
                 
                 for index in 2...infoModel.info.pages {
                     locationsDispatchGroup.enter()
-                    self.getLocationsByPageNumber(pageNumber: index) {result in switch result {
-                    case .success(let locations):
+                    self.getLocationsByPageNumber(pageNumber: index) {
+                        switch $0 {
+                        case .success(let locations):
                         allLocations.append(contentsOf:locations)
                         locationsDispatchGroup.leave()
-                    case .failure(let error):
+                        case .failure(let error):
                         completion(.failure(error))
-                        }}
+                        }
+                    }
                 }
                 locationsDispatchGroup.notify(queue: DispatchQueue.main) {
                     completion(.success(allLocations.sorted { $0.id < $1.id }))
                 }
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
     /**
@@ -150,14 +162,16 @@ public struct Location {
      */
     public func getLocationsByFilter(filter: LocationFilter, completion: @escaping (Result<[LocationModel], Error>) -> Void) {
         
-        networkHandler.performAPIRequestByMethod(method: filter.query) {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByMethod(method: filter.query) {
+            switch $0 {
+            case .success(let data):
             if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(infoModel.results))
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
 }
 

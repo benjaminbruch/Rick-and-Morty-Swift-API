@@ -22,14 +22,16 @@ public struct Character {
      - Returns: Character model struct.
      */
     public func getCharacterByID(id: Int, completion: @escaping (Result<CharacterModel, Error>) -> Void) {
-        networkHandler.performAPIRequestByMethod(method: "character/"+String(id)) {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByMethod(method: "character/"+String(id)) {
+            switch $0 {
+            case .success(let data):
             if let character: CharacterModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(character))
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
     /**
@@ -39,14 +41,16 @@ public struct Character {
      - Returns: Character model struct.
      */
     public func getCharacterByURL(url: String, completion: @escaping (Result<CharacterModel, Error>) -> Void) {
-        networkHandler.performAPIRequestByURL(url: url) {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByURL(url: url) {
+            switch $0 {
+            case .success(let data):
             if let character: CharacterModel = self.networkHandler.decodeJSONData(data: data) {
-                completion(.success(character))
+            completion(.success(character))
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
     /**
@@ -57,14 +61,16 @@ public struct Character {
      */
     public func getCharactersByID(ids: [Int], completion: @escaping (Result<[CharacterModel], Error>) -> Void) {
         let stringIDs = ids.map { String($0) }
-        networkHandler.performAPIRequestByMethod(method: "character/"+stringIDs.joined(separator: ",")) {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByMethod(method: "character/"+stringIDs.joined(separator: ",")) {
+            switch $0 {
+            case .success(let data):
             if let characters: [CharacterModel] = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(characters))
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
     /**
@@ -74,14 +80,16 @@ public struct Character {
      - Returns: Array of Character model struct.
      */
     public func getCharactersByPageNumber(pageNumber: Int, completion: @escaping (Result<[CharacterModel], Error>) -> Void) {
-        networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(pageNumber)) {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(pageNumber)) {
+            switch $0 {
+            case .success(let data):
             if let infoModel: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                completion(.success(infoModel.results))
+            completion(.success(infoModel.results))
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
     /**
@@ -90,29 +98,33 @@ public struct Character {
      */
     public func getAllCharacters(completion: @escaping (Result<[CharacterModel], Error>) -> Void) {
         var allCharacters = [CharacterModel]()
-        networkHandler.performAPIRequestByMethod(method: "character") {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByMethod(method: "character") {
+            switch $0 {
+            case .success(let data):
             if let infoModel: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
                 allCharacters = infoModel.results
                 let charactersDispatchGroup = DispatchGroup()
                 
                 for index in 2...infoModel.info.pages {
                     charactersDispatchGroup.enter()
-                    self.getCharactersByPageNumber(pageNumber: index) {result in switch result {
-                    case .success(let characters):
+                    self.getCharactersByPageNumber(pageNumber: index) {
+                        switch $0 {
+                        case .success(let characters):
                         allCharacters.append(contentsOf:characters)
                         charactersDispatchGroup.leave()
-                    case .failure(let error):
+                        case .failure(let error):
                         completion(.failure(error))
-                        }}
+                        }
+                    }
                 }
                 charactersDispatchGroup.notify(queue: DispatchQueue.main) {
                     completion(.success(allCharacters.sorted { $0.id < $1.id }))
                 }
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
     /**
@@ -154,14 +166,16 @@ public struct Character {
      */
     public func getCharactersByFilter(filter: CharacterFilter, completion: @escaping (Result<[CharacterModel], Error>) -> Void) {
         
-        networkHandler.performAPIRequestByMethod(method: filter.query) {result in switch result {
-        case .success(let data):
+        networkHandler.performAPIRequestByMethod(method: filter.query) {
+            switch $0 {
+            case .success(let data):
             if let infoModel: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
                 completion(.success(infoModel.results))
             }
-        case .failure(let error):
+            case .failure(let error):
             completion(.failure(error))
-            }}
+            }
+        }
     }
     
 }
