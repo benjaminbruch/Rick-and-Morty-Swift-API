@@ -126,7 +126,7 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request multiple locations by ids")
         
-        client.location().getLocationsByID(ids: [0]) {
+        client.location().getLocationsByID(ids: [-1]) {
             switch $0 {
             case .success( _):
                 break
