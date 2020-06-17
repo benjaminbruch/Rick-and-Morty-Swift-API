@@ -90,6 +90,22 @@ final class EpisodeTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
     
+    func testRequestEpisodesByIDsError() {
+        
+        let expectation = XCTestExpectation(description: "Request multiple episodes by IDs")
+        
+        client.episode().getEpisodesByID(ids: [0]) {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
     func testRequestEpisodesByPageNumber() {
         
         let expectation = XCTestExpectation(description: "Request episodes by page number")
@@ -180,6 +196,7 @@ final class EpisodeTests: XCTestCase {
         ("testRequestEpisodeByURL", testRequestEpisodeByURL),
         ("testRequestEpisodeByURLError", testRequestEpisodeByURLError),
         ("testRequestEpisodesByIDs", testRequestEpisodesByIDs),
+        ("testRequestEpisodesByIDsError", testRequestEpisodesByIDsError),
         ("testRequestEpisodesByPageNumber", testRequestEpisodesByPageNumber),
         ("testRequestEpisodesByPageNumberError", testRequestEpisodesByPageNumberError),
         ("testRequestAllEpisodes", testRequestAllEpisodes),

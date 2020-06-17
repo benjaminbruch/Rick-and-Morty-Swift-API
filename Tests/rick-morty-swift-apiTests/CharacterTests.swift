@@ -76,7 +76,7 @@ final class CharacterTests: XCTestCase {
     
     
     
-    func testRequestCharacters() {
+    func testRequestCharactersByIDs() {
         
         let expectation = XCTestExpectation(description: "Request multiple characters by id")
         
@@ -91,6 +91,24 @@ final class CharacterTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 10.0)
     }
+    
+    func testRequestCharactersByIDsError() {
+        
+        let expectation = XCTestExpectation(description: "Request multiple characters by id")
+        
+        client.character().getCharactersByID(ids: [0]) {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    
     
     func testRequestCharactersByPage() {
         
@@ -183,7 +201,8 @@ final class CharacterTests: XCTestCase {
         ("testRequestCharacterByURLError", testRequestCharacterByURLError),
         ("testRequestCharacterByPage", testRequestCharactersByPage),
         ("testRequestCharacterByPageError", testRequestCharactersByPageError),
-        ("testRequestCharacters", testRequestCharacters),
+        ("testRequestCharactersByIDs", testRequestCharactersByIDs),
+        ("testRequestCharactersByIDsError", testRequestCharactersByIDsError),
         ("testRequestAllCharacters", testRequestAllCharacters),
         ("testRequestFilterCharacters", testRequestFilterCharacters),
         ("testRequestFilterCharactersError", testRequestFilterCharactersError),

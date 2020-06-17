@@ -8,7 +8,7 @@ import XCTest
 
 final class NetworkHandlerTests: XCTestCase {
     
-    let networkHandler = NetworkHandler()
+    var networkHandler = NetworkHandler()
     
     func testNetworkRequestByMethod() {
         
@@ -31,6 +31,23 @@ final class NetworkHandlerTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Test for error handling in request by method")
         
         networkHandler.performAPIRequestByMethod(method: "character/1234") {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testNetworkRequestByMethodErrorURLError() {
+        
+        let expectation = XCTestExpectation(description: "Test for error handling in request by method")
+        
+        networkHandler.baseURL = ""
+        networkHandler.performAPIRequestByMethod(method: "character/1") {
             switch $0 {
             case .success( _):
                 break
@@ -130,6 +147,7 @@ final class NetworkHandlerTests: XCTestCase {
     static var allTests = [
         ("testNetworkRequestByMethod", testNetworkRequestByMethod),
         ("testNetworkRequestByMethodError", testNetworkRequestByMethodError),
+        ("testNetworkRequestByMethodErrorURLError", testNetworkRequestByMethodErrorURLError),
         ("testNetworkRequestByURL", testNetworkRequestByURL),
         ("testNetworkRequestByURLInvalidURLError", testNetworkRequestByURLInvalidURLError),
         ("testNetworkRequestByURLInvalidResponseError",testNetworkRequestByURLInvalidResponseError),

@@ -43,7 +43,7 @@ enum NetworkHandlerError: Error {
  - **decodeJSONData**
  */
 public struct NetworkHandler {
-    let baseURL: String = "https://rickandmortyapi.com/api/"
+    var baseURL: String = "https://rickandmortyapi.com/api/"
     
     /**
      Perform API request with given method.

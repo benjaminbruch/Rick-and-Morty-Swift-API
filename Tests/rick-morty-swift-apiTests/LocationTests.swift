@@ -106,7 +106,7 @@ final class LocationTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestLocations() {
+    func testRequestLocationsByIDs() {
         
         let expectation = XCTestExpectation(description: "Request multiple locations by ids")
         
@@ -117,6 +117,22 @@ final class LocationTests: XCTestCase {
                 expectation.fulfill()
             case.failure( _):
                 break
+            }
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testRequestLocationsByIDsError() {
+        
+        let expectation = XCTestExpectation(description: "Request multiple locations by ids")
+        
+        client.location().getLocationsByID(ids: [0]) {
+            switch $0 {
+            case .success( _):
+                break
+            case.failure(let error):
+                print(error)
+                expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -179,7 +195,8 @@ final class LocationTests: XCTestCase {
         ("testRequestLocationByIDError", testRequestLocationByIDError),
         ("testRequestLocationByURL", testRequestLocationByURL),
         ("testRequestLocationByURLError", testRequestLocationByURLError),
-        ("testRequestLocations", testRequestLocations),
+        ("testRequestLocationsByIDs", testRequestLocationsByIDs),
+        ("testRequestLocationsByIDs", testRequestLocationsByIDsError),
         ("testRequestLocationsByPageNumber", testRequestLocationsByPageNumber),
         ("testRequestLocationsByPageNumberError", testRequestLocationsByPageNumberError),
         ("testRequestAllLocations", testRequestAllLocations),
