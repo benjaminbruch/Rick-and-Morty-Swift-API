@@ -19,8 +19,8 @@ final class EpisodeTests: XCTestCase {
             case .success(let episode):
                 print(episode.name)
                 expectation.fulfill()
-            case.failure( _):
-                break
+            case.failure(let error):
+                print(error)
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -33,7 +33,7 @@ final class EpisodeTests: XCTestCase {
         client.episode().getEpisodeByID(id: -1) {
             switch $0 {
             case .success( _):
-                break
+                print("Test failed")
             case.failure(let error):
                 print(error)
                 expectation.fulfill()
@@ -51,8 +51,8 @@ final class EpisodeTests: XCTestCase {
             case .success(let episode):
                 print(episode.name)
                 expectation.fulfill()
-            case.failure( _):
-                break
+            case.failure(let error):
+                print(error)
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -65,7 +65,7 @@ final class EpisodeTests: XCTestCase {
         client.episode().getEpisodeByURL(url: "") {
             switch $0 {
             case .success( _):
-                break
+                print("Test failed")
             case.failure(let error):
                 print(error)
                 expectation.fulfill()
@@ -79,12 +79,12 @@ final class EpisodeTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Request multiple episodes by IDs")
         
         client.episode().getEpisodesByID(ids: [1,2,3]) {
-            switch $0 {
+            /Users/bbbruch/Documents/Skills/rick-morty-swift-api/Tests/rick-morty-swift-apiTests            switch $0 {
             case .success(let episodes):
                 episodes.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
+            case.failure(let error):
+                print(error)
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -97,7 +97,7 @@ final class EpisodeTests: XCTestCase {
         client.episode().getEpisodesByID(ids: [0]) {
             switch $0 {
             case .success( _):
-                break
+                print("Test failed")
             case.failure(let error):
                 print(error)
                 expectation.fulfill()
@@ -115,8 +115,8 @@ final class EpisodeTests: XCTestCase {
             case .success(let episodes):
                 episodes.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
+            case.failure(let error):
+                print(error)
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -129,7 +129,7 @@ final class EpisodeTests: XCTestCase {
         client.episode().getEpisodesByPageNumber(pageNumber: 123) {
             switch $0 {
             case .success( _):
-                break
+                print("Test failed")
             case.failure(let error):
                 print(error)
                 expectation.fulfill()
@@ -147,8 +147,8 @@ final class EpisodeTests: XCTestCase {
             case .success(let episodes):
                 episodes.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
+            case.failure(let error):
+                print(error)
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -165,8 +165,8 @@ final class EpisodeTests: XCTestCase {
             case .success(let episodes):
                 episodes.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
+            case.failure( let error):
+                print(error)
             }
         }
         wait(for: [expectation], timeout: 10.0)
@@ -181,7 +181,7 @@ final class EpisodeTests: XCTestCase {
         client.episode().getEpisodesByFilter(filter: filter) {
             switch $0 {
             case .success( _):
-                break
+                print("Test failed")
             case.failure(let error):
                 print(error)
                 expectation.fulfill()
