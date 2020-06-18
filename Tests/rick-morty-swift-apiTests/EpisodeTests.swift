@@ -79,7 +79,7 @@ final class EpisodeTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Request multiple episodes by IDs")
         
         client.episode().getEpisodesByID(ids: [1,2,3]) {
-            /Users/bbbruch/Documents/Skills/rick-morty-swift-api/Tests/rick-morty-swift-apiTests            switch $0 {
+            switch $0 {
             case .success(let episodes):
                 episodes.forEach() { print ($0.name) }
                 expectation.fulfill()
