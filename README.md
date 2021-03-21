@@ -92,8 +92,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[travis-badge]: https://travis-ci.com/benjaminbruch/rick-morty-swift-api.svg?branch=master
-[travis-link]: https://travis-ci.com/github/benjaminbruch/rick-morty-swift-api
+[travis-badge]: https://travis-ci.com/benjaminbruch/Rick-and-Morty-Swift-API.svg?
+[travis-link]: https://travis-ci.com/benjaminbruch/Rick-and-Morty-Swift-API
 [codecov-badge]: https://codecov.io/gh/benjaminbruch/Rick-and-Morty-Swift-API/branch/master/graph/badge.svg?token=U00WT3VHSV
 [codecov-link]: https://codecov.io/gh/benjaminbruch/Rick-and-Morty-Swift-API
 [doc-badge]: /docs/badge.svg
