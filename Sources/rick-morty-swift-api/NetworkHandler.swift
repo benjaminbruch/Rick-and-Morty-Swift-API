@@ -30,9 +30,13 @@ struct Info: Codable {
  */
 enum NetworkHandlerError: Error {
     case invalidURL
-    case invalidResponse
+    case invalidResponse(error: ErrorMessage)
     case apiError
     case decodingError
+}
+
+struct ErrorMessage: Codable {
+    let error: String
 }
 
 /**
@@ -59,7 +63,7 @@ public struct NetworkHandler {
                 switch $0 {
                 case .success(let (response, data)):
                 guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
-                    completion(.failure(.invalidResponse))
+                    completion(.failure(.invalidResponse(error: decodeError(data: data) ?? ErrorMessage(error: "invalidResponse"))))
                     return
                 }
                 completion(.success(data))
@@ -86,7 +90,7 @@ public struct NetworkHandler {
                 switch $0 {
                 case .success(let (response, data)):
                 guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
-                    completion(.failure(.invalidResponse))
+                    completion(.failure(.invalidResponse(error: decodeError(data: data) ?? ErrorMessage(error: "invalidResponse"))))
                     return
                 }
                 completion(.success(data))
@@ -109,6 +113,23 @@ public struct NetworkHandler {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(T.self, from: data)
+            return decodedData
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+    
+    /**
+     Decode JSON error response.
+     - Parameters:
+        - data: HTTP data response.
+     - Returns: Error message struct.
+     */
+    func decodeError(data: Data) -> ErrorMessage? {
+        let decoder = JSONDecoder()
+        do {
+            let decodedData = try decoder.decode(ErrorMessage.self, from: data)
             return decodedData
         } catch {
             print(error)
