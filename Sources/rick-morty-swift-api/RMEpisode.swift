@@ -8,7 +8,7 @@ import Foundation
 /**
 Episode struct contains all functions to request episode(s) information(s).
 */
-public struct Episode {
+public struct RMEpisode {
     
     public init(client: RMClient) {self.client = client}
     

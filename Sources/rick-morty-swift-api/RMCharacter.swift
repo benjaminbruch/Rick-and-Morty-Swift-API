@@ -8,7 +8,7 @@ import Foundation
 /**
 Character struct contains all functions to request character(s) information(s).
 */
-public struct Character {
+public struct RMCharacter {
     
     public init(client: RMClient) {self.client = client}
     

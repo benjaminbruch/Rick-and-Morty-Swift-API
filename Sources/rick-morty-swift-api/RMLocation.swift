@@ -8,7 +8,7 @@ import Foundation
 /**
 Location struct contains all functions to request location(s) information(s).
 */
-public struct Location {
+public struct RMLocation {
     
     public init(client: RMClient) {self.client = client}
     
