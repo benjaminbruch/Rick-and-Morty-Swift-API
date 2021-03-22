@@ -3,42 +3,41 @@
 //  Created by BBruch on 11.04.20.
 //
 
+import Combine
 import XCTest
 @testable import rick_morty_swift_api
 
 final class LocationTests: XCTestCase {
     
     let client = Client()
+    var cancellable: AnyCancellable?
     
     func testRequestLocationByID() {
         
         let expectation = XCTestExpectation(description: "Request one location by id")
         
-        client.location().getLocationByID(id: 1) {
-            switch $0 {
-            case .success(let location):
+        cancellable = client.location().getLocationByID(id: 1)
+            .sink(receiveCompletion: { _ in }, receiveValue: { location in
                 print(location.name)
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
-        wait(for: [expectation], timeout: 10.0)
+            })
+        wait(for: [expectation], timeout: 10.0) 
     }
     
     func testRequestLocationByIDError() {
         
         let expectation = XCTestExpectation(description: "Test error handling for id")
         
-        client.location().getLocationByID(id: -1) {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
-        }
+        cancellable = client.location().getLocationByID(id: -1)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Publisher finished")
+                case .failure(let error):
+                    print(error)
+                    expectation.fulfill()
+                }
+            }, receiveValue: { _ in })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -46,15 +45,11 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request one location by URL")
         
-        client.location().getLocationByURL(url: "https://rickandmortyapi.com/api/location/1") {
-            switch $0 {
-            case .success(let location):
+        cancellable = client.location().getLocationByURL(url: "https://rickandmortyapi.com/api/location/1")
+            .sink(receiveCompletion: { _ in }, receiveValue: { location in
                 print(location.name)
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
+            })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -62,15 +57,16 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for URL")
         
-        client.location().getLocationByURL(url: "") {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                expectation.fulfill()
-                print(error)
-            }
-        }
+        cancellable = client.location().getLocationByURL(url: "")
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Publisher finished")
+                case .failure(let error):
+                    print(error)
+                    expectation.fulfill()
+                }
+            }, receiveValue: { _ in })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -78,15 +74,11 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request location by page number")
         
-        client.location().getLocationsByPageNumber(pageNumber: 1) {
-            switch $0 {
-            case .success(let locations):
+        cancellable = client.location().getLocationsByPageNumber(pageNumber: 1)
+            .sink(receiveCompletion: { _ in }, receiveValue: { locations in
                 locations.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
+            })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -94,15 +86,16 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for page")
         
-        client.location().getLocationsByPageNumber(pageNumber: 123) {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                expectation.fulfill()
-                print(error)
-            }
-        }
+        cancellable = client.location().getLocationsByPageNumber(pageNumber: 123)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Publisher finished")
+                case .failure(let error):
+                    print(error)
+                    expectation.fulfill()
+                }
+            }, receiveValue: { _ in })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -110,15 +103,11 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request multiple locations by ids")
         
-        client.location().getLocationsByID(ids: [1,2,3]) {
-            switch $0 {
-            case .success(let locations):
+        cancellable = client.location().getLocationsByID(ids: [1,2,3])
+            .sink(receiveCompletion: { _ in }, receiveValue: { locations in
                 locations.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
+            })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -126,15 +115,16 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request multiple locations by ids")
         
-        client.location().getLocationsByID(ids: [-1]) {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
-        }
+        cancellable = client.location().getLocationsByID(ids: [-1])
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Publisher finished")
+                case .failure(let error):
+                    print(error)
+                    expectation.fulfill()
+                }
+            }, receiveValue: { _ in })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -142,15 +132,11 @@ final class LocationTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request all locations")
         
-        client.location().getAllLocations() {
-            switch $0 {
-            case .success(let locations):
+        cancellable = client.location().getAllLocations()
+            .sink(receiveCompletion: { _ in }, receiveValue: { locations in
                 locations.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
+            })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -160,15 +146,11 @@ final class LocationTests: XCTestCase {
         
         let filter = client.location().createLocationFilter(name: "earth", type: nil, dimension: nil)
         
-        client.location().getLocationsByFilter(filter: filter) {
-            switch $0 {
-            case .success(let locations):
+        cancellable = client.location().getLocationsByFilter(filter: filter)
+            .sink(receiveCompletion: { _ in }, receiveValue: { locations in
                 locations.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
+            })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -178,16 +160,18 @@ final class LocationTests: XCTestCase {
         
         let filter = client.location().createLocationFilter(name: "Test", type: "Test", dimension: "Test")
         
-        client.location().getLocationsByFilter(filter: filter) {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
-        }
+        cancellable = client.location().getLocationsByFilter(filter: filter)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Publisher finished")
+                case .failure(let error):
+                    print(error)
+                    expectation.fulfill()
+                }
+            }, receiveValue: { _ in })
         wait(for: [expectation], timeout: 10.0)
+
     }
     
     static var allTests = [
