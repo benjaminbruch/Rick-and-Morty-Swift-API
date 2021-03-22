@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "rick-morty-swift-api",
+    name: "RickMortySwiftAPI",
     platforms: [
         .macOS(.v10_15),
         .iOS(.v13)
