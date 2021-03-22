@@ -1,5 +1,5 @@
 //
-//  Client.swift
+//  RMClient.swift
 //  Created by BBruch on 08.04.20.
 //
 
@@ -8,7 +8,7 @@ import Foundation
 /**
  API Client for Rick and Morty API.
  */
-public struct Client {
+public struct RMClient {
     
     public init() {}
     

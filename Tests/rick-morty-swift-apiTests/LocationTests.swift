@@ -8,7 +8,7 @@ import XCTest
 
 final class LocationTests: XCTestCase {
     
-    let client = Client()
+    let client = RMClient()
     
     func testRequestLocationByID() {
         

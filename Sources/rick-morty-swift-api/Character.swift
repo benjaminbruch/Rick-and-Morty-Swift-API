@@ -10,9 +10,9 @@ Character struct contains all functions to request character(s) information(s).
 */
 public struct Character {
     
-    public init(client: Client) {self.client = client}
+    public init(client: RMClient) {self.client = client}
     
-    let client: Client
+    let client: RMClient
     let networkHandler: NetworkHandler = NetworkHandler()
     
     /**

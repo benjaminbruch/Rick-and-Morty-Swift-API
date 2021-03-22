@@ -8,7 +8,7 @@ import XCTest
 
 final class EpisodeTests: XCTestCase {
     
-    let client = Client()
+    let client = RMClient()
     
     func testRequestEpisodeByID() {
         

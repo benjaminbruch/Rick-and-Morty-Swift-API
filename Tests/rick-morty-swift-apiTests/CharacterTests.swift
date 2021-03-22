@@ -8,7 +8,7 @@ import XCTest
 
 final class CharacterTests: XCTestCase {
     
-    let client = Client()
+    let client = RMClient()
     
     func testRequestCharacterByID() {
         
