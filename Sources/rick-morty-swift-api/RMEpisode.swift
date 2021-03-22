@@ -9,11 +9,11 @@ import Foundation
 /**
 Episode struct contains all functions to request episode(s) information(s).
 */
-public struct Episode {
+public struct RMEpisode {
     
-    public init(client: Client) {self.client = client}
+    public init(client: RMClient) {self.client = client}
     
-    let client: Client
+    let client: RMClient
     let networkHandler: NetworkHandler = NetworkHandler()
     
     /**

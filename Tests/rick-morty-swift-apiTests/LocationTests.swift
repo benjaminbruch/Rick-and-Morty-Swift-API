@@ -9,7 +9,7 @@ import XCTest
 
 final class LocationTests: XCTestCase {
     
-    let client = Client()
+    let client = RMClient()
     var cancellable: AnyCancellable?
     
     func testRequestLocationByID() {

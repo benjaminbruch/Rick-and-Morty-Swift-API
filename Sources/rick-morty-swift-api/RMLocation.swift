@@ -9,11 +9,11 @@ import Foundation
 /**
 Location struct contains all functions to request location(s) information(s).
 */
-public struct Location {
+public struct RMLocation {
     
-    public init(client: Client) {self.client = client}
+    public init(client: RMClient) {self.client = client}
     
-    let client: Client
+    let client: RMClient
     let networkHandler: NetworkHandler = NetworkHandler()
     
     /**
