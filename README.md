@@ -37,7 +37,7 @@ Example to get all characters as an array of character struct:
 
 **1. Init client:**
 ```swift
-let rmClient = Client()
+let rmClient = RMClient()
 ```
 
 **2. Call character struct with function**
