@@ -9,11 +9,11 @@ import Foundation
 /**
  Character struct contains all functions to request character(s) information(s).
  */
-public struct RMCharacter {
+public struct Character {
     
-    public init(client: RMClient) {self.client = client}
+    public init(client: Client) {self.client = client}
     
-    let client: RMClient
+    let client: Client
     let networkHandler: NetworkHandler = NetworkHandler()
     
     /**

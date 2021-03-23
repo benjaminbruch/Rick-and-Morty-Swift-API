@@ -9,7 +9,7 @@ import XCTest
 
 final class EpisodeTests: XCTestCase {
     
-    let client = RMClient()
+    let client = Client()
     var cancellable: AnyCancellable?
     
     func testRequestEpisodeByID() {

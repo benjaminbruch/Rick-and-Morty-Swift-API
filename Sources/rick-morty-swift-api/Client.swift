@@ -8,7 +8,7 @@ import Foundation
 /**
  API Client for Rick and Morty API.
  */
-public struct RMClient {
+public struct Client {
     
     public init() {}
     
@@ -16,8 +16,8 @@ public struct RMClient {
      Access character struct.
      - Returns: Character struct.
      */
-    public func character() -> RMCharacter {
-        let character = RMCharacter(client: self)
+    public func character() -> Character {
+        let character = Character(client: self)
         return character
     }
     
@@ -25,8 +25,8 @@ public struct RMClient {
      Access episode struct.
      - Returns: Episode struct.
      */
-    public func episode() -> RMEpisode {
-        let episode = RMEpisode(client: self)
+    public func episode() -> Episode {
+        let episode = Episode(client: self)
         return episode
     }
     
@@ -34,8 +34,8 @@ public struct RMClient {
      Access location struct.
      - Returns: Location struct.
      */
-    public func location() -> RMLocation {
-        let location = RMLocation(client: self)
+    public func location() -> Location {
+        let location = Location(client: self)
         return location
     }
 }

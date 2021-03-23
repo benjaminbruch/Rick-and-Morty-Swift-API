@@ -9,7 +9,7 @@ import XCTest
 
 final class CharacterTests: XCTestCase {
     
-    let client = RMClient()
+    let client = Client()
     var cancellable: AnyCancellable?
     
     func testRequestCharacterByID() {
