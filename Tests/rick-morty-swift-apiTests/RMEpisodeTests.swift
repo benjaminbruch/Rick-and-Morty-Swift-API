@@ -7,7 +7,7 @@ import Combine
 import XCTest
 @testable import rick_morty_swift_api
 
-final class EpisodeTests: XCTestCase {
+final class uts: XCTestCase {
     
     let client = RMClient()
     var cancellable: AnyCancellable?

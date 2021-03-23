@@ -7,7 +7,7 @@ import Combine
 import XCTest
 @testable import rick_morty_swift_api
 
-final class LocationTests: XCTestCase {
+final class RMLocationTests: XCTestCase {
     
 
     let client = RMClient()
