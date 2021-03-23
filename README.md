@@ -42,14 +42,12 @@ let rmClient = RMClient()
 
 **2. Call character struct with function**
 ```swift
-rmClient.character().getAllCharacters() {
-        switch $0 {
-        case .success(let characters):
-            characters.forEach() { print ($0.name) }
-        case.failure(let error):
-            print(error)
-            }
-        }
+ var cancellable: AnyCancellable?
+ cancellable = client.character().getAllCharacters()
+            .sink(receiveCompletion: { _ in }, receiveValue: { characters in
+                characters.forEach() { print ($0.name) }
+                expectation.fulfill()
+            })
 ```
 
 *For more examples, please refer to the [Documentation][doc-link] or visit [Test Section][test-link]*
