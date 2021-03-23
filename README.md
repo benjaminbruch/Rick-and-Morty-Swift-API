@@ -46,7 +46,6 @@ let rmClient = RMClient()
  cancellable = client.character().getAllCharacters()
             .sink(receiveCompletion: { _ in }, receiveValue: { characters in
                 characters.forEach() { print ($0.name) }
-                expectation.fulfill()
             })
 ```
 
