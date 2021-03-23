@@ -43,7 +43,7 @@ let rmClient = RMClient()
 **2. Call character struct with function**
 ```swift
  var cancellable: AnyCancellable?
- cancellable = client.character().getAllCharacters()
+ cancellable = rmClient.character().getAllCharacters()
             .sink(receiveCompletion: { _ in }, receiveValue: { characters in
                 characters.forEach() { print ($0.name) }
             })
