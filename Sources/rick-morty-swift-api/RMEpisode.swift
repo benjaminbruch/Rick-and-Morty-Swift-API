@@ -3,6 +3,7 @@
 //  Created by BBruch on 08.04.20.
 //
 
+import Combine
 import Foundation
 
 /**
@@ -21,15 +22,17 @@ public struct RMEpisode {
         - id: ID of the episode.
         - Returns: Episode model struct.
      */
-    public func getEpisodeByID(id: Int, completion: @escaping (Result<EpisodeModel, Error>) -> Void) {
-        networkHandler.performAPIRequestByMethod(method: "episode/"+String(id)) {
-            switch $0 {
-            case .success(let data):
-            if let episode: EpisodeModel = self.networkHandler.decodeJSONData(data: data) {
-                completion(.success(episode))
-            }
-            case .failure(let error):
-            completion(.failure(error))
+    public func getEpisodeByID(id: Int) -> Future <EpisodeModel, Error> {
+        return Future() { promise in
+            networkHandler.performAPIRequestByMethod(method: "episode/"+String(id)) {
+                switch $0 {
+                case .success(let data):
+                    if let episode: EpisodeModel = self.networkHandler.decodeJSONData(data: data) {
+                        promise(.success(episode))
+                    }
+                case .failure(let error):
+                    promise(.failure(error))
+                }
             }
         }
     }
@@ -40,15 +43,17 @@ public struct RMEpisode {
         - url: URL of the episode.
     - Returns: Episode model struct.
      */
-    public func getEpisodeByURL(url: String, completion: @escaping (Result<EpisodeModel, Error>) -> Void) {
-        networkHandler.performAPIRequestByURL(url: url) {
-            switch $0 {
-            case .success(let data):
-            if let episode: EpisodeModel = self.networkHandler.decodeJSONData(data: data) {
-                completion(.success(episode))
-            }
-            case .failure(let error):
-            completion(.failure(error))
+    public func getEpisodeByURL(url: String) -> Future <EpisodeModel, Error> {
+        return Future() { promise in
+            networkHandler.performAPIRequestByURL(url: url) {
+                switch $0 {
+                case .success(let data):
+                    if let episode: EpisodeModel = self.networkHandler.decodeJSONData(data: data) {
+                        promise(.success(episode))
+                    }
+                case .failure(let error):
+                    promise(.failure(error))
+                }
             }
         }
     }
@@ -59,16 +64,18 @@ public struct RMEpisode {
         - ids: Episodes ids.
      - Returns: Array of episode model struct.
      */
-    public func getEpisodesByID(ids: [Int], completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
-        let stringIDs = ids.map { String($0) }
-        networkHandler.performAPIRequestByMethod(method: "episode/"+stringIDs.joined(separator: ",")) {
-            switch $0 {
-            case .success(let data):
-            if let episodes: [EpisodeModel] = self.networkHandler.decodeJSONData(data: data) {
-                completion(.success(episodes))
-            }
-            case .failure(let error):
-            completion(.failure(error))
+    public func getEpisodesByID(ids: [Int]) -> Future <[EpisodeModel], Error> {
+        return Future() { promise in
+            let stringIDs = ids.map { String($0) }
+            networkHandler.performAPIRequestByMethod(method: "episode/"+stringIDs.joined(separator: ",")) {
+                switch $0 {
+                case .success(let data):
+                    if let episodes: [EpisodeModel] = self.networkHandler.decodeJSONData(data: data) {
+                        promise(.success(episodes))
+                    }
+                case .failure(let error):
+                    promise(.failure(error))
+                }
             }
         }
     }
@@ -79,15 +86,17 @@ public struct RMEpisode {
         - page: Number of result page.
      - Returns: Array of Episode model struct.
      */
-    public func getEpisodesByPageNumber(pageNumber: Int, completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
-        networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(pageNumber)) {
-            switch $0 {
-            case .success(let data):
-            if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                completion(.success(infoModel.results))
-            }
-            case .failure(let error):
-            completion(.failure(error))
+    public func getEpisodesByPageNumber(pageNumber: Int) -> Future <[EpisodeModel], Error> {
+        return Future() { promise in
+            networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(pageNumber)) {
+                switch $0 {
+                case .success(let data):
+                    if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                        promise(.success(infoModel.results))
+                    }
+                case .failure(let error):
+                    promise(.failure(error))
+                }
             }
         }
     }
@@ -96,33 +105,38 @@ public struct RMEpisode {
      Request all episodes.
      - Returns: Array of Episode model struct.
      */
-    public func getAllEpisodes(completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
-        var allEpisodes = [EpisodeModel]()
-        networkHandler.performAPIRequestByMethod(method: "episode") {
-            switch $0 {
-            case .success(let data):
-            if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                allEpisodes = infoModel.results
-                let episodesDispatchGroup = DispatchGroup()
-                
-                for index in 2...infoModel.info.pages {
-                    episodesDispatchGroup.enter()
-                    self.getEpisodesByPageNumber(pageNumber: index) {
-                        switch $0 {
-                        case .success(let episodes):
-                        allEpisodes.append(contentsOf:episodes)
-                        episodesDispatchGroup.leave()
-                        case .failure(let error):
-                        completion(.failure(error))
+    public func getAllEpisodes() -> Future <[EpisodeModel], Error> {
+        return Future() { promise in
+            var allEpisodes = [EpisodeModel]()
+            networkHandler.performAPIRequestByMethod(method: "episode") {
+                switch $0 {
+                case .success(let data):
+                    if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                        allEpisodes = infoModel.results
+                        let episodesDispatchGroup = DispatchGroup()
+                        
+                        for index in 2...infoModel.info.pages {
+                            episodesDispatchGroup.enter()
+                            
+                            networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(index)) {
+                                switch $0 {
+                                case .success(let data):
+                                    if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                                        allEpisodes.append(contentsOf: infoModel.results)
+                                        episodesDispatchGroup.leave()
+                                    }
+                                case .failure(let error):
+                                    promise(.failure(error))
+                                }
+                            }
+                        }
+                        episodesDispatchGroup.notify(queue: DispatchQueue.main) {
+                            promise(.success(allEpisodes.sorted { $0.id < $1.id }))
                         }
                     }
+                case .failure(let error):
+                    promise(.failure(error))
                 }
-                episodesDispatchGroup.notify(queue: DispatchQueue.main) {
-                    completion(.success(allEpisodes.sorted { $0.id < $1.id }))
-                }
-            }
-            case .failure(let error):
-            completion(.failure(error))
             }
         }
     }
@@ -158,19 +172,20 @@ public struct RMEpisode {
         - filter: EpisodesFilter struct (provides requestURL with query options).
      - Returns: Array of Episodes model struct.
      */
-    public func getEpisodesByFilter(filter: EpisodeFilter, completion: @escaping (Result<[EpisodeModel], Error>) -> Void) {
-        
-        networkHandler.performAPIRequestByMethod(method: filter.query) {
-            switch $0 {
-            case .success(let data):
-            if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                completion(.success(infoModel.results))
-            }
-            case .failure(let error):
-            completion(.failure(error))
+    public func getEpisodesByFilter(filter: EpisodeFilter) -> Future <[EpisodeModel], Error> {
+        return Future() { promise in
+            
+            networkHandler.performAPIRequestByMethod(method: filter.query) {
+                switch $0 {
+                case .success(let data):
+                    if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                        promise(.success(infoModel.results))
+                    }
+                case .failure(let error):
+                    promise(.failure(error))
+                }
             }
         }
-    }
 }
 
 /**
@@ -206,24 +221,25 @@ struct EpisodeInfoModel: Codable {
  ### Properties
  - **id**: The id of the episode.
  - **name**: The name of the episode.
- - **airdDate**: The air date of the episode.
+ - **airDate**: The air date of the episode.
  - **episode**: The code of the episode.
  - **characters**: List of characters who have been seen in the episode.
  - **url**: Link to the episode's own endpoint.
  - **created**: Time at which the episode was created in the database.
  */
-public struct EpisodeModel: Codable, Identifiable {
-    public let id: Int
-    public let name: String
-    public let airDate: String
-    public let episode: String
-    public let characters: [String]
-    public let url: String
-    public let created: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name, episode, characters, url, created
-        case airDate = "air_date"
+    public struct EpisodeModel: Codable, Identifiable {
+        public let id: Int
+        public let name: String
+        public let airDate: String
+        public let episode: String
+        public let characters: [String]
+        public let url: String
+        public let created: String
+        
+        enum CodingKeys: String, CodingKey {
+            case id, name, episode, characters, url, created
+            case airDate = "air_date"
+        }
     }
 }
 

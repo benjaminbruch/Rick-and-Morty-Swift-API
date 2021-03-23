@@ -3,26 +3,25 @@
 //  Created by BBruch on 11.04.20.
 //
 
+import Combine
 import XCTest
 @testable import rick_morty_swift_api
 
 final class CharacterTests: XCTestCase {
     
+
     let client = RMClient()
-    
+    var cancellable: AnyCancellable?
+
     func testRequestCharacterByID() {
         
         let expectation = XCTestExpectation(description: "Request one character by id")
         
-        client.character().getCharacterByID(id: 1) {
-            switch $0 {
-            case .success(let character):
+        cancellable = client.character().getCharacterByID(id: 1)
+            .sink(receiveCompletion: { _ in }, receiveValue: { character in
                 print(character.name)
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
+            })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -30,15 +29,16 @@ final class CharacterTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for id")
         
-        client.character().getCharacterByID(id: -1) {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
-        }
+        cancellable = client.character().getCharacterByID(id: -1)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Publisher finished")
+                case .failure(let error):
+                    print(error)
+                    expectation.fulfill()
+                }
+            }, receiveValue: { _ in })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -46,15 +46,11 @@ final class CharacterTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request one character by URL")
         
-        client.character().getCharacterByURL(url: "https://rickandmortyapi.com/api/character/1") {
-            switch $0 {
-            case .success(let character):
+        cancellable = client.character().getCharacterByURL(url: "https://rickandmortyapi.com/api/character/1")
+            .sink(receiveCompletion: { _ in }, receiveValue: { character in
                 print(character.name)
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
+            })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -62,33 +58,28 @@ final class CharacterTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for URL")
         
-        client.character().getCharacterByURL(url: "") {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
-        }
+        cancellable = client.character().getCharacterByURL(url: "")
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Publisher finished")
+                case .failure(let error):
+                    print(error)
+                    expectation.fulfill()
+                }
+            }, receiveValue: { _ in })
         wait(for: [expectation], timeout: 10.0)
     }
-    
-    
     
     func testRequestCharactersByIDs() {
         
         let expectation = XCTestExpectation(description: "Request multiple characters by id")
         
-        client.character().getCharactersByID(ids: [1,2,3]) {
-            switch $0 {
-            case .success(let characters):
+        cancellable = client.character().getCharactersByID(ids: [1,2,3])
+            .sink(receiveCompletion: { _ in }, receiveValue: { characters in
                 characters.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
+            })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -96,15 +87,16 @@ final class CharacterTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request multiple characters by id")
         
-        client.character().getCharactersByID(ids: [0]) {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
-        }
+        cancellable = client.character().getCharactersByID(ids: [0])
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Publisher finished")
+                case .failure(let error):
+                    print(error)
+                    expectation.fulfill()
+                }
+            }, receiveValue: { _ in })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -114,15 +106,11 @@ final class CharacterTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request characters by page number")
         
-        client.character().getCharactersByPageNumber(pageNumber: 1) {
-            switch $0 {
-            case .success(let characters):
+        cancellable = client.character().getCharactersByPageNumber(pageNumber: 1)
+            .sink(receiveCompletion: { _ in }, receiveValue: { characters in
                 characters.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case .failure( _):
-                break
-            }
-        }
+            })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -130,15 +118,16 @@ final class CharacterTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Test error handling for page")
         
-        client.character().getCharactersByPageNumber(pageNumber: 123) {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
-        }
+        cancellable = client.character().getCharactersByPageNumber(pageNumber: 123)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Publisher finished")
+                case .failure(let error):
+                    print(error)
+                    expectation.fulfill()
+                }
+            }, receiveValue: { _ in })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -146,15 +135,12 @@ final class CharacterTests: XCTestCase {
         
         let expectation = XCTestExpectation(description: "Request all characters")
         
-        client.character().getAllCharacters() {
-            switch $0 {
-            case .success(let characters):
+        cancellable = client.character().getAllCharacters()
+            .sink(receiveCompletion: { _ in }, receiveValue: { characters in
                 characters.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
+            })
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -164,15 +150,11 @@ final class CharacterTests: XCTestCase {
         
         let filter = client.character().createCharacterFilter(name: nil, status: .alive, species: nil, type: nil, gender: .female)
         
-        client.character().getCharactersByFilter(filter: filter) {
-            switch $0 {
-            case .success(let characters):
+        cancellable = client.character().getCharactersByFilter(filter: filter)
+            .sink(receiveCompletion: { _ in }, receiveValue: { characters in
                 characters.forEach() { print ($0.name) }
                 expectation.fulfill()
-            case.failure( _):
-                break
-            }
-        }
+            })
         wait(for: [expectation], timeout: 10.0)
     }
     
@@ -182,16 +164,17 @@ final class CharacterTests: XCTestCase {
         
         let filter = client.character().createCharacterFilter(name: "Test", status: .alive, species: "Test", type: "Test", gender: .female)
         
-        client.character().getCharactersByFilter(filter: filter) {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
-        }
-        wait(for: [expectation], timeout: 10.0)
+        
+        cancellable = client.character().getCharactersByFilter(filter: filter)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Publisher finished")
+                case .failure(let error):
+                    print(error)
+                    expectation.fulfill()
+                }
+            }, receiveValue: { _ in })
     }
     
     static var allTests = [
