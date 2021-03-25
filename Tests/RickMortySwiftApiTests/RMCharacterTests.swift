@@ -5,7 +5,7 @@
 
 import Combine
 import XCTest
-@testable import rick_morty_swift_api
+@testable import RickMortySwiftApi
 
 final class RMCharacterTests: XCTestCase {
     
