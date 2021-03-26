@@ -7,7 +7,7 @@ import Combine
 import XCTest
 @testable import RickMortySwiftApi
 
-final class uts: XCTestCase {
+final class RMEpisodeTests: XCTestCase {
     
     let client = RMClient()
     var cancellable: AnyCancellable?
