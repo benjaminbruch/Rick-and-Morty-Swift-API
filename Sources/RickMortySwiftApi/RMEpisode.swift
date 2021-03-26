@@ -227,7 +227,7 @@ struct RMEpisodeInfoModel: Codable {
  - **url**: Link to the episode's own endpoint.
  - **created**: Time at which the episode was created in the database.
  */
-    public struct RMEpisodeModel: Codable, Identifiable {
+public struct RMEpisodeModel: Codable, Identifiable {
         public let id: Int
         public let name: String
         public let airDate: String
@@ -236,7 +236,7 @@ struct RMEpisodeInfoModel: Codable {
         public let url: String
         public let created: String
         
-        enum CodingKeys: String, CodingKey {
+        public enum CodingKeys: String, CodingKey {
             case id, name, episode, characters, url, created
             case airDate = "air_date"
         }
