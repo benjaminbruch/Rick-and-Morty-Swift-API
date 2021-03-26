@@ -22,12 +22,12 @@ public struct RMCharacter {
      - id: ID of the character.
      - Returns: Character model struct.
      */
-    public func getCharacterByID(id: Int) -> Future <CharacterModel, Error> {
+    public func getCharacterByID(id: Int) -> Future <RMCharacterModel, Error> {
         return Future() { promise in
             networkHandler.performAPIRequestByMethod(method: "character/"+String(id)) {
                 switch $0 {
                 case .success(let data):
-                    if let character: CharacterModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let character: RMCharacterModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(character))
                     }
                 case .failure(let error):
@@ -43,12 +43,12 @@ public struct RMCharacter {
      - url: URL of the character.
      - Returns: Character model struct.
      */
-    public func getCharacterByURL(url: String) -> Future <CharacterModel, Error> {
+    public func getCharacterByURL(url: String) -> Future <RMCharacterModel, Error> {
         return Future() { promise in
             networkHandler.performAPIRequestByURL(url: url) {
                 switch $0 {
                 case .success(let data):
-                    if let character: CharacterModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let character: RMCharacterModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(character))
                     }
                 case .failure(let error):
@@ -63,13 +63,13 @@ public struct RMCharacter {
      - ids: Character ids.
      - Returns: Array of Character model struct.
      */
-    public func getCharactersByID(ids: [Int]) -> Future <[CharacterModel], Error> {
+    public func getCharactersByID(ids: [Int]) -> Future <[RMCharacterModel], Error> {
         return Future() { promise in
             let stringIDs = ids.map { String($0) }
             networkHandler.performAPIRequestByMethod(method: "character/"+stringIDs.joined(separator: ",")) {
                 switch $0 {
                 case .success(let data):
-                    if let characters: [CharacterModel] = self.networkHandler.decodeJSONData(data: data) {
+                    if let characters: [RMCharacterModel] = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(characters))
                     }
                 case .failure(let error):
@@ -85,12 +85,12 @@ public struct RMCharacter {
      - page: Number of result page.
      - Returns: Array of Character model struct.
      */
-    public func getCharactersByPageNumber(pageNumber: Int) -> Future <[CharacterModel], Error> {
+    public func getCharactersByPageNumber(pageNumber: Int) -> Future <[RMCharacterModel], Error> {
         return Future() { promise in
             networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(pageNumber)) {
                 switch $0 {
                 case .success(let data):
-                    if let infoModel: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let infoModel: RMCharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(infoModel.results))
                     }
                 case .failure(let error):
@@ -104,13 +104,13 @@ public struct RMCharacter {
      Request all characters.
      - Returns: Array of Character model struct.
      */
-    public func getAllCharacters() -> Future <[CharacterModel], Error> {
+    public func getAllCharacters() -> Future <[RMCharacterModel], Error> {
         return Future() { promise in
-            var allCharacters = [CharacterModel]()
+            var allCharacters = [RMCharacterModel]()
             networkHandler.performAPIRequestByMethod(method: "character") {
                 switch $0 {
                 case .success(let data):
-                    if let infoModel: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let infoModel: RMCharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
                         allCharacters = infoModel.results
                         let charactersDispatchGroup = DispatchGroup()
                         
@@ -120,7 +120,7 @@ public struct RMCharacter {
                             networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(index)) {
                                 switch $0 {
                                 case .success(let data):
-                                    if let infoModel: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                                    if let infoModel: RMCharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
                                         allCharacters.append(contentsOf: infoModel.results)
                                         charactersDispatchGroup.leave()
                                     }
@@ -149,7 +149,7 @@ public struct RMCharacter {
      - gender: The species of the character.
      - Returns: CharacterFilter
      */
-    func createCharacterFilter(name: String?, status: Status?, species: String?, type: String?, gender: Gender?) -> CharacterFilter {
+    func createCharacterFilter(name: String?, status: Status?, species: String?, type: String?, gender: Gender?) -> RMCharacterFilter {
         
         let parameterDict: [String: String] = [
             "name" : name ?? "",
@@ -166,7 +166,7 @@ public struct RMCharacter {
             }
         }
         
-        let filter = CharacterFilter(name: parameterDict["name"]!, status: parameterDict["status"]!, species: parameterDict["species"]!, type: parameterDict["type"]!, gender: parameterDict["gender"]!, query: query)
+        let filter = RMCharacterFilter(name: parameterDict["name"]!, status: parameterDict["status"]!, species: parameterDict["species"]!, type: parameterDict["type"]!, gender: parameterDict["gender"]!, query: query)
         return filter
     }
     
@@ -176,13 +176,13 @@ public struct RMCharacter {
      - filter: CharacterFilter struct (provides requestURL with query options).
      - Returns: Array of Character model struct.
      */
-    public func getCharactersByFilter(filter: CharacterFilter) -> Future<[CharacterModel], Error> {
+    public func getCharactersByFilter(filter: RMCharacterFilter) -> Future<[RMCharacterModel], Error> {
         return Future() { promise in
             
             networkHandler.performAPIRequestByMethod(method: filter.query) {
                 switch $0 {
                 case .success(let data):
-                    if let infoModel: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let infoModel: RMCharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(infoModel.results))
                     }
                 case .failure(let error):
@@ -204,7 +204,7 @@ public struct RMCharacter {
  - **gender**: The species of the character.
  - **query**: URL query for HTTP request.
  */
-public struct CharacterFilter {
+public struct RMCharacterFilter {
     public let name: String
     public let status: String
     public let species: String
@@ -223,9 +223,9 @@ public struct CharacterFilter {
  - **Info**: Info struct in Network.swift.
  - **CharacterModel**: CharacterModel struct in Character.swift.
  */
-struct CharacterInfoModel: Codable {
+struct RMCharacterInfoModel: Codable {
     let info: Info
-    let results: [CharacterModel]
+    let results: [RMCharacterModel]
 }
 
 /**
@@ -244,15 +244,15 @@ struct CharacterInfoModel: Codable {
  - **url**: Link to the character's own URL endpoint.
  - **created**: Time at which the character was created in the database.
  */
-public struct CharacterModel: Codable, Identifiable {
+public struct RMCharacterModel: Codable, Identifiable {
     public let id: Int
     public let name: String
     public let status: String
     public let species: String
     public let type: String
     public let gender: String
-    public let origin: CharacterOriginModel
-    public let location: CharacterLocationModel
+    public let origin: RMCharacterOriginModel
+    public let location: RMCharacterLocationModel
     public let image: String
     public let episode: [String]
     public let url: String
@@ -265,7 +265,7 @@ public struct CharacterModel: Codable, Identifiable {
  - **name**: The name of the origin.
  - **url**: Link to the origin's own URL endpoint.
  */
-public struct CharacterOriginModel: Codable {
+public struct RMCharacterOriginModel: Codable {
     public let name: String
     public let url: String
 }
@@ -276,7 +276,7 @@ public struct CharacterOriginModel: Codable {
  - **name**: The name of the location.
  - **url**: Link to the location's own URL endpoint.
  */
-public struct CharacterLocationModel: Codable {
+public struct RMCharacterLocationModel: Codable {
     public let name: String
     public let url: String
 }

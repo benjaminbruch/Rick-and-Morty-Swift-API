@@ -22,12 +22,12 @@ public struct RMLocation {
         - id: ID of the location.
     - Returns: Location model struct.
     */
-    public func getLocationByID(id: Int) -> Future <LocationModel, Error> {
+    public func getLocationByID(id: Int) -> Future <RMLocationModel, Error> {
         return Future() { promise in
             networkHandler.performAPIRequestByMethod(method: "location/"+String(id)) {
                 switch $0 {
                 case .success(let data):
-                    if let location: LocationModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let location: RMLocationModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(location))
                     }
                 case .failure(let error):
@@ -43,12 +43,12 @@ public struct RMLocation {
         - url: URL of the location.
      - Returns: Location model struct.
      */
-    public func getLocationByURL(url: String) -> Future <LocationModel, Error> {
+    public func getLocationByURL(url: String) -> Future <RMLocationModel, Error> {
         return Future() { promise in
             networkHandler.performAPIRequestByURL(url: url) {
                 switch $0 {
                 case .success(let data):
-                    if let location: LocationModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let location: RMLocationModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(location))
                     }
                 case .failure(let error):
@@ -64,13 +64,13 @@ public struct RMLocation {
         - ids: Location ids.
      - Returns: Array of location model struct.
      */
-    public func getLocationsByID(ids: [Int]) -> Future <[LocationModel], Error> {
+    public func getLocationsByID(ids: [Int]) -> Future <[RMLocationModel], Error> {
         return Future() { promise in
             let stringIDs = ids.map { String($0) }
             networkHandler.performAPIRequestByMethod(method: "location/"+stringIDs.joined(separator: ",")) {
                 switch $0 {
                 case .success(let data):
-                    if let locations: [LocationModel] = self.networkHandler.decodeJSONData(data: data) {
+                    if let locations: [RMLocationModel] = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(locations))
                     }
                 case .failure(let error):
@@ -86,12 +86,12 @@ public struct RMLocation {
         - page: Number of result page.
      - Returns: Array of Location model struct.
      */
-    public func getLocationsByPageNumber(pageNumber: Int) -> Future <[LocationModel], Error> {
+    public func getLocationsByPageNumber(pageNumber: Int) -> Future <[RMLocationModel], Error> {
         return Future() { promise in
             networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(pageNumber)) {
                 switch $0 {
                 case .success(let data):
-                    if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let infoModel: RMLocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(infoModel.results))
                     }
                 case .failure(let error):
@@ -105,13 +105,13 @@ public struct RMLocation {
      Request all locations.
      - Returns: Array of Location model struct.
      */
-    public func getAllLocations() -> Future <[LocationModel], Error> {
+    public func getAllLocations() -> Future <[RMLocationModel], Error> {
         return Future() { promise in
-            var allLocations = [LocationModel]()
+            var allLocations = [RMLocationModel]()
             networkHandler.performAPIRequestByMethod(method: "location") {
                 switch $0 {
                 case .success(let data):
-                    if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let infoModel: RMLocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
                         allLocations = infoModel.results
                         let locationsDispatchGroup = DispatchGroup()
                         
@@ -121,7 +121,7 @@ public struct RMLocation {
                             networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(index)) {
                                 switch $0 {
                                 case .success(let data):
-                                    if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                                    if let infoModel: RMLocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
                                         allLocations.append(contentsOf: infoModel.results)
                                         locationsDispatchGroup.leave()
                                     }
@@ -149,7 +149,7 @@ public struct RMLocation {
         - dimension: The dimension of the location.
      - Returns: LocationFilter
      */
-    func createLocationFilter(name: String?, type: String?, dimension: String?) -> LocationFilter {
+    func createLocationFilter(name: String?, type: String?, dimension: String?) -> RMLocationFilter {
         
         let parameterDict: [String: String] = [
             "name" : name ?? "",
@@ -164,7 +164,7 @@ public struct RMLocation {
             }
         }
         
-        let filter = LocationFilter(name: parameterDict["name"]!, type: parameterDict["type"]!, dimension: parameterDict["dimension"]!, query: query)
+        let filter = RMLocationFilter(name: parameterDict["name"]!, type: parameterDict["type"]!, dimension: parameterDict["dimension"]!, query: query)
         return filter
     }
     
@@ -174,13 +174,13 @@ public struct RMLocation {
         - filter: LocationFilter struct (provides requestURL with query options).
      - Returns: Array of Location model struct.
      */
-    public func getLocationsByFilter(filter: LocationFilter) -> Future <[LocationModel], Error> {
+    public func getLocationsByFilter(filter: RMLocationFilter) -> Future <[RMLocationModel], Error> {
         return Future() { promise in
             
             networkHandler.performAPIRequestByMethod(method: filter.query) {
                 switch $0 {
                 case .success(let data):
-                    if let infoModel: LocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let infoModel: RMLocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(infoModel.results))
                     }
                 case .failure(let error):
@@ -199,7 +199,7 @@ public struct RMLocation {
  - **dimension**: The dimension of the location.
  - **query**: URL query for HTTP request.
  */
-public struct LocationFilter {
+public struct RMLocationFilter {
     public let name: String
     public let type: String
     public let dimension: String
@@ -216,9 +216,9 @@ public struct LocationFilter {
  - **Info**: Info struct in Network.swift.
  - **LocationModel**: LocationModel struct in Location.swift.
  */
-struct LocationInfoModel: Codable {
+struct RMLocationInfoModel: Codable {
     let info: Info
-    let results: [LocationModel]
+    let results: [RMLocationModel]
 }
 
 /**
@@ -232,7 +232,7 @@ struct LocationInfoModel: Codable {
  - **url**: Link to location's own endpoint.
  - **created**: Time at which the location was created in the database.
  */
-public struct LocationModel: Codable, Identifiable  {
+public struct RMLocationModel: Codable, Identifiable  {
     public let id: Int
     public let name: String
     public let type: String

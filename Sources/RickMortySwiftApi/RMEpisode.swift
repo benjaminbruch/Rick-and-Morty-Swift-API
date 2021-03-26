@@ -22,12 +22,12 @@ public struct RMEpisode {
         - id: ID of the episode.
         - Returns: Episode model struct.
      */
-    public func getEpisodeByID(id: Int) -> Future <EpisodeModel, Error> {
+    public func getEpisodeByID(id: Int) -> Future <RMEpisodeModel, Error> {
         return Future() { promise in
             networkHandler.performAPIRequestByMethod(method: "episode/"+String(id)) {
                 switch $0 {
                 case .success(let data):
-                    if let episode: EpisodeModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let episode: RMEpisodeModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(episode))
                     }
                 case .failure(let error):
@@ -43,12 +43,12 @@ public struct RMEpisode {
         - url: URL of the episode.
     - Returns: Episode model struct.
      */
-    public func getEpisodeByURL(url: String) -> Future <EpisodeModel, Error> {
+    public func getEpisodeByURL(url: String) -> Future <RMEpisodeModel, Error> {
         return Future() { promise in
             networkHandler.performAPIRequestByURL(url: url) {
                 switch $0 {
                 case .success(let data):
-                    if let episode: EpisodeModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let episode: RMEpisodeModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(episode))
                     }
                 case .failure(let error):
@@ -64,13 +64,13 @@ public struct RMEpisode {
         - ids: Episodes ids.
      - Returns: Array of episode model struct.
      */
-    public func getEpisodesByID(ids: [Int]) -> Future <[EpisodeModel], Error> {
+    public func getEpisodesByID(ids: [Int]) -> Future <[RMEpisodeModel], Error> {
         return Future() { promise in
             let stringIDs = ids.map { String($0) }
             networkHandler.performAPIRequestByMethod(method: "episode/"+stringIDs.joined(separator: ",")) {
                 switch $0 {
                 case .success(let data):
-                    if let episodes: [EpisodeModel] = self.networkHandler.decodeJSONData(data: data) {
+                    if let episodes: [RMEpisodeModel] = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(episodes))
                     }
                 case .failure(let error):
@@ -86,12 +86,12 @@ public struct RMEpisode {
         - page: Number of result page.
      - Returns: Array of Episode model struct.
      */
-    public func getEpisodesByPageNumber(pageNumber: Int) -> Future <[EpisodeModel], Error> {
+    public func getEpisodesByPageNumber(pageNumber: Int) -> Future <[RMEpisodeModel], Error> {
         return Future() { promise in
             networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(pageNumber)) {
                 switch $0 {
                 case .success(let data):
-                    if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let infoModel: RMEpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(infoModel.results))
                     }
                 case .failure(let error):
@@ -105,13 +105,13 @@ public struct RMEpisode {
      Request all episodes.
      - Returns: Array of Episode model struct.
      */
-    public func getAllEpisodes() -> Future <[EpisodeModel], Error> {
+    public func getAllEpisodes() -> Future <[RMEpisodeModel], Error> {
         return Future() { promise in
-            var allEpisodes = [EpisodeModel]()
+            var allEpisodes = [RMEpisodeModel]()
             networkHandler.performAPIRequestByMethod(method: "episode") {
                 switch $0 {
                 case .success(let data):
-                    if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let infoModel: RMEpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
                         allEpisodes = infoModel.results
                         let episodesDispatchGroup = DispatchGroup()
                         
@@ -121,7 +121,7 @@ public struct RMEpisode {
                             networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(index)) {
                                 switch $0 {
                                 case .success(let data):
-                                    if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                                    if let infoModel: RMEpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
                                         allEpisodes.append(contentsOf: infoModel.results)
                                         episodesDispatchGroup.leave()
                                     }
@@ -148,7 +148,7 @@ public struct RMEpisode {
         - episode: Filter by the given episode code.
      - Returns: EpisodeFilter
      */
-    func createEpisodeFilter(name: String?, episode: String?) -> EpisodeFilter {
+    func createEpisodeFilter(name: String?, episode: String?) -> RMEpisodeFilter {
         
         let parameterDict: [String: String] = [
             "name" : name ?? "",
@@ -162,7 +162,7 @@ public struct RMEpisode {
             }
         }
         
-        let filter = EpisodeFilter(name: parameterDict["name"]!, episode: parameterDict["episode"]!, query: query)
+        let filter = RMEpisodeFilter(name: parameterDict["name"]!, episode: parameterDict["episode"]!, query: query)
         return filter
     }
     
@@ -172,13 +172,13 @@ public struct RMEpisode {
         - filter: EpisodesFilter struct (provides requestURL with query options).
      - Returns: Array of Episodes model struct.
      */
-    public func getEpisodesByFilter(filter: EpisodeFilter) -> Future <[EpisodeModel], Error> {
+    public func getEpisodesByFilter(filter: RMEpisodeFilter) -> Future <[RMEpisodeModel], Error> {
         return Future() { promise in
             
             networkHandler.performAPIRequestByMethod(method: filter.query) {
                 switch $0 {
                 case .success(let data):
-                    if let infoModel: EpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                    if let infoModel: RMEpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
                         promise(.success(infoModel.results))
                     }
                 case .failure(let error):
@@ -195,7 +195,7 @@ public struct RMEpisode {
  - **episode**: The code of the episode.
  - **query**: URL query for HTTP request.
  */
-public struct EpisodeFilter {
+public struct RMEpisodeFilter {
     public let name: String
     public let episode: String
     public let query: String
@@ -211,9 +211,9 @@ public struct EpisodeFilter {
  - **Info**: Info struct in Network.swift.
  - **EpisodeModel**: EpisodeModel struct in Episode.swift.
  */
-struct EpisodeInfoModel: Codable {
+struct RMEpisodeInfoModel: Codable {
     let info: Info
-    let results: [EpisodeModel]
+    let results: [RMEpisodeModel]
 }
 
 /**
@@ -227,7 +227,7 @@ struct EpisodeInfoModel: Codable {
  - **url**: Link to the episode's own endpoint.
  - **created**: Time at which the episode was created in the database.
  */
-    public struct EpisodeModel: Codable, Identifiable {
+    public struct RMEpisodeModel: Codable, Identifiable {
         public let id: Int
         public let name: String
         public let airDate: String

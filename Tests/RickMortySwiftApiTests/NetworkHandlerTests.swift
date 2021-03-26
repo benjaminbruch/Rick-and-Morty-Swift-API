@@ -114,7 +114,7 @@ final class NetworkHandlerTests: XCTestCase {
         networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1") {
             switch $0 {
             case .success(let data):
-                if let decodedData: CharacterModel = self.networkHandler.decodeJSONData(data: data) {
+                if let decodedData: RMCharacterModel = self.networkHandler.decodeJSONData(data: data) {
                     print(decodedData.name)
                     expectation.fulfill()
                 }
@@ -132,7 +132,7 @@ final class NetworkHandlerTests: XCTestCase {
         networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1") {
             switch $0 {
             case .success(let data):
-                if let _: CharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
+                if let _: RMCharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
                 } else {
                     print("decoding failed")
                     expectation.fulfill()
