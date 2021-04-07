@@ -19,7 +19,7 @@ Swift implementation to the **awesome** [Rick and Morty API][api-link]
 * [License](#license)
 * [Contact](#contact)
 * [Acknowledgements](#acknowledgements)
-
+* [Documentation][doc-link]
 
 <!-- INSTALLATION -->
 ## Installation
