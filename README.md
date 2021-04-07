@@ -100,5 +100,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [linkedin-link]: https://www.linkedin.com/in/benjamin-bruch
 [banner-image]: https://initiate.alphacoders.com/images/812/stretched-3440-1440-812062.png?5618
 [banner-link]: https://wall.alphacoders.com/big.php?i=812062&lang=German
-[test-link]: /Tests/rick-morty-swift-apiTests
+[test-link]: /Tests/RickMortySwiftApiTests
 [api-link]:  https://rickandmortyapi.com/
