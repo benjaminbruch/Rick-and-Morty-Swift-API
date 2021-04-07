@@ -295,62 +295,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 240,
-      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys",
-      "symbol_kind": "source.lang.swift.decl.enum",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 241,
-      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.characters",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 241,
-      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.created",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 241,
-      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.episode",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 241,
-      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.id",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 241,
-      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.name",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 241,
-      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.url",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 242,
-      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.airDate",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 14,
       "symbol": "RMLocation.init(client:)",
