@@ -9,148 +9,148 @@
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
-      "line": 206,
-      "symbol": "RMCharacter.RMCharacterFilter.name",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 207,
-      "symbol": "RMCharacter.RMCharacterFilter.status",
+      "symbol": "RMCharacterFilter.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 208,
-      "symbol": "RMCharacter.RMCharacterFilter.species",
+      "symbol": "RMCharacterFilter.status",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 209,
-      "symbol": "RMCharacter.RMCharacterFilter.type",
+      "symbol": "RMCharacterFilter.species",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 210,
-      "symbol": "RMCharacter.RMCharacterFilter.gender",
+      "symbol": "RMCharacterFilter.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 211,
-      "symbol": "RMCharacter.RMCharacterFilter.query",
+      "symbol": "RMCharacterFilter.gender",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
-      "line": 247,
-      "symbol": "RMCharacter.RMCharacterModel.name",
+      "line": 212,
+      "symbol": "RMCharacterFilter.query",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 248,
-      "symbol": "RMCharacter.RMCharacterModel.status",
+      "symbol": "RMCharacterModel.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 249,
-      "symbol": "RMCharacter.RMCharacterModel.species",
+      "symbol": "RMCharacterModel.status",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 250,
-      "symbol": "RMCharacter.RMCharacterModel.type",
+      "symbol": "RMCharacterModel.species",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 251,
-      "symbol": "RMCharacter.RMCharacterModel.gender",
+      "symbol": "RMCharacterModel.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 252,
-      "symbol": "RMCharacter.RMCharacterModel.origin",
+      "symbol": "RMCharacterModel.gender",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 253,
-      "symbol": "RMCharacter.RMCharacterModel.location",
+      "symbol": "RMCharacterModel.origin",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 254,
-      "symbol": "RMCharacter.RMCharacterModel.image",
+      "symbol": "RMCharacterModel.location",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 255,
-      "symbol": "RMCharacter.RMCharacterModel.episode",
+      "symbol": "RMCharacterModel.image",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 256,
-      "symbol": "RMCharacter.RMCharacterModel.url",
+      "symbol": "RMCharacterModel.episode",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 257,
-      "symbol": "RMCharacter.RMCharacterModel.created",
+      "symbol": "RMCharacterModel.url",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
-      "line": 267,
-      "symbol": "RMCharacter.RMCharacterOriginModel.name",
+      "line": 258,
+      "symbol": "RMCharacterModel.created",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 268,
-      "symbol": "RMCharacter.RMCharacterOriginModel.url",
+      "symbol": "RMCharacterOriginModel.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
-      "line": 278,
-      "symbol": "RMCharacter.RMCharacterLocationModel.name",
+      "line": 269,
+      "symbol": "RMCharacterOriginModel.url",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
       "line": 279,
-      "symbol": "RMCharacter.RMCharacterLocationModel.url",
+      "symbol": "RMCharacterLocationModel.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMCharacter.swift",
+      "line": 280,
+      "symbol": "RMCharacterLocationModel.url",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
@@ -233,120 +233,120 @@
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 199,
-      "symbol": "RMEpisode.RMEpisodeFilter.name",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
       "line": 200,
-      "symbol": "RMEpisode.RMEpisodeFilter.episode",
+      "symbol": "RMEpisodeFilter.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
       "line": 201,
-      "symbol": "RMEpisode.RMEpisodeFilter.query",
+      "symbol": "RMEpisodeFilter.episode",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 232,
-      "symbol": "RMEpisode.RMEpisodeModel.name",
+      "line": 202,
+      "symbol": "RMEpisodeFilter.query",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
       "line": 233,
-      "symbol": "RMEpisode.RMEpisodeModel.airDate",
+      "symbol": "RMEpisodeModel.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
       "line": 234,
-      "symbol": "RMEpisode.RMEpisodeModel.episode",
+      "symbol": "RMEpisodeModel.airDate",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
       "line": 235,
-      "symbol": "RMEpisode.RMEpisodeModel.characters",
+      "symbol": "RMEpisodeModel.episode",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
       "line": 236,
-      "symbol": "RMEpisode.RMEpisodeModel.url",
+      "symbol": "RMEpisodeModel.characters",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
       "line": 237,
-      "symbol": "RMEpisode.RMEpisodeModel.created",
+      "symbol": "RMEpisodeModel.url",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 239,
-      "symbol": "RMEpisode.RMEpisodeModel.CodingKeys",
+      "line": 238,
+      "symbol": "RMEpisodeModel.created",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
+      "line": 240,
+      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 240,
-      "symbol": "RMEpisode.RMEpisodeModel.CodingKeys.characters",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 240,
-      "symbol": "RMEpisode.RMEpisodeModel.CodingKeys.created",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 240,
-      "symbol": "RMEpisode.RMEpisodeModel.CodingKeys.episode",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 240,
-      "symbol": "RMEpisode.RMEpisodeModel.CodingKeys.id",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 240,
-      "symbol": "RMEpisode.RMEpisodeModel.CodingKeys.name",
-      "symbol_kind": "source.lang.swift.decl.enumelement",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
-      "line": 240,
-      "symbol": "RMEpisode.RMEpisodeModel.CodingKeys.url",
+      "line": 241,
+      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.characters",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
       "line": 241,
-      "symbol": "RMEpisode.RMEpisodeModel.CodingKeys.airDate",
+      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.created",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
+      "line": 241,
+      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.episode",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
+      "line": 241,
+      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.id",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
+      "line": 241,
+      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.name",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
+      "line": 241,
+      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.url",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMEpisode.swift",
+      "line": 242,
+      "symbol": "RMEpisodeModel.RMEpisodeModelCodingKeys.airDate",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
@@ -360,70 +360,70 @@
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 203,
-      "symbol": "RMLocation.RMLocationFilter.name",
+      "symbol": "RMLocationFilter.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 204,
-      "symbol": "RMLocation.RMLocationFilter.type",
+      "symbol": "RMLocationFilter.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 205,
-      "symbol": "RMLocation.RMLocationFilter.dimension",
+      "symbol": "RMLocationFilter.dimension",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 206,
-      "symbol": "RMLocation.RMLocationFilter.query",
+      "symbol": "RMLocationFilter.query",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 237,
-      "symbol": "RMLocation.RMLocationModel.name",
+      "symbol": "RMLocationModel.name",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 238,
-      "symbol": "RMLocation.RMLocationModel.type",
+      "symbol": "RMLocationModel.type",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 239,
-      "symbol": "RMLocation.RMLocationModel.dimension",
+      "symbol": "RMLocationModel.dimension",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 240,
-      "symbol": "RMLocation.RMLocationModel.residents",
+      "symbol": "RMLocationModel.residents",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 241,
-      "symbol": "RMLocation.RMLocationModel.url",
+      "symbol": "RMLocationModel.url",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/benjamin/Documents/Xcode/Rick-and-Morty-Swift-API/Sources/RickMortySwiftApi/RMLocation.swift",
       "line": 242,
-      "symbol": "RMLocation.RMLocationModel.created",
+      "symbol": "RMLocationModel.created",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     }
