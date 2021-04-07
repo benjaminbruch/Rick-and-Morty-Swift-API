@@ -3,7 +3,6 @@ Swift implementation to the **awesome** [Rick and Morty API][api-link]
 
 [![build status][travis-badge]][travis-link]
 [![codecoverage][codecov-badge]][codecov-link]
-[![documentation][doc-badge]][doc-link]
 [![license][license-badge]][license-link]
 
 
