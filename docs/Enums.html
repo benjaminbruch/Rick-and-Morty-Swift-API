@@ -4,111 +4,123 @@
     <title>Enumerations  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
+
     <a name="//apple_ref/swift/Section/Enumerations" class="dashAnchor"></a>
+
     <a title="Enumerations  Reference"></a>
-    <header>
-      <div class="content-wrapper">
-        <p><a href="index.html"> Docs</a> (92% documented)</p>
-      </div>
-    </header>
-    <div class="content-wrapper">
-      <p id="breadcrumbs">
-        <a href="index.html"> Reference</a>
-        <img id="carat" src="img/carat.png" />
-        Enumerations  Reference
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+           Docs
+        </a>
+        
       </p>
-    </div>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html"> Reference</a>
+      <img class="carat" src="img/carat.png" />
+      Enumerations  Reference
+    </p>
+
     <div class="content-wrapper">
-      <nav class="sidebar">
+      <nav class="navigation">
         <ul class="nav-groups">
           <li class="nav-group-name">
-            <a href="Enums.html">Enumerations</a>
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Enums/NetworkHandlerError.html">NetworkHandlerError</a>
+                <a class="nav-group-task-link" href="Enums/Gender.html">Gender</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/Status.html">Status</a>
               </li>
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="Structs.html">Structures</a>
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Structs/Character.html">Character</a>
+                <a class="nav-group-task-link" href="Structs.html#/s:17RickMortySwiftApi14NetworkHandlerV">NetworkHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api15CharacterFilterV">CharacterFilter</a>
+                <a class="nav-group-task-link" href="Structs/RMCharacter.html">RMCharacter</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api18CharacterInfoModelV">CharacterInfoModel</a>
+                <a class="nav-group-task-link" href="Structs/RMCharacter/RMCharacterFilter.html">– RMCharacterFilter</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api22CharacterLocationModelV">CharacterLocationModel</a>
+                <a class="nav-group-task-link" href="Structs/RMCharacter/RMCharacterModel.html">– RMCharacterModel</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/CharacterModel.html">CharacterModel</a>
+                <a class="nav-group-task-link" href="Structs/RMCharacter/RMCharacterOriginModel.html">– RMCharacterOriginModel</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api20CharacterOriginModelV">CharacterOriginModel</a>
+                <a class="nav-group-task-link" href="Structs/RMCharacter/RMCharacterLocationModel.html">– RMCharacterLocationModel</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/Client.html">Client</a>
+                <a class="nav-group-task-link" href="Structs/RMClient.html">RMClient</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/Episode.html">Episode</a>
+                <a class="nav-group-task-link" href="Structs/RMEpisode.html">RMEpisode</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api13EpisodeFilterV">EpisodeFilter</a>
+                <a class="nav-group-task-link" href="Structs/RMEpisode/RMEpisodeFilter.html">– RMEpisodeFilter</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api16EpisodeInfoModelV">EpisodeInfoModel</a>
+                <a class="nav-group-task-link" href="Structs/RMEpisode/RMEpisodeModel.html">– RMEpisodeModel</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/EpisodeModel.html">EpisodeModel</a>
+                <a class="nav-group-task-link" href="Structs/RMLocation.html">RMLocation</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api4InfoV">Info</a>
+                <a class="nav-group-task-link" href="Structs/RMLocation/RMLocationFilter.html">– RMLocationFilter</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/Location.html">Location</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api14LocationFilterV">LocationFilter</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api17LocationInfoModelV">LocationInfoModel</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs/LocationModel.html">LocationModel</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs/NetworkHandler.html">NetworkHandler</a>
+                <a class="nav-group-task-link" href="Structs/RMLocation/RMLocationModel.html">– RMLocationModel</a>
               </li>
             </ul>
           </li>
         </ul>
       </nav>
       <article class="main-content">
-        <section>
-          <section class="section">
+
+        <section class="section">
+          <div class="section-content top-matter">
             <h1>Enumerations</h1>
             <p>The following enumerations are available globally.</p>
 
-          </section>
-          <section class="section task-group-section">
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
             <div class="task-group">
-              <ul>
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:20rick_morty_swift_api19NetworkHandlerErrorO"></a>
-                    <a name="//apple_ref/swift/Enum/NetworkHandlerError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:20rick_morty_swift_api19NetworkHandlerErrorO">NetworkHandlerError</a>
+                    <a name="/s:17RickMortySwiftApi6StatusO"></a>
+                    <a name="//apple_ref/swift/Enum/Status" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17RickMortySwiftApi6StatusO">Status</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -116,23 +128,43 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Types of network errors</p>
-<h3 id='properties' class='heading'>Properties</h3>
+                        <p>Enum to filter by status</p>
 
-<ul>
-<li><strong>invalidURL</strong>: URL request error.</li>
-<li><strong>invalidResponse</strong>: HTTP request error.</li>
-<li><strong>apiError</strong>: API request error.</li>
-<li><strong>decodingError</strong>: Decoding request error.</li>
-</ul>
-
-                        <a href="Enums/NetworkHandlerError.html" class="slightly-smaller">See more</a>
+                        <a href="Enums/Status.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">NetworkHandlerError</span> <span class="p">:</span> <span class="kt">Error</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Status</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:17RickMortySwiftApi6GenderO"></a>
+                    <a name="//apple_ref/swift/Enum/Gender" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17RickMortySwiftApi6GenderO">Gender</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enum to filter by gender</p>
+
+                        <a href="Enums/Gender.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Gender</span> <span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -141,14 +173,15 @@
                 </li>
               </ul>
             </div>
-          </section>
+          </div>
         </section>
-        <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-04-12)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
-        </section>
+
       </article>
     </div>
+    <section class="footer">
+      <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2021-04-07)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
   </body>
 </div>
 </html>

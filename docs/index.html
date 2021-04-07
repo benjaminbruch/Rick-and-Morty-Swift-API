@@ -4,102 +4,205 @@
     <title>  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
+
+
     <a title="  Reference"></a>
-    <header>
-      <div class="content-wrapper">
-        <p><a href="index.html"> Docs</a> (100% documented)</p>
-      </div>
-    </header>
-    <div class="content-wrapper">
-      <p id="breadcrumbs">
-        <a href="index.html"> Reference</a>
-        <img id="carat" src="img/carat.png" />
-          Reference
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+           Docs
+        </a>
+        
       </p>
-    </div>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html"> Reference</a>
+      <img class="carat" src="img/carat.png" />
+        Reference
+    </p>
+
     <div class="content-wrapper">
-      <nav class="sidebar">
+      <nav class="navigation">
         <ul class="nav-groups">
           <li class="nav-group-name">
-            <a href="Structs.html">Structures</a>
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Structs/Character.html">Character</a>
+                <a class="nav-group-task-link" href="Enums/Gender.html">Gender</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api15CharacterFilterV">CharacterFilter</a>
+                <a class="nav-group-task-link" href="Enums/Status.html">Status</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs.html#/s:17RickMortySwiftApi14NetworkHandlerV">NetworkHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api18CharacterInfoModelV">CharacterInfoModel</a>
+                <a class="nav-group-task-link" href="Structs/RMCharacter.html">RMCharacter</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api22CharacterLocationModelV">CharacterLocationModel</a>
+                <a class="nav-group-task-link" href="Structs/RMCharacter/RMCharacterFilter.html">– RMCharacterFilter</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/CharacterModel.html">CharacterModel</a>
+                <a class="nav-group-task-link" href="Structs/RMCharacter/RMCharacterModel.html">– RMCharacterModel</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api20CharacterOriginModelV">CharacterOriginModel</a>
+                <a class="nav-group-task-link" href="Structs/RMCharacter/RMCharacterOriginModel.html">– RMCharacterOriginModel</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/Client.html">Client</a>
+                <a class="nav-group-task-link" href="Structs/RMCharacter/RMCharacterLocationModel.html">– RMCharacterLocationModel</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/Episode.html">Episode</a>
+                <a class="nav-group-task-link" href="Structs/RMClient.html">RMClient</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api13EpisodeFilterV">EpisodeFilter</a>
+                <a class="nav-group-task-link" href="Structs/RMEpisode.html">RMEpisode</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api16EpisodeInfoModelV">EpisodeInfoModel</a>
+                <a class="nav-group-task-link" href="Structs/RMEpisode/RMEpisodeFilter.html">– RMEpisodeFilter</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/EpisodeModel.html">EpisodeModel</a>
+                <a class="nav-group-task-link" href="Structs/RMEpisode/RMEpisodeModel.html">– RMEpisodeModel</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs/Location.html">Location</a>
+                <a class="nav-group-task-link" href="Structs/RMLocation.html">RMLocation</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api14LocationFilterV">LocationFilter</a>
+                <a class="nav-group-task-link" href="Structs/RMLocation/RMLocationFilter.html">– RMLocationFilter</a>
               </li>
               <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api17LocationInfoModelV">LocationInfoModel</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs/LocationModel.html">LocationModel</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="Structs.html#/s:20rick_morty_swift_api14NetworkHandlerV">NetworkHandler</a>
+                <a class="nav-group-task-link" href="Structs/RMLocation/RMLocationModel.html">– RMLocationModel</a>
               </li>
             </ul>
           </li>
         </ul>
       </nav>
       <article class="main-content">
-        <section>
-          <section class="section">
+
+        <section class="section">
+          <div class="section-content top-matter">
             
             <h1 id='the-rick-and-morty-api-swift-client' class='heading'>The Rick and Morty API Swift Client</h1>
 
-<p>Swift implementation for the Rick and Morty API <a href="https://rickandmortyapi.com/">https://rickandmortyapi.com/</a></p>
+<p>Swift implementation to the <strong>awesome</strong> <a href="https://rickandmortyapi.com/">Rick and Morty API</a></p>
 
-<p><a href="https://travis-ci.org/benjaminbruch/rick-morty-swift-api"><img src="https://img.shields.io/travis/rust-lang/rust?logo=travis" alt="Build Status"></a>
-<a href="https://codecov.io/gh/benjaminbruch/rick-morty-swift-api"><img src="https://codecov.io/gh/benjaminbruch/rick-morty-swift-api/branch/master/graph/badge.svg" alt="codecov"></a></p>
+<p><a href="https://travis-ci.com/benjaminbruch/Rick-and-Morty-Swift-API"><img src="https://travis-ci.com/benjaminbruch/Rick-and-Morty-Swift-API.svg?" alt="build status"></a>
+<a href="https://codecov.io/gh/benjaminbruch/Rick-and-Morty-Swift-API"><img src="https://codecov.io/gh/benjaminbruch/Rick-and-Morty-Swift-API/branch/master/graph/badge.svg?token=U00WT3VHSV" alt="codecoverage"></a>
+<a href="https://benjaminbruch.github.io/Rick-and-Morty-Swift-API/index.html"><img src="/docs/badge.svg" alt="documentation"></a>
+<a href="/LICENSE"><img src="https://img.shields.io/github/license/benjaminbruch/rick-morty-swift-api?color=brightgreen" alt="license"></a></p>
 
-          </section>
+<!-- TABLE OF CONTENTS -->
+<h2 id='table-of-contents' class='heading'>Table of Contents</h2>
+
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#contact">Contact</a></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+
+<!-- INSTALLATION -->
+<h2 id='installation' class='heading'>Installation</h2>
+
+<p>For instructions how to add a Swift package to your projects look here:</p>
+
+<p><a href="https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app">Apple - Adding package dependencies to your app</a></p>
+
+<!-- USAGE EXAMPLES -->
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p>Example to get all characters as an array of character struct:</p>
+
+<p><strong>1. Init client:</strong></p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">rmClient</span> <span class="o">=</span> <span class="kt">RMClient</span><span class="p">()</span>
+</code></pre>
+
+<p><strong>2. Call character struct with function</strong></p>
+<pre class="highlight swift"><code> <span class="k">var</span> <span class="nv">cancellable</span><span class="p">:</span> <span class="kt">AnyCancellable</span><span class="p">?</span>
+ <span class="n">cancellable</span> <span class="o">=</span> <span class="n">rmClient</span><span class="o">.</span><span class="nf">character</span><span class="p">()</span><span class="o">.</span><span class="nf">getAllCharacters</span><span class="p">()</span>
+            <span class="o">.</span><span class="nf">sink</span><span class="p">(</span><span class="nv">receiveCompletion</span><span class="p">:</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span> <span class="p">},</span> <span class="nv">receiveValue</span><span class="p">:</span> <span class="p">{</span> <span class="n">characters</span> <span class="k">in</span>
+                <span class="n">characters</span><span class="o">.</span><span class="nf">forEach</span><span class="p">()</span> <span class="p">{</span> <span class="nf">print</span> <span class="p">(</span><span class="nv">$0</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="p">}</span>
+            <span class="p">})</span>
+</code></pre>
+
+<p><em>For more examples, please refer to the <a href="https://benjaminbruch.github.io/Rick-and-Morty-Swift-API/index.html">Documentation</a> or visit <a href="/Tests/rick-morty-swift-apiTests">Test Section</a></em></p>
+
+<!-- CONTRIBUTING -->
+<h2 id='contributing' class='heading'>Contributing</h2>
+
+<p>Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are <strong>greatly appreciated</strong>.</p>
+
+<ol>
+<li>Fork the repo and create your branch from master.</li>
+<li>If you&rsquo;ve added code that should be tested, add tests.</li>
+<li>If you&rsquo;ve changed APIs, update the documentation.</li>
+<li>Ensure the test suite passes.</li>
+<li>Issue that pull request!</li>
+</ol>
+
+<!-- LICENSE -->
+<h2 id='license' class='heading'>License</h2>
+
+<p>Distributed under the MIT License. See <code>LICENSE</code> for more information.</p>
+
+<!-- CONTACT -->
+<h2 id='contact' class='heading'>Contact</h2>
+
+<p><a href="https://www.linkedin.com/in/benjamin-bruch"><img src="https://img.shields.io/badge/linkedIN-CONTACT%20ME-blue?style=for-the-badge" alt="linkedINContact"></a></p>
+
+<!-- ACKNOWLEDGEMENTS -->
+<h2 id='acknowledgements' class='heading'>Acknowledgements</h2>
+
+<ul>
+<li><a href="https://rickandmortyapi.com/">Rick and Morty API Homepage</a></li>
+<li><a href="https://github.com/afuh/rick-and-morty-api">Rick and Morty API Github</a></li>
+<li><a href="https://shields.io">Shields.io</a></li>
+<li><a href="https://pages.github.com">GitHub Pages</a></li>
+<li><a href="https://github.com/realm/jazzy">Jazzy</a></li>
+<li><a href="https://codecov.io">CodeCov</a></li>
+<li><a href="https://travis-ci.org/">TravisCI</a></li>
+<li><a href="https://github.com/othneildrew/Best-README-Template">Best-Readme-Template</a></li>
+</ul>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+          </div>
         </section>
-        <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-04-12)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
-        </section>
+
+
       </article>
     </div>
+    <section class="footer">
+      <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2021-04-07)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
   </body>
 </div>
 </html>

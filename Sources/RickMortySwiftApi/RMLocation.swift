@@ -7,8 +7,8 @@ import Combine
 import Foundation
 
 /**
-Location struct contains all functions to request location(s) information(s).
-*/
+ Location struct contains all functions to request location(s) information(s).
+ */
 public struct RMLocation {
     
     public init(client: RMClient) {self.client = client}
@@ -17,11 +17,11 @@ public struct RMLocation {
     let networkHandler: NetworkHandler = NetworkHandler()
     
     /**
-    Request loaction by id.
-    - Parameters:
-        - id: ID of the location.
-    - Returns: Location model struct.
-    */
+     Request loaction by id.
+     - Parameters:
+     - id: ID of the location.
+     - Returns: Location model struct.
+     */
     public func getLocationByID(id: Int) -> Future <RMLocationModel, Error> {
         return Future() { promise in
             networkHandler.performAPIRequestByMethod(method: "location/"+String(id)) {
@@ -40,7 +40,7 @@ public struct RMLocation {
     /**
      Request loaction by URL.
      - Parameters:
-        - url: URL of the location.
+     - url: URL of the location.
      - Returns: Location model struct.
      */
     public func getLocationByURL(url: String) -> Future <RMLocationModel, Error> {
@@ -61,7 +61,7 @@ public struct RMLocation {
     /**
      Request multiple locations by IDs.
      - Parameters:
-        - ids: Location ids.
+     - ids: Location ids.
      - Returns: Array of location model struct.
      */
     public func getLocationsByID(ids: [Int]) -> Future <[RMLocationModel], Error> {
@@ -83,7 +83,7 @@ public struct RMLocation {
     /**
      Request loactions by page number.
      - Parameters:
-        - page: Number of result page.
+     - page: Number of result page.
      - Returns: Array of Location model struct.
      */
     public func getLocationsByPageNumber(pageNumber: Int) -> Future <[RMLocationModel], Error> {
@@ -144,9 +144,9 @@ public struct RMLocation {
     /**
      Create location filter with given parameters.
      - Parameters:
-        - name: The name of the location.
-        - type: The type or the location.
-        - dimension: The dimension of the location.
+     - name: The name of the location.
+     - type: The type or the location.
+     - dimension: The dimension of the location.
      - Returns: LocationFilter
      */
     func createLocationFilter(name: String?, type: String?, dimension: String?) -> RMLocationFilter {
@@ -171,7 +171,7 @@ public struct RMLocation {
     /**
      Request locations with given filter.
      - Parameters:
-        - filter: LocationFilter struct (provides requestURL with query options).
+     - filter: LocationFilter struct (provides requestURL with query options).
      - Returns: Array of Location model struct.
      */
     public func getLocationsByFilter(filter: RMLocationFilter) -> Future <[RMLocationModel], Error> {
@@ -188,56 +188,57 @@ public struct RMLocation {
                 }
             }
         }
+        
     }
-}
-
-/**
- Struct to store location filter properties.
- ### Properties
- - **name**: The name of the location.
- - **type**: The type of the location.
- - **dimension**: The dimension of the location.
- - **query**: URL query for HTTP request.
- */
-public struct RMLocationFilter {
-    public let name: String
-    public let type: String
-    public let dimension: String
-    public let query: String
-}
-
-/**
- LocationInfoModel struct for decoding info json response.
- ### Properties
- - **info**: Information about location count and pagination.
- - **results**: First page with 20 locations.
- 
- ### SeeAlso
- - **Info**: Info struct in Network.swift.
- - **LocationModel**: LocationModel struct in Location.swift.
- */
-struct RMLocationInfoModel: Codable {
-    let info: Info
-    let results: [RMLocationModel]
-}
-
-/**
- Episode struct for decoding episode json response.
- ### Properties
- - **id**: The id of the location.
- - **name**: The name of the location.
- - **type**: The type of the location.
- - **dimension**: The dimension in which the location is located.
- - **residents**: List of location who have been last seen in the location.
- - **url**: Link to location's own endpoint.
- - **created**: Time at which the location was created in the database.
- */
-public struct RMLocationModel: Codable, Identifiable  {
-    public let id: Int
-    public let name: String
-    public let type: String
-    public let dimension: String
-    public let residents: [String]
-    public let url: String
-    public let created: String
+    
+    /**
+     Struct to store location filter properties.
+     ### Properties
+     - **name**: The name of the location.
+     - **type**: The type of the location.
+     - **dimension**: The dimension of the location.
+     - **query**: URL query for HTTP request.
+     */
+    public struct RMLocationFilter {
+        public let name: String
+        public let type: String
+        public let dimension: String
+        public let query: String
+    }
+    
+    /**
+     LocationInfoModel struct for decoding info json response.
+     ### Properties
+     - **info**: Information about location count and pagination.
+     - **results**: First page with 20 locations.
+     
+     ### SeeAlso
+     - **Info**: Info struct in Network.swift.
+     - **LocationModel**: LocationModel struct in Location.swift.
+     */
+    struct RMLocationInfoModel: Codable {
+        let info: Info
+        let results: [RMLocationModel]
+    }
+    
+    /**
+     Episode struct for decoding episode json response.
+     ### Properties
+     - **id**: The id of the location.
+     - **name**: The name of the location.
+     - **type**: The type of the location.
+     - **dimension**: The dimension in which the location is located.
+     - **residents**: List of location who have been last seen in the location.
+     - **url**: Link to location's own endpoint.
+     - **created**: Time at which the location was created in the database.
+     */
+    public struct RMLocationModel: Codable, Identifiable  {
+        public let id: Int
+        public let name: String
+        public let type: String
+        public let dimension: String
+        public let residents: [String]
+        public let url: String
+        public let created: String
+    }
 }

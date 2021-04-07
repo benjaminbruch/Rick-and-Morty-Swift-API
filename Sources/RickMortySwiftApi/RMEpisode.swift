@@ -7,8 +7,8 @@ import Combine
 import Foundation
 
 /**
-Episode struct contains all functions to request episode(s) information(s).
-*/
+ Episode struct contains all functions to request episode(s) information(s).
+ */
 public struct RMEpisode {
     
     public init(client: RMClient) {self.client = client}
@@ -18,9 +18,9 @@ public struct RMEpisode {
     
     /**
      Request episode by id.
-    - Parameters:
-        - id: ID of the episode.
-        - Returns: Episode model struct.
+     - Parameters:
+     - id: ID of the episode.
+     - Returns: Episode model struct.
      */
     public func getEpisodeByID(id: Int) -> Future <RMEpisodeModel, Error> {
         return Future() { promise in
@@ -39,9 +39,9 @@ public struct RMEpisode {
     
     /**
      Request episode by URL.
-    - Parameters:
-        - url: URL of the episode.
-    - Returns: Episode model struct.
+     - Parameters:
+     - url: URL of the episode.
+     - Returns: Episode model struct.
      */
     public func getEpisodeByURL(url: String) -> Future <RMEpisodeModel, Error> {
         return Future() { promise in
@@ -61,7 +61,7 @@ public struct RMEpisode {
     /**
      Request multiple episodes by IDs.
      - Parameters:
-        - ids: Episodes ids.
+     - ids: Episodes ids.
      - Returns: Array of episode model struct.
      */
     public func getEpisodesByID(ids: [Int]) -> Future <[RMEpisodeModel], Error> {
@@ -83,7 +83,7 @@ public struct RMEpisode {
     /**
      Request episodes by page number.
      - Parameters:
-        - page: Number of result page.
+     - page: Number of result page.
      - Returns: Array of Episode model struct.
      */
     public func getEpisodesByPageNumber(pageNumber: Int) -> Future <[RMEpisodeModel], Error> {
@@ -144,8 +144,8 @@ public struct RMEpisode {
     /**
      Create episode filter with given parameters.
      - Parameters:
-        - name: Filter by the given name.
-        - episode: Filter by the given episode code.
+     - name: Filter by the given name.
+     - episode: Filter by the given episode code.
      - Returns: EpisodeFilter
      */
     func createEpisodeFilter(name: String?, episode: String?) -> RMEpisodeFilter {
@@ -169,7 +169,7 @@ public struct RMEpisode {
     /**
      Request episodes with given filter.
      - Parameters:
-        - filter: EpisodesFilter struct (provides requestURL with query options).
+     - filter: EpisodesFilter struct (provides requestURL with query options).
      - Returns: Array of Episodes model struct.
      */
     public func getEpisodesByFilter(filter: RMEpisodeFilter) -> Future <[RMEpisodeModel], Error> {
@@ -186,48 +186,48 @@ public struct RMEpisode {
                 }
             }
         }
-}
-
-/**
- Struct to store episode filter properties.
- ### Properties
- - **name**: The name of the episode.
- - **episode**: The code of the episode.
- - **query**: URL query for HTTP request.
- */
-public struct RMEpisodeFilter {
-    public let name: String
-    public let episode: String
-    public let query: String
-}
-
-/**
- EpisodeInfoModel struct for decoding info json response.
- ### Properties
- - **info**: Information about episode count and pagination.
- - **results**: First page with 20 episodes.
- 
- ### SeeAlso
- - **Info**: Info struct in Network.swift.
- - **EpisodeModel**: EpisodeModel struct in Episode.swift.
- */
-struct RMEpisodeInfoModel: Codable {
-    let info: Info
-    let results: [RMEpisodeModel]
-}
-
-/**
- Episode struct for decoding episode json response.
- ### Properties
- - **id**: The id of the episode.
- - **name**: The name of the episode.
- - **airDate**: The air date of the episode.
- - **episode**: The code of the episode.
- - **characters**: List of characters who have been seen in the episode.
- - **url**: Link to the episode's own endpoint.
- - **created**: Time at which the episode was created in the database.
- */
-public struct RMEpisodeModel: Codable, Identifiable {
+    }
+    
+    /**
+     Struct to store episode filter properties.
+     ### Properties
+     - **name**: The name of the episode.
+     - **episode**: The code of the episode.
+     - **query**: URL query for HTTP request.
+     */
+    public struct RMEpisodeFilter {
+        public let name: String
+        public let episode: String
+        public let query: String
+    }
+    
+    /**
+     EpisodeInfoModel struct for decoding info json response.
+     ### Properties
+     - **info**: Information about episode count and pagination.
+     - **results**: First page with 20 episodes.
+     
+     ### SeeAlso
+     - **Info**: Info struct in Network.swift.
+     - **EpisodeModel**: EpisodeModel struct in Episode.swift.
+     */
+    struct RMEpisodeInfoModel: Codable {
+        let info: Info
+        let results: [RMEpisodeModel]
+    }
+    
+    /**
+     Episode struct for decoding episode json response.
+     ### Properties
+     - **id**: The id of the episode.
+     - **name**: The name of the episode.
+     - **airDate**: The air date of the episode.
+     - **episode**: The code of the episode.
+     - **characters**: List of characters who have been seen in the episode.
+     - **url**: Link to the episode's own endpoint.
+     - **created**: Time at which the episode was created in the database.
+     */
+    public struct RMEpisodeModel: Codable, Identifiable {
         public let id: Int
         public let name: String
         public let airDate: String
