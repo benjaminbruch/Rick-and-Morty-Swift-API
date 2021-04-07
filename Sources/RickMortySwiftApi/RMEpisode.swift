@@ -237,7 +237,7 @@ public struct RMEpisodeModel: Codable, Identifiable {
     public let url: String
     public let created: String
     
-    public enum RMEpisodeModelCodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id, name, episode, characters, url, created
         case airDate = "air_date"
     }
