@@ -188,57 +188,56 @@ public struct RMLocation {
                 }
             }
         }
-        
     }
-    
-    /**
-     Struct to store location filter properties.
-     ### Properties
-     - **name**: The name of the location.
-     - **type**: The type of the location.
-     - **dimension**: The dimension of the location.
-     - **query**: URL query for HTTP request.
-     */
-    public struct RMLocationFilter {
-        public let name: String
-        public let type: String
-        public let dimension: String
-        public let query: String
-    }
-    
-    /**
-     LocationInfoModel struct for decoding info json response.
-     ### Properties
-     - **info**: Information about location count and pagination.
-     - **results**: First page with 20 locations.
-     
-     ### SeeAlso
-     - **Info**: Info struct in Network.swift.
-     - **LocationModel**: LocationModel struct in Location.swift.
-     */
-    struct RMLocationInfoModel: Codable {
-        let info: Info
-        let results: [RMLocationModel]
-    }
-    
-    /**
-     Episode struct for decoding episode json response.
-     ### Properties
-     - **id**: The id of the location.
-     - **name**: The name of the location.
-     - **type**: The type of the location.
-     - **dimension**: The dimension in which the location is located.
-     - **residents**: List of location who have been last seen in the location.
-     - **url**: Link to location's own endpoint.
-     - **created**: Time at which the location was created in the database.
-     */
-    public struct RMLocationModel: Codable, Identifiable  {
-        public let id: Int
-        public let name: String
-        public let type: String
-        public let dimension: String
-        public let residents: [String]
-        public let url: String
-        public let created: String
-    }
+}
+
+/**
+ Struct to store location filter properties.
+ ### Properties
+ - **name**: The name of the location.
+ - **type**: The type of the location.
+ - **dimension**: The dimension of the location.
+ - **query**: URL query for HTTP request.
+ */
+public struct RMLocationFilter {
+    public let name: String
+    public let type: String
+    public let dimension: String
+    public let query: String
+}
+
+/**
+ LocationInfoModel struct for decoding info json response.
+ ### Properties
+ - **info**: Information about location count and pagination.
+ - **results**: First page with 20 locations.
+ 
+ ### SeeAlso
+ - **Info**: Info struct in Network.swift.
+ - **LocationModel**: LocationModel struct in Location.swift.
+ */
+struct RMLocationInfoModel: Codable {
+    let info: Info
+    let results: [RMLocationModel]
+}
+
+/**
+ Episode struct for decoding episode json response.
+ ### Properties
+ - **id**: The id of the location.
+ - **name**: The name of the location.
+ - **type**: The type of the location.
+ - **dimension**: The dimension in which the location is located.
+ - **residents**: List of location who have been last seen in the location.
+ - **url**: Link to location's own endpoint.
+ - **created**: Time at which the location was created in the database.
+ */
+public struct RMLocationModel: Codable, Identifiable  {
+    public let id: Int
+    public let name: String
+    public let type: String
+    public let dimension: String
+    public let residents: [String]
+    public let url: String
+    public let created: String
 }

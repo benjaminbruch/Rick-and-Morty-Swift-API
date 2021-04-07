@@ -187,59 +187,59 @@ public struct RMEpisode {
             }
         }
     }
+}
+
+/**
+ Struct to store episode filter properties.
+ ### Properties
+ - **name**: The name of the episode.
+ - **episode**: The code of the episode.
+ - **query**: URL query for HTTP request.
+ */
+public struct RMEpisodeFilter {
+    public let name: String
+    public let episode: String
+    public let query: String
+}
+
+/**
+ EpisodeInfoModel struct for decoding info json response.
+ ### Properties
+ - **info**: Information about episode count and pagination.
+ - **results**: First page with 20 episodes.
+ 
+ ### SeeAlso
+ - **Info**: Info struct in Network.swift.
+ - **EpisodeModel**: EpisodeModel struct in Episode.swift.
+ */
+struct RMEpisodeInfoModel: Codable {
+    let info: Info
+    let results: [RMEpisodeModel]
+}
+
+/**
+ Episode struct for decoding episode json response.
+ ### Properties
+ - **id**: The id of the episode.
+ - **name**: The name of the episode.
+ - **airDate**: The air date of the episode.
+ - **episode**: The code of the episode.
+ - **characters**: List of characters who have been seen in the episode.
+ - **url**: Link to the episode's own endpoint.
+ - **created**: Time at which the episode was created in the database.
+ */
+public struct RMEpisodeModel: Codable, Identifiable {
+    public let id: Int
+    public let name: String
+    public let airDate: String
+    public let episode: String
+    public let characters: [String]
+    public let url: String
+    public let created: String
     
-    /**
-     Struct to store episode filter properties.
-     ### Properties
-     - **name**: The name of the episode.
-     - **episode**: The code of the episode.
-     - **query**: URL query for HTTP request.
-     */
-    public struct RMEpisodeFilter {
-        public let name: String
-        public let episode: String
-        public let query: String
-    }
-    
-    /**
-     EpisodeInfoModel struct for decoding info json response.
-     ### Properties
-     - **info**: Information about episode count and pagination.
-     - **results**: First page with 20 episodes.
-     
-     ### SeeAlso
-     - **Info**: Info struct in Network.swift.
-     - **EpisodeModel**: EpisodeModel struct in Episode.swift.
-     */
-    struct RMEpisodeInfoModel: Codable {
-        let info: Info
-        let results: [RMEpisodeModel]
-    }
-    
-    /**
-     Episode struct for decoding episode json response.
-     ### Properties
-     - **id**: The id of the episode.
-     - **name**: The name of the episode.
-     - **airDate**: The air date of the episode.
-     - **episode**: The code of the episode.
-     - **characters**: List of characters who have been seen in the episode.
-     - **url**: Link to the episode's own endpoint.
-     - **created**: Time at which the episode was created in the database.
-     */
-    public struct RMEpisodeModel: Codable, Identifiable {
-        public let id: Int
-        public let name: String
-        public let airDate: String
-        public let episode: String
-        public let characters: [String]
-        public let url: String
-        public let created: String
-        
-        public enum CodingKeys: String, CodingKey {
-            case id, name, episode, characters, url, created
-            case airDate = "air_date"
-        }
+    public enum CodingKeys: String, CodingKey {
+        case id, name, episode, characters, url, created
+        case airDate = "air_date"
     }
 }
 
