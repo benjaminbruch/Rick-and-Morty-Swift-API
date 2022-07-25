@@ -1,7 +1,7 @@
 # The Rick and Morty API Swift Client
 Swift implementation to the **awesome** [Rick and Morty API][api-link]
 
-[![build status][travis-badge]][travis-link]
+[![Swift](https://github.com/benjaminbruch/Rick-and-Morty-Swift-API/actions/workflows/swift.yml/badge.svg)](https://github.com/benjaminbruch/Rick-and-Morty-Swift-API/actions/workflows/swift.yml)
 [![codecoverage][codecov-badge]][codecov-link]
 [![license][license-badge]][license-link]
 
