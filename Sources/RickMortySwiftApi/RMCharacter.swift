@@ -22,19 +22,10 @@ public struct RMCharacter {
      - id: ID of the character.
      - Returns: Character model struct.
      */
-    public func getCharacterByID(id: Int) -> Future <RMCharacterModel, Error> {
-        return Future() { promise in
-            networkHandler.performAPIRequestByMethod(method: "character/"+String(id)) {
-                switch $0 {
-                case .success(let data):
-                    if let character: RMCharacterModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(character))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getCharacterByID(id: Int) async throws -> RMCharacterModel {
+        let characterData = try await networkHandler.performAPIRequestByMethod(method: "character/"+String(id))
+        let character: RMCharacterModel = try networkHandler.decodeJSONData(data: characterData)
+        return character
     }
     
     /**
@@ -43,40 +34,23 @@ public struct RMCharacter {
      - url: URL of the character.
      - Returns: Character model struct.
      */
-    public func getCharacterByURL(url: String) -> Future <RMCharacterModel, Error> {
-        return Future() { promise in
-            networkHandler.performAPIRequestByURL(url: url) {
-                switch $0 {
-                case .success(let data):
-                    if let character: RMCharacterModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(character))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getCharacterByURL(url: String) async throws -> RMCharacterModel {
+        let characterData = try await networkHandler.performAPIRequestByURL(url: url)
+        let character: RMCharacterModel = try networkHandler.decodeJSONData(data: characterData)
+        return character
     }
+
     /**
      Request multiple characters by IDs.
      - Parameters:
      - ids: Character ids.
      - Returns: Array of Character model struct.
      */
-    public func getCharactersByID(ids: [Int]) -> Future <[RMCharacterModel], Error> {
-        return Future() { promise in
-            let stringIDs = ids.map { String($0) }
-            networkHandler.performAPIRequestByMethod(method: "character/"+stringIDs.joined(separator: ",")) {
-                switch $0 {
-                case .success(let data):
-                    if let characters: [RMCharacterModel] = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(characters))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getCharactersByIDs(ids: [Int]) async throws -> [RMCharacterModel] {
+        let stringIDs = ids.map { String($0) }
+        let characterData = try await networkHandler.performAPIRequestByMethod(method: "character/"+stringIDs.joined(separator: ","))
+        let characters: [RMCharacterModel] = try networkHandler.decodeJSONData(data: characterData)
+        return characters
     }
     
     /**
@@ -85,59 +59,35 @@ public struct RMCharacter {
      - page: Number of result page.
      - Returns: Array of Character model struct.
      */
-    public func getCharactersByPageNumber(pageNumber: Int) -> Future <[RMCharacterModel], Error> {
-        return Future() { promise in
-            networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(pageNumber)) {
-                switch $0 {
-                case .success(let data):
-                    if let infoModel: RMCharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(infoModel.results))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getCharactersByPageNumber(pageNumber: Int) async throws -> [RMCharacterModel] {
+        
+        let characterData = try await networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(pageNumber))
+        let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: characterData)
+        return infoModel.results
     }
     
     /**
      Request all characters.
      - Returns: Array of Character model struct.
      */
-    public func getAllCharacters() -> Future <[RMCharacterModel], Error> {
-        return Future() { promise in
-            var allCharacters = [RMCharacterModel]()
-            networkHandler.performAPIRequestByMethod(method: "character") {
-                switch $0 {
-                case .success(let data):
-                    if let infoModel: RMCharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                        allCharacters = infoModel.results
-                        let charactersDispatchGroup = DispatchGroup()
-                        
-                        for index in 2...infoModel.info.pages {
-                            charactersDispatchGroup.enter()
-                            
-                            networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(index)) {
-                                switch $0 {
-                                case .success(let data):
-                                    if let infoModel: RMCharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                                        allCharacters.append(contentsOf: infoModel.results)
-                                        charactersDispatchGroup.leave()
-                                    }
-                                case .failure(let error):
-                                    promise(.failure(error))
-                                }
-                            }
-                        }
-                        charactersDispatchGroup.notify(queue: DispatchQueue.main) {
-                            promise(.success(allCharacters.sorted { $0.id < $1.id }))
-                        }
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
+    public func getAllCharacters() async throws -> [RMCharacterModel] {
+        let characterData = try await networkHandler.performAPIRequestByMethod(method: "character")
+        let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: characterData)
+        let characters: [RMCharacterModel] = try await withThrowingTaskGroup(of: [RMCharacterModel].self) { group in
+            for index in 1...infoModel.info.pages {
+                group.addTask {
+                    let characterData = try await networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(index))
+                    let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: characterData)
+                    return infoModel.results
                 }
             }
+            
+            return try await group.reduce(into: [RMCharacterModel]()) { allCharacters, characters in
+                allCharacters.append(contentsOf: characters)
+            }
         }
+        
+        return characters.sorted { $0.id < $1.id }
     }
     /**
      Create character filter with given parameters.
@@ -176,23 +126,12 @@ public struct RMCharacter {
      - filter: CharacterFilter struct (provides requestURL with query options).
      - Returns: Array of Character model struct.
      */
-    public func getCharactersByFilter(filter: RMCharacterFilter) -> Future<[RMCharacterModel], Error> {
-        return Future() { promise in
-            
-            networkHandler.performAPIRequestByMethod(method: filter.query) {
-                switch $0 {
-                case .success(let data):
-                    if let infoModel: RMCharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(infoModel.results))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getCharactersByFilter(filter: RMCharacterFilter) async throws -> [RMCharacterModel] {
+        let characterData = try await networkHandler.performAPIRequestByMethod(method: filter.query)
+        let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: characterData)
+        return infoModel.results
     }
 }
-
 /**
  Struct to store character filter properties.
  ### Properties
