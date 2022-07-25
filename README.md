@@ -42,7 +42,7 @@ let rmClient = RMClient()
 **2. Call character struct with function**
 ```swift
         do {
-            let characters = try await client.character().getAllCharacters()
+            let characters = try await rmClient.character().getAllCharacters()
         } catch (let error) {
             print(error)
         }
