@@ -10,139 +10,122 @@ final class NetworkHandlerTests: XCTestCase {
     
     var networkHandler = NetworkHandler()
     
-    func testNetworkRequestByMethod() {
+    func testNetworkRequestByMethod() async {
         
         let expectation = XCTestExpectation(description: "Perform network request with given method")
         
-        networkHandler.performAPIRequestByMethod(method: "character/1") {
-            switch $0 {
-            case .success( _):
-                print("Data received")
-                expectation.fulfill()
-            case.failure( _):
-                break
-            }
+        do {
+            let data = try await networkHandler.performAPIRequestByMethod(method: "character/1")
+            print("Data received: \(data)")
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
         }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testNetworkRequestByMethodError() {
+    func testNetworkRequestByMethodError() async {
         
         let expectation = XCTestExpectation(description: "Test for error handling in request by method")
         
-        networkHandler.performAPIRequestByMethod(method: "character/1234") {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
+        do {
+            _ = try await networkHandler.performAPIRequestByMethod(method: "character/12345")
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
         }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testNetworkRequestByMethodErrorURLError() {
+    func testNetworkRequestByMethodErrorURLError() async {
         
         let expectation = XCTestExpectation(description: "Test for error handling in request by method")
         
         networkHandler.baseURL = ""
-        networkHandler.performAPIRequestByMethod(method: "character/1") {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
+        do {
+            _ = try await networkHandler.performAPIRequestByMethod(method: "character/1")
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
         }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testNetworkRequestByURL() {
+    func testNetworkRequestByURL() async {
         
         let expectation = XCTestExpectation(description: "Perform network request with given URL")
         
-        networkHandler.performAPIRequestByURL(url: networkHandler.baseURL) {
-            switch $0 {
-            case .success( _):
-                print("Data received")
-                expectation.fulfill()
-            case.failure( _):
-                break
-            }
+        do {
+            let data = try await networkHandler.performAPIRequestByURL(url: networkHandler.baseURL)
+            print("Data received: \(data)")
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
         }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testNetworkRequestByURLInvalidURLError() {
+    func testNetworkRequestByURLInvalidURLError() async {
         
         let expectation = XCTestExpectation(description: "Test for error handling in request by URL")
         
-        networkHandler.performAPIRequestByURL(url: "") {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
-                expectation.fulfill()
-            }
+        do {
+            _ = try await networkHandler.performAPIRequestByURL(url: "")
+    
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
         }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testNetworkRequestByURLInvalidResponseError() {
+    func testNetworkRequestByURLInvalidResponseError() async {
         
         let expectation = XCTestExpectation(description: "Test for error handling in request by URL")
         
-        networkHandler.performAPIRequestByURL(url: networkHandler.baseURL+"123") {
-            switch $0 {
-            case .success( _):
-                break
-            case.failure(let error):
-                print(error)
+        do {
+            _ = try await networkHandler.performAPIRequestByURL(url: networkHandler.baseURL+"123")
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+      
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testJSONResponseDataParsing() async {
+        
+        let expectation = XCTestExpectation(description: "Test decoding data response")
+        
+        do {
+        let data = try await networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1")
+        let decodedData: RMCharacterModel = try networkHandler.decodeJSONData(data: data)
+        print(decodedData.name)
+        expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testJSONResponseDataParsingError() async {
+        
+        let expectation = XCTestExpectation(description: "Test decoding data response")
+        
+        do {
+            let data = try await networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1")
+            let _: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: data)
+            } catch (let error) {
+                print("⚠️ \(error)")
                 expectation.fulfill()
             }
+            wait(for: [expectation], timeout: 10.0)
         }
-        wait(for: [expectation], timeout: 10.0)
-    }
-    
-    func testJSONResponseDataParsing() {
-        
-        let expectation = XCTestExpectation(description: "Test decoding data response")
-        
-        networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1") {
-            switch $0 {
-            case .success(let data):
-                if let decodedData: RMCharacterModel = self.networkHandler.decodeJSONData(data: data) {
-                    print(decodedData.name)
-                    expectation.fulfill()
-                }
-            case.failure( _):
-                break
-            }
-        }
-        wait(for: [expectation], timeout: 10.0)
-    }
-    
-    func testJSONResponseDataParsingError() {
-        
-        let expectation = XCTestExpectation(description: "Test decoding data response")
-        
-        networkHandler.performAPIRequestByURL(url: "https://rickandmortyapi.com/api/character/1") {
-            switch $0 {
-            case .success(let data):
-                if let _: RMCharacterInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                } else {
-                    print("decoding failed")
-                    expectation.fulfill()
-                }
-            case.failure( _):
-                break
-            }
-        }
-        wait(for: [expectation], timeout: 10.0)
-    }
     
     static var allTests = [
         ("testNetworkRequestByMethod", testNetworkRequestByMethod),

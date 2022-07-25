@@ -13,166 +13,176 @@ final class RMLocationTests: XCTestCase {
     let client = RMClient()
     var cancellable: AnyCancellable?
 
-    func testRequestLocationByID() {
+    func testRequestLocationByID() async {
         
         let expectation = XCTestExpectation(description: "Request one location by id")
         
-        cancellable = client.location().getLocationByID(id: 1)
-            .sink(receiveCompletion: { _ in }, receiveValue: { location in
-                print(location.name)
-                expectation.fulfill()
-            })
-        wait(for: [expectation], timeout: 10.0) 
+      
+        do {
+            let location = try await client.location().getLocationByID(id: 1)
+            print("🌎 Location: \(location.name)")
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
+        wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestLocationByIDError() {
+    func testRequestLocationByIDError() async {
         
         let expectation = XCTestExpectation(description: "Test error handling for id")
         
-        cancellable = client.location().getLocationByID(id: -1)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+           _ = try await client.location().getLocationByID(id: -1)
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestLocationByURL() {
+    func testRequestLocationByURL() async {
         
         let expectation = XCTestExpectation(description: "Request one location by URL")
         
-        cancellable = client.location().getLocationByURL(url: "https://rickandmortyapi.com/api/location/1")
-            .sink(receiveCompletion: { _ in }, receiveValue: { location in
-                print(location.name)
-                expectation.fulfill()
-            })
+        do {
+            let location = try await client.location().getLocationByURL(url: "https://rickandmortyapi.com/api/location/1")
+            print("🌎 Location: \(location.name)")
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestLocationByURLError() {
+    func testRequestLocationByURLError() async {
         
         let expectation = XCTestExpectation(description: "Test error handling for URL")
         
-        cancellable = client.location().getLocationByURL(url: "")
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+          _ = try await client.location().getLocationByURL(url: "")
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestLocationsByPageNumber() {
+    func testRequestLocationsByPageNumber() async {
         
         let expectation = XCTestExpectation(description: "Request location by page number")
         
-        cancellable = client.location().getLocationsByPageNumber(pageNumber: 1)
-            .sink(receiveCompletion: { _ in }, receiveValue: { locations in
-                locations.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let locations = try await client.location().getLocationsByPageNumber(pageNumber: 1)
+            locations.forEach {
+                print("🌎 Location: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestLocationsByPageNumberError() {
+    func testRequestLocationsByPageNumberError() async {
         
         let expectation = XCTestExpectation(description: "Test error handling for page")
         
-        cancellable = client.location().getLocationsByPageNumber(pageNumber: 123)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+            _ = try await client.location().getLocationsByPageNumber(pageNumber: 1234)
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestLocationsByIDs() {
+    func testRequestLocationsByIDs() async {
         
         let expectation = XCTestExpectation(description: "Request multiple locations by ids")
         
-        cancellable = client.location().getLocationsByID(ids: [1,2,3])
-            .sink(receiveCompletion: { _ in }, receiveValue: { locations in
-                locations.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let locations = try await client.location().getLocationsByIDs(ids: [1,2,3])
+            locations.forEach {
+                print("🌎 Location: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestLocationsByIDsError() {
+    func testRequestLocationsByIDsError() async {
         
         let expectation = XCTestExpectation(description: "Request multiple locations by ids")
         
-        cancellable = client.location().getLocationsByID(ids: [-1])
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+            _ = try await client.location().getLocationsByIDs(ids: [-1])
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestAllLocations() {
+    func testRequestAllLocations() async {
         
         let expectation = XCTestExpectation(description: "Request all locations")
         
-        cancellable = client.location().getAllLocations()
-            .sink(receiveCompletion: { _ in }, receiveValue: { locations in
-                locations.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let locations = try await client.location().getAllLocations()
+            locations.forEach {
+                print("🌎 Location: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestFilterLocations() {
+    func testRequestFilterLocations() async {
         
         let expectation = XCTestExpectation(description: "Request locations by filter parameter")
         
         let filter = client.location().createLocationFilter(name: "earth", type: nil, dimension: nil)
         
-        cancellable = client.location().getLocationsByFilter(filter: filter)
-            .sink(receiveCompletion: { _ in }, receiveValue: { locations in
-                locations.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let locations = try await client.location().getLocationsByFilter(filter: filter)
+            locations.forEach {
+                print("🌎 Location: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestFilterLocationsError() {
+    func testRequestFilterLocationsError() async {
         
         let expectation = XCTestExpectation(description: "Test error handling for filter")
         
         let filter = client.location().createLocationFilter(name: "Test", type: "Test", dimension: "Test")
+        do {
+            _ = try await client.location().getLocationsByFilter(filter: filter)
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
         
-        cancellable = client.location().getLocationsByFilter(filter: filter)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
         wait(for: [expectation], timeout: 10.0)
-
     }
     
     static var allTests = [

@@ -41,11 +41,11 @@ let rmClient = RMClient()
 
 **2. Call character struct with function**
 ```swift
- var cancellable: AnyCancellable?
- cancellable = rmClient.character().getAllCharacters()
-            .sink(receiveCompletion: { _ in }, receiveValue: { characters in
-                characters.forEach() { print ($0.name) }
-            })
+        do {
+            let characters = try await client.character().getAllCharacters()
+        } catch (let error) {
+            print(error)
+        }
 ```
 
 *For more examples, please refer to the [Documentation][doc-link] or visit [Test Section][test-link]*

@@ -12,165 +12,176 @@ final class RMEpisodeTests: XCTestCase {
     let client = RMClient()
     var cancellable: AnyCancellable?
     
-    func testRequestEpisodeByID() {
+    func testRequestEpisodeByID() async {
         
         let expectation = XCTestExpectation(description: "Request one episode by ID")
         
-        cancellable = client.episode().getEpisodeByID(id: 1)
-            .sink(receiveCompletion: { _ in }, receiveValue: { episode in
-                print(episode.name)
-                expectation.fulfill()
-            })
+        do {
+            let episode = try await client.episode().getEpisodeByID(id: 1)
+            print("📺 Episode: \(episode.name)")
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestEpisodeByIDError() {
+    func testRequestEpisodeByIDError() async {
         
         let expectation = XCTestExpectation(description: "Test error handling for id")
         
-        cancellable = client.episode().getEpisodeByID(id: -1)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+            _ = try await client.episode().getEpisodeByID(id: -1)
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestEpisodeByURL() {
+    func testRequestEpisodeByURL() async throws {
         
         let expectation = XCTestExpectation(description: "Request one episode by URL")
         
-        cancellable = client.episode().getEpisodeByURL(url: "https://rickandmortyapi.com/api/episode/1")
-            .sink(receiveCompletion: { _ in }, receiveValue: { episode in
-                print(episode.name)
-                expectation.fulfill()
-            })
+        do {
+            let episode = try await client.episode().getEpisodeByURL(url: "https://rickandmortyapi.com/api/episode/1")
+            print("📺 Episode: \(episode.name)")
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestEpisodeByURLError() {
+    func testRequestEpisodeByURLError() async throws {
         
         let expectation = XCTestExpectation(description: "Test error handling for URL")
         
-        cancellable = client.episode().getEpisodeByURL(url: "")
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+            _ = try await client.episode().getEpisodeByURL(url: "https://rickandmortyapi.com/api/episode/1234")
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestEpisodesByIDs() {
+    func testRequestEpisodesByIDs() async {
         
         let expectation = XCTestExpectation(description: "Request multiple episodes by IDs")
         
-        cancellable = client.episode().getEpisodesByID(ids: [1,2,3])
-            .sink(receiveCompletion: { _ in }, receiveValue: { episodes in
-                episodes.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let episodes = try await client.episode().getEpisodesByIDs(ids: [1,2,3])
+            episodes.forEach {
+                print("📺 Episode: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestEpisodesByIDsError() {
+    func testRequestEpisodesByIDsError() async {
         
         let expectation = XCTestExpectation(description: "Request multiple episodes by IDs")
         
-        cancellable = client.episode().getEpisodesByID(ids: [0])
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+           _ = try await client.episode().getEpisodesByIDs(ids: [0])
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestEpisodesByPageNumber() {
+    func testRequestEpisodesByPageNumber() async {
         
         let expectation = XCTestExpectation(description: "Request episodes by page number")
         
-        cancellable = client.episode().getEpisodesByPageNumber(pageNumber: 1)
-            .sink(receiveCompletion: { _ in }, receiveValue: { episodes in
-                episodes.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let episodes = try await client.episode().getEpisodesByPageNumber(pageNumber: 1)
+            episodes.forEach {
+                print("📺 Episode: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestEpisodesByPageNumberError() {
+    func testRequestEpisodesByPageNumberError() async {
         
         let expectation = XCTestExpectation(description: "Test error handling for page")
         
-        cancellable = client.episode().getEpisodesByPageNumber(pageNumber: 123)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+            _ = try await client.episode().getEpisodesByPageNumber(pageNumber: 1234)
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestAllEpisodes() {
+    func testRequestAllEpisodes() async {
         
         let expectation = XCTestExpectation(description: "Request all episodes")
         
-        cancellable = client.episode().getAllEpisodes()
-            .sink(receiveCompletion: { _ in }, receiveValue: { episodes in
-                episodes.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let episodes = try await client.episode().getAllEpisodes()
+            episodes.forEach {
+                print("📺 Episode: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestFilterEpisodes() {
+    func testRequestFilterEpisodes() async {
         
         let expectation = XCTestExpectation(description: "Request episodes by filter parameter")
         
         let filter = client.episode().createEpisodeFilter(name: "Pilot", episode: nil)
         
-        cancellable = client.episode().getEpisodesByFilter(filter: filter)
-            .sink(receiveCompletion: { _ in }, receiveValue: { episodes in
-                episodes.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let episodes = try await client.episode().getEpisodesByFilter(filter: filter)
+            episodes.forEach {
+                print("📺 Episode: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestFilterEpisodesError() {
+    func testRequestFilterEpisodesError() async {
         
         let expectation = XCTestExpectation(description: "Test error handling for filter")
         
         let filter = client.episode().createEpisodeFilter(name: "Test", episode: "123")
         
-        cancellable = client.episode().getEpisodesByFilter(filter: filter)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
-        wait(for: [expectation], timeout: 10.0) 
+        do {
+            _ = try await client.episode().getEpisodesByFilter(filter: filter)
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 10.0)
     }
     
     static var allTests = [

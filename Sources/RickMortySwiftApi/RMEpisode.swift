@@ -22,19 +22,10 @@ public struct RMEpisode {
      - id: ID of the episode.
      - Returns: Episode model struct.
      */
-    public func getEpisodeByID(id: Int) -> Future <RMEpisodeModel, Error> {
-        return Future() { promise in
-            networkHandler.performAPIRequestByMethod(method: "episode/"+String(id)) {
-                switch $0 {
-                case .success(let data):
-                    if let episode: RMEpisodeModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(episode))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getEpisodeByID(id: Int) async throws -> RMEpisodeModel {
+        let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode/"+String(id))
+        let episode: RMEpisodeModel = try networkHandler.decodeJSONData(data: episodeData)
+        return episode
     }
     
     /**
@@ -43,19 +34,10 @@ public struct RMEpisode {
      - url: URL of the episode.
      - Returns: Episode model struct.
      */
-    public func getEpisodeByURL(url: String) -> Future <RMEpisodeModel, Error> {
-        return Future() { promise in
-            networkHandler.performAPIRequestByURL(url: url) {
-                switch $0 {
-                case .success(let data):
-                    if let episode: RMEpisodeModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(episode))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getEpisodeByURL(url: String) async throws-> RMEpisodeModel {
+        let episodeData = try await networkHandler.performAPIRequestByURL(url: url)
+        let episode: RMEpisodeModel = try networkHandler.decodeJSONData(data: episodeData)
+        return episode
     }
     
     /**
@@ -64,20 +46,11 @@ public struct RMEpisode {
      - ids: Episodes ids.
      - Returns: Array of episode model struct.
      */
-    public func getEpisodesByID(ids: [Int]) -> Future <[RMEpisodeModel], Error> {
-        return Future() { promise in
-            let stringIDs = ids.map { String($0) }
-            networkHandler.performAPIRequestByMethod(method: "episode/"+stringIDs.joined(separator: ",")) {
-                switch $0 {
-                case .success(let data):
-                    if let episodes: [RMEpisodeModel] = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(episodes))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getEpisodesByIDs(ids: [Int]) async throws -> [RMEpisodeModel] {
+        let stringIDs = ids.map { String($0) }
+        let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode/"+stringIDs.joined(separator: ","))
+        let episodes: [RMEpisodeModel] = try networkHandler.decodeJSONData(data: episodeData)
+        return episodes
     }
     
     /**
@@ -86,59 +59,34 @@ public struct RMEpisode {
      - page: Number of result page.
      - Returns: Array of Episode model struct.
      */
-    public func getEpisodesByPageNumber(pageNumber: Int) -> Future <[RMEpisodeModel], Error> {
-        return Future() { promise in
-            networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(pageNumber)) {
-                switch $0 {
-                case .success(let data):
-                    if let infoModel: RMEpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(infoModel.results))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getEpisodesByPageNumber(pageNumber: Int) async throws -> [RMEpisodeModel] {
+        let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(pageNumber))
+        let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(data: episodeData)
+        return infoModel.results
     }
     
     /**
      Request all episodes.
      - Returns: Array of Episode model struct.
      */
-    public func getAllEpisodes() -> Future <[RMEpisodeModel], Error> {
-        return Future() { promise in
-            var allEpisodes = [RMEpisodeModel]()
-            networkHandler.performAPIRequestByMethod(method: "episode") {
-                switch $0 {
-                case .success(let data):
-                    if let infoModel: RMEpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                        allEpisodes = infoModel.results
-                        let episodesDispatchGroup = DispatchGroup()
-                        
-                        for index in 2...infoModel.info.pages {
-                            episodesDispatchGroup.enter()
-                            
-                            networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(index)) {
-                                switch $0 {
-                                case .success(let data):
-                                    if let infoModel: RMEpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                                        allEpisodes.append(contentsOf: infoModel.results)
-                                        episodesDispatchGroup.leave()
-                                    }
-                                case .failure(let error):
-                                    promise(.failure(error))
-                                }
-                            }
-                        }
-                        episodesDispatchGroup.notify(queue: DispatchQueue.main) {
-                            promise(.success(allEpisodes.sorted { $0.id < $1.id }))
-                        }
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
+    public func getAllEpisodes() async throws ->[RMEpisodeModel] {
+        let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode")
+        let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(data: episodeData)
+        let episodes: [RMEpisodeModel] = try await withThrowingTaskGroup(of: [RMEpisodeModel].self) { group in
+            for index in 1...infoModel.info.pages {
+                group.addTask {
+                    let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(index))
+                    let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(data: episodeData)
+                    return infoModel.results
                 }
             }
+            
+            return try await group.reduce(into: [RMEpisodeModel]()) { allEpisodes, episodes in
+                allEpisodes.append(contentsOf: episodes)
+            }
         }
+        
+        return episodes.sorted { $0.id < $1.id }
     }
     
     /**
@@ -172,20 +120,10 @@ public struct RMEpisode {
      - filter: EpisodesFilter struct (provides requestURL with query options).
      - Returns: Array of Episodes model struct.
      */
-    public func getEpisodesByFilter(filter: RMEpisodeFilter) -> Future <[RMEpisodeModel], Error> {
-        return Future() { promise in
-            
-            networkHandler.performAPIRequestByMethod(method: filter.query) {
-                switch $0 {
-                case .success(let data):
-                    if let infoModel: RMEpisodeInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(infoModel.results))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getEpisodesByFilter(filter: RMEpisodeFilter) async throws -> [RMEpisodeModel] {
+        let episodeData = try await networkHandler.performAPIRequestByMethod(method: filter.query)
+        let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(data: episodeData)
+        return infoModel.results
     }
 }
 

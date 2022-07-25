@@ -22,19 +22,10 @@ public struct RMLocation {
      - id: ID of the location.
      - Returns: Location model struct.
      */
-    public func getLocationByID(id: Int) -> Future <RMLocationModel, Error> {
-        return Future() { promise in
-            networkHandler.performAPIRequestByMethod(method: "location/"+String(id)) {
-                switch $0 {
-                case .success(let data):
-                    if let location: RMLocationModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(location))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getLocationByID(id: Int) async throws -> RMLocationModel {
+        let locationData = try await networkHandler.performAPIRequestByMethod(method: "location/"+String(id))
+        let location: RMLocationModel = try networkHandler.decodeJSONData(data: locationData)
+        return location
     }
     
     /**
@@ -43,19 +34,10 @@ public struct RMLocation {
      - url: URL of the location.
      - Returns: Location model struct.
      */
-    public func getLocationByURL(url: String) -> Future <RMLocationModel, Error> {
-        return Future() { promise in
-            networkHandler.performAPIRequestByURL(url: url) {
-                switch $0 {
-                case .success(let data):
-                    if let location: RMLocationModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(location))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getLocationByURL(url: String) async throws -> RMLocationModel {
+        let locationData = try await networkHandler.performAPIRequestByURL(url: url)
+        let location: RMLocationModel = try self.networkHandler.decodeJSONData(data: locationData)
+        return location
     }
     
     /**
@@ -64,20 +46,11 @@ public struct RMLocation {
      - ids: Location ids.
      - Returns: Array of location model struct.
      */
-    public func getLocationsByID(ids: [Int]) -> Future <[RMLocationModel], Error> {
-        return Future() { promise in
-            let stringIDs = ids.map { String($0) }
-            networkHandler.performAPIRequestByMethod(method: "location/"+stringIDs.joined(separator: ",")) {
-                switch $0 {
-                case .success(let data):
-                    if let locations: [RMLocationModel] = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(locations))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getLocationsByIDs(ids: [Int]) async throws -> [RMLocationModel] {
+        let stringIDs = ids.map { String($0) }
+        let locationData = try await networkHandler.performAPIRequestByMethod(method: "location/"+stringIDs.joined(separator: ","))
+        let locations: [RMLocationModel] = try networkHandler.decodeJSONData(data: locationData)
+        return locations
     }
     
     /**
@@ -86,59 +59,36 @@ public struct RMLocation {
      - page: Number of result page.
      - Returns: Array of Location model struct.
      */
-    public func getLocationsByPageNumber(pageNumber: Int) -> Future <[RMLocationModel], Error> {
-        return Future() { promise in
-            networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(pageNumber)) {
-                switch $0 {
-                case .success(let data):
-                    if let infoModel: RMLocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(infoModel.results))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getLocationsByPageNumber(pageNumber: Int) async throws -> [RMLocationModel] {
+       
+            let locationData = try await networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(pageNumber))
+            let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(data: locationData)
+        return infoModel.results
     }
     
     /**
      Request all locations.
      - Returns: Array of Location model struct.
      */
-    public func getAllLocations() -> Future <[RMLocationModel], Error> {
-        return Future() { promise in
-            var allLocations = [RMLocationModel]()
-            networkHandler.performAPIRequestByMethod(method: "location") {
-                switch $0 {
-                case .success(let data):
-                    if let infoModel: RMLocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                        allLocations = infoModel.results
-                        let locationsDispatchGroup = DispatchGroup()
-                        
-                        for index in 2...infoModel.info.pages {
-                            locationsDispatchGroup.enter()
-                            
-                            networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(index)) {
-                                switch $0 {
-                                case .success(let data):
-                                    if let infoModel: RMLocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                                        allLocations.append(contentsOf: infoModel.results)
-                                        locationsDispatchGroup.leave()
-                                    }
-                                case .failure(let error):
-                                    promise(.failure(error))
-                                }
-                            }
-                        }
-                        locationsDispatchGroup.notify(queue: DispatchQueue.main) {
-                            promise(.success(allLocations.sorted { $0.id < $1.id }))
-                        }
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
+    public func getAllLocations() async throws -> [RMLocationModel] {
+        
+        let locationData = try await networkHandler.performAPIRequestByMethod(method: "location")
+        let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(data: locationData)
+        let locations: [RMLocationModel] = try await withThrowingTaskGroup(of: [RMLocationModel].self) { group in
+            for index in 1...infoModel.info.pages {
+                group.addTask {
+                    let locationData = try await networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(index))
+                    let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(data: locationData)
+                    return infoModel.results
                 }
             }
+            
+            return try await group.reduce(into: [RMLocationModel]()) { allLocations, locations in
+                allLocations.append(contentsOf: locations)
+            }
         }
+        
+        return locations.sorted { $0.id < $1.id }
     }
     
     /**
@@ -174,23 +124,12 @@ public struct RMLocation {
      - filter: LocationFilter struct (provides requestURL with query options).
      - Returns: Array of Location model struct.
      */
-    public func getLocationsByFilter(filter: RMLocationFilter) -> Future <[RMLocationModel], Error> {
-        return Future() { promise in
-            
-            networkHandler.performAPIRequestByMethod(method: filter.query) {
-                switch $0 {
-                case .success(let data):
-                    if let infoModel: RMLocationInfoModel = self.networkHandler.decodeJSONData(data: data) {
-                        promise(.success(infoModel.results))
-                    }
-                case .failure(let error):
-                    promise(.failure(error))
-                }
-            }
-        }
+    public func getLocationsByFilter(filter: RMLocationFilter) async throws -> [RMLocationModel] {
+        let locationData = try await networkHandler.performAPIRequestByMethod(method: filter.query)
+        let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(data: locationData)
+        return infoModel.results
     }
 }
-
 /**
  Struct to store location filter properties.
  ### Properties

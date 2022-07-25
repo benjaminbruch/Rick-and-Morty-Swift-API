@@ -13,168 +13,177 @@ final class RMCharacterTests: XCTestCase {
     let client = RMClient()
     var cancellable: AnyCancellable?
 
-    func testRequestCharacterByID() {
+    func testRequestCharacterByID() async {
         
         let expectation = XCTestExpectation(description: "Request one character by id")
         
-        cancellable = client.character().getCharacterByID(id: 1)
-            .sink(receiveCompletion: { _ in }, receiveValue: { character in
-                print(character.name)
-                expectation.fulfill()
-            })
+        do {
+            let character = try await client.character().getCharacterByID(id: 1)
+            print("🦸 Character: \(character.name)")
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestCharacterByIDError() {
+    func testRequestCharacterByIDError() async {
         
         let expectation = XCTestExpectation(description: "Test error handling for id")
         
-        cancellable = client.character().getCharacterByID(id: -1)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+            _ = try await client.character().getCharacterByID(id: -1)
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestCharacterByURL() {
+    func testRequestCharacterByURL() async {
         
         let expectation = XCTestExpectation(description: "Request one character by URL")
         
-        cancellable = client.character().getCharacterByURL(url: "https://rickandmortyapi.com/api/character/1")
-            .sink(receiveCompletion: { _ in }, receiveValue: { character in
-                print(character.name)
-                expectation.fulfill()
-            })
+        do {
+            let character = try await client.character().getCharacterByURL(url: "https://rickandmortyapi.com/api/character/1")
+            print("🦸 Character: \(character.name)")
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestCharacterByURLError() {
+    func testRequestCharacterByURLError() async {
         
-        let expectation = XCTestExpectation(description: "Test error handling for URL")
+        let expectation = XCTestExpectation(description: "Request one character by URL")
         
-        cancellable = client.character().getCharacterByURL(url: "")
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+            _ = try await client.character().getCharacterByURL(url: "https://rickandmortyapi.com/api/character/1234")
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestCharactersByIDs() {
+    func testRequestCharactersByIDs() async {
         
         let expectation = XCTestExpectation(description: "Request multiple characters by id")
         
-        cancellable = client.character().getCharactersByID(ids: [1,2,3])
-            .sink(receiveCompletion: { _ in }, receiveValue: { characters in
-                characters.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
-        wait(for: [expectation], timeout: 10.0)
+        do {
+            let characters = try await client.character().getCharactersByIDs(ids: [1,2,3])
+            characters.forEach {
+                print("🦸 Character: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
     }
     
-    func testRequestCharactersByIDsError() {
+    func testRequestCharactersByIDsError() async {
         
         let expectation = XCTestExpectation(description: "Request multiple characters by id")
         
-        cancellable = client.character().getCharactersByID(ids: [0])
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+            _ = try await client.character().getCharactersByIDs(ids: [0])
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
     
     
-    func testRequestCharactersByPage() {
+    func testRequestCharactersByPage() async {
         
         let expectation = XCTestExpectation(description: "Request characters by page number")
         
-        cancellable = client.character().getCharactersByPageNumber(pageNumber: 1)
-            .sink(receiveCompletion: { _ in }, receiveValue: { characters in
-                characters.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let characters = try await client.character().getCharactersByPageNumber(pageNumber: 1)
+            characters.forEach {
+                print("🦸 Character: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestCharactersByPageError() {
+    func testRequestCharactersByPageError() async {
         
         let expectation = XCTestExpectation(description: "Test error handling for page")
         
-        cancellable = client.character().getCharactersByPageNumber(pageNumber: 123)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        do {
+            _ = try await client.character().getCharactersByPageNumber(pageNumber: 1234)
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestAllCharacters() {
+    func testRequestAllCharacters() async {
         
         let expectation = XCTestExpectation(description: "Request all characters")
         
-        cancellable = client.character().getAllCharacters()
-            .sink(receiveCompletion: { _ in }, receiveValue: { characters in
-                characters.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let characters = try await client.character().getAllCharacters()
+            characters.forEach {
+                print("🦸 Character: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
         
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestFilterCharacters() {
+    func testRequestFilterCharacters() async {
         
         let expectation = XCTestExpectation(description: "Request characters by filter parameter")
         
         let filter = client.character().createCharacterFilter(name: nil, status: .alive, species: nil, type: nil, gender: .female)
         
-        cancellable = client.character().getCharactersByFilter(filter: filter)
-            .sink(receiveCompletion: { _ in }, receiveValue: { characters in
-                characters.forEach() { print ($0.name) }
-                expectation.fulfill()
-            })
+        do {
+            let characters = try await client.character().getCharactersByFilter(filter: filter)
+            characters.forEach {
+                print("🦸 Character: \($0.name)")
+            }
+            expectation.fulfill()
+        } catch (let error) {
+            print("⚠️ \(error)")
+        }
+        
         wait(for: [expectation], timeout: 10.0)
     }
     
-    func testRequestFilterCharactersError() {
+    func testRequestFilterCharactersError() async {
         
         let expectation = XCTestExpectation(description: "Test error handling for filter")
         
         let filter = client.character().createCharacterFilter(name: "Test", status: .alive, species: "Test", type: "Test", gender: .female)
         
+        do {
+            _ = try await client.character().getCharactersByFilter(filter: filter)
+           
+        } catch (let error) {
+            print("⚠️ \(error)")
+            expectation.fulfill()
+        }
         
-        cancellable = client.character().getCharactersByFilter(filter: filter)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    print("Publisher finished")
-                case .failure(let error):
-                    print(error)
-                    expectation.fulfill()
-                }
-            }, receiveValue: { _ in })
+        wait(for: [expectation], timeout: 10.0)
     }
     
     static var allTests = [

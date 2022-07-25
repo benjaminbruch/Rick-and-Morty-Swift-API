@@ -23,19 +23,19 @@ struct Info: Codable {
 /**
  Types of network errors
  ### Properties
- - **invalidURL**: URL request error.
- - **invalidResponse**: HTTP request error.
- - **apiError**: API request error.
- - **decodingError**: Decoding request error.
+ - **InvalidURL**.
+ - **JSONDecodingError**
+ - **RequestError**
+ - **UnknownError**
  */
 enum NetworkHandlerError: Error {
-    case invalidURL
-    case invalidResponse(error: ErrorMessage)
-    case apiError
-    case decodingError
+    case InvalidURL
+    case JSONDecodingError
+    case RequestError(String)
+    case UnknownError
 }
 
-struct ErrorMessage: Codable {
+struct ResponseErrorMessage: Codable {
     let error: String
 }
 
@@ -55,24 +55,17 @@ public struct NetworkHandler {
         - method: URL for API request.
      - Returns: HTTP data response.
      */
-    func performAPIRequestByMethod(method: String, completion: @escaping (Result<Data, NetworkHandlerError>) -> Void) {
+    func performAPIRequestByMethod(method: String) async throws -> Data {
         if let url = URL(string: baseURL+method) {
-            print("HTTP-Request: "+baseURL+method)
-            let urlSession = URLSession.shared
-            urlSession.dataTask(with: url) {
-                switch $0 {
-                case .success(let (response, data)):
-                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
-                    completion(.failure(.invalidResponse(error: decodeError(data: data) ?? ErrorMessage(error: "invalidResponse"))))
-                    return
-                }
-                completion(.success(data))
-                case .failure( _):
-                completion(.failure(.apiError))
-                }
-            }.resume()
+            print("📮 RequestURL: \(baseURL)\(method)")
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
+               let error: ResponseErrorMessage = try decodeJSONData(data: data)
+               throw NetworkHandlerError.RequestError(error.error)
+            }
+            return data
         } else {
-            completion(.failure(.invalidURL))
+            throw(NetworkHandlerError.InvalidURL)
         }
     }
     
@@ -82,24 +75,17 @@ public struct NetworkHandler {
         - url: URL for API request.
      - Returns: HTTP data response.
      */
-    func performAPIRequestByURL(url: String, completion: @escaping (Result<Data, NetworkHandlerError>) -> Void) {
+    func performAPIRequestByURL(url: String) async throws -> Data {
         if let url = URL(string: url) {
-            print(url)
-            let urlSession = URLSession.shared
-            urlSession.dataTask(with: url) {
-                switch $0 {
-                case .success(let (response, data)):
-                guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
-                    completion(.failure(.invalidResponse(error: decodeError(data: data) ?? ErrorMessage(error: "invalidResponse"))))
-                    return
-                }
-                completion(.success(data))
-                case .failure( _):
-                completion(.failure(.apiError))
-                }
-            }.resume()
+            print("📮 RequestURL: \(url)")
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
+               let error: ResponseErrorMessage = try decodeJSONData(data: data)
+               throw NetworkHandlerError.RequestError(error.error)
+            }
+            return data
         } else {
-            completion(.failure(.invalidURL))
+            throw(NetworkHandlerError.InvalidURL)
         }
     }
     
@@ -109,51 +95,14 @@ public struct NetworkHandler {
         - data: HTTP data response.
      - Returns: Model struct of associated variable type.
      */
-    func decodeJSONData<T: Codable>(data: Data) -> T? {
+    func decodeJSONData<T: Codable>(data: Data) throws -> T {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(T.self, from: data)
             return decodedData
         } catch {
-            print(error)
-            return nil
-        }
-    }
-    
-    /**
-     Decode JSON error response.
-     - Parameters:
-        - data: HTTP data response.
-     - Returns: Error message struct.
-     */
-    func decodeError(data: Data) -> ErrorMessage? {
-        let decoder = JSONDecoder()
-        do {
-            let decodedData = try decoder.decode(ErrorMessage.self, from: data)
-            return decodedData
-        } catch {
-            print(error)
-            return nil
+            throw NetworkHandlerError.JSONDecodingError
         }
     }
 }
 
-/**
- Extension to implement <Result> type in URLSession.
- */
-extension URLSession {
-    func dataTask(with url: URL, result: @escaping (Result<(URLResponse, Data), Error>) -> Void) -> URLSessionDataTask {
-        return dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                result(.failure(error))
-                return
-            }
-            guard let response = response, let data = data else {
-                let error = NSError(domain: "error", code: 0, userInfo: nil)
-                result(.failure(error))
-                return
-            }
-            result(.success((response, data)))
-        }
-    }
-}
