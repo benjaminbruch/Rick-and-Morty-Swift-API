@@ -12,8 +12,6 @@ jobs:
     steps:
     - name: Repository checkout
       uses: actions/checkout@v3
-    - name: Lint
-      run: swiftlint
     - name: Build for macOS
       run: swift build -v
     - name: Run macOS tests
