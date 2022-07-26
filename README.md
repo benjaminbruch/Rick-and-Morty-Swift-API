@@ -39,7 +39,7 @@ Example to get all characters as an array of character struct:
 let rmClient = RMClient()
 ```
 
-**2. Call character struct with function**
+**2. Request array of characters from server**
 ```swift
 do {
   let characters = try await rmClient.character().getAllCharacters()
