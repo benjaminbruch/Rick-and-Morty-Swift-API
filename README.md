@@ -41,11 +41,11 @@ let rmClient = RMClient()
 
 **2. Call character struct with function**
 ```swift
-        do {
-            let characters = try await rmClient.character().getAllCharacters()
-        } catch (let error) {
-            print(error)
-        }
+do {
+  let characters = try await rmClient.character().getAllCharacters()
+} catch (let error) {
+  print(error) 
+}
 ```
 
 *For more examples, please refer to the [Documentation][doc-link] or visit [Test Section][test-link]*
