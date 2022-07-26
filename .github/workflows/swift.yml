@@ -7,12 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-  
-    runs-on: macos-latest
-    
-  unit_tests:
-  
+  build:  
     runs-on: macos-latest
     steps:
     - name: Repository checkout
