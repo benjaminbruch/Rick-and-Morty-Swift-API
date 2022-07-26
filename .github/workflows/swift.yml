@@ -24,7 +24,3 @@ jobs:
         uses: maxim-lobanov/setup-xcode@v1.4.0
         with:
           xcode-version: "13.3"
-
-      - name: Gather code coverage
-        run: xcrun llvm-cov export -format="lcov" .build/debug/GACalcPackageTests.xctest/Contents/MacOS/GACalcPackageTests -instr-profile .build/debug/codecov/default.profdata > coverage_report.lcov
-        
