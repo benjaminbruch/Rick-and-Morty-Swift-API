@@ -26,4 +26,11 @@ jobs:
           xcode-version: "13.3"
           
       - name: Gather code coverage
-        run: xcrun llvm-cov export -format="lcov" .build/debug/RickMortySwiftApiPackageTests.xctest/Contents/MacOS/RickMortySwiftApiPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
+        run: xcrun llvm-cov export -format="lcov" .build/debug/RickMortySwiftApiPackageTests.xctest/Contents/MacOS/RickMortySwiftApiPackageTests -instr-profile .build/debug/codecov/default.profdata > coverage_report.lcov
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true
+          files: ./coverage_report.lcov
+          verbose: true
