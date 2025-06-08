@@ -3,7 +3,6 @@
 //  Created by BBruch on 08.04.20.
 //
 
-import Combine
 import Foundation
 
 /**
@@ -74,7 +73,7 @@ public struct RMEpisode {
         let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(data: episodeData)
         let episodes: [RMEpisodeModel] = try await withThrowingTaskGroup(of: [RMEpisodeModel].self) { group in
             for index in 1...infoModel.info.pages {
-                group.addTask {
+                group.addTask { [networkHandler] in
                     let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(index))
                     let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(data: episodeData)
                     return infoModel.results
@@ -134,7 +133,7 @@ public struct RMEpisode {
  - **episode**: The code of the episode.
  - **query**: URL query for HTTP request.
  */
-public struct RMEpisodeFilter {
+public struct RMEpisodeFilter: Sendable {
     public let name: String
     public let episode: String
     public let query: String
@@ -150,7 +149,7 @@ public struct RMEpisodeFilter {
  - **Info**: Info struct in Network.swift.
  - **EpisodeModel**: EpisodeModel struct in Episode.swift.
  */
-struct RMEpisodeInfoModel: Codable {
+struct RMEpisodeInfoModel: Codable, Sendable {
     let info: Info
     let results: [RMEpisodeModel]
 }
@@ -166,7 +165,7 @@ struct RMEpisodeInfoModel: Codable {
  - **url**: Link to the episode's own endpoint.
  - **created**: Time at which the episode was created in the database.
  */
-public struct RMEpisodeModel: Codable, Identifiable {
+public struct RMEpisodeModel: Codable, Identifiable, Sendable {
     public let id: Int
     public let name: String
     public let airDate: String

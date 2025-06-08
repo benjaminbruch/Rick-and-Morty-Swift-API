@@ -3,7 +3,6 @@
 //  Created by BBruch on 08.04.20.
 //
 
-import Combine
 import Foundation
 
 /**
@@ -76,7 +75,7 @@ public struct RMLocation {
         let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(data: locationData)
         let locations: [RMLocationModel] = try await withThrowingTaskGroup(of: [RMLocationModel].self) { group in
             for index in 1...infoModel.info.pages {
-                group.addTask {
+                group.addTask { [networkHandler] in
                     let locationData = try await networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(index))
                     let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(data: locationData)
                     return infoModel.results
@@ -138,7 +137,7 @@ public struct RMLocation {
  - **dimension**: The dimension of the location.
  - **query**: URL query for HTTP request.
  */
-public struct RMLocationFilter {
+public struct RMLocationFilter: Sendable {
     public let name: String
     public let type: String
     public let dimension: String
@@ -155,7 +154,7 @@ public struct RMLocationFilter {
  - **Info**: Info struct in Network.swift.
  - **LocationModel**: LocationModel struct in Location.swift.
  */
-struct RMLocationInfoModel: Codable {
+struct RMLocationInfoModel: Codable, Sendable {
     let info: Info
     let results: [RMLocationModel]
 }
@@ -171,7 +170,7 @@ struct RMLocationInfoModel: Codable {
  - **url**: Link to location's own endpoint.
  - **created**: Time at which the location was created in the database.
  */
-public struct RMLocationModel: Codable, Identifiable  {
+public struct RMLocationModel: Codable, Identifiable, Sendable {
     public let id: Int
     public let name: String
     public let type: String

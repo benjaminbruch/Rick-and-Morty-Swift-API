@@ -22,7 +22,7 @@ final class NetworkHandlerTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testNetworkRequestByMethodError() async {
@@ -36,7 +36,7 @@ final class NetworkHandlerTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testNetworkRequestByMethodErrorURLError() async {
@@ -51,7 +51,7 @@ final class NetworkHandlerTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testNetworkRequestByURL() async {
@@ -66,7 +66,7 @@ final class NetworkHandlerTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testNetworkRequestByURLInvalidURLError() async {
@@ -81,7 +81,7 @@ final class NetworkHandlerTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testNetworkRequestByURLInvalidResponseError() async {
@@ -95,7 +95,7 @@ final class NetworkHandlerTests: XCTestCase {
             expectation.fulfill()
         }
       
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testJSONResponseDataParsing() async {
@@ -110,7 +110,7 @@ final class NetworkHandlerTests: XCTestCase {
         } catch (let error) {
             print("⚠️ \(error)")
         }
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testJSONResponseDataParsingError() async {
@@ -124,10 +124,39 @@ final class NetworkHandlerTests: XCTestCase {
                 print("⚠️ \(error)")
                 expectation.fulfill()
             }
-            wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
+    }
+
+    func testDecodeSampleCharacter() async throws {
+        let json = """
+        {
+            "id": 1,
+            "name": "Rick",
+            "status": "Alive",
+            "species": "Human",
+            "type": "",
+            "gender": "Male",
+            "origin": {"name": "Earth", "url": "https://rickandmortyapi.com/api/location/1"},
+            "location": {"name": "Earth", "url": "https://rickandmortyapi.com/api/location/20"},
+            "image": "",
+            "episode": [],
+            "url": "",
+            "created": ""
         }
+        """.data(using: .utf8)!
+
+        let character: RMCharacterModel = try networkHandler.decodeJSONData(data: json)
+        XCTAssertEqual(character.id, 1)
+    }
+
+    func testDecodeInvalidJSONThrows() async {
+        let json = "{".data(using: .utf8)!
+        XCTAssertThrowsError(try { let _: RMCharacterModel = try networkHandler.decodeJSONData(data: json) }()) { error in
+            XCTAssertEqual(error as? NetworkHandlerError, .JSONDecodingError)
+        }
+    }
     
-    static var allTests = [
+    static let allTests = [
         ("testNetworkRequestByMethod", testNetworkRequestByMethod),
         ("testNetworkRequestByMethodError", testNetworkRequestByMethodError),
         ("testNetworkRequestByMethodErrorURLError", testNetworkRequestByMethodErrorURLError),
@@ -136,5 +165,7 @@ final class NetworkHandlerTests: XCTestCase {
         ("testNetworkRequestByURLInvalidResponseError",testNetworkRequestByURLInvalidResponseError),
         ("testJSONResponseDataParsing", testJSONResponseDataParsing),
         ("testJSONResponseDataParsingError", testJSONResponseDataParsingError),
+        ("testDecodeSampleCharacter", testDecodeSampleCharacter),
+        ("testDecodeInvalidJSONThrows", testDecodeInvalidJSONThrows),
     ]
 }

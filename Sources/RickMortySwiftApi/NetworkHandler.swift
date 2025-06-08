@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import FoundationNetworking
 
 /**
  ResponseInfo struct for decoding api response info.
@@ -13,7 +14,7 @@ import Foundation
  - **next**: Link to the next page (if it exists)
  - **prev**: Link to the previous page (if it exists).
  */
-struct Info: Codable {
+struct Info: Codable, Sendable {
     let count: Int
     let pages: Int
     let next: String?
@@ -28,7 +29,7 @@ struct Info: Codable {
  - **RequestError**
  - **UnknownError**
  */
-enum NetworkHandlerError: Error {
+enum NetworkHandlerError: Error, Equatable, Sendable {
     case InvalidURL
     case JSONDecodingError
     case RequestError(String)
@@ -46,7 +47,7 @@ struct ResponseErrorMessage: Codable {
  - **performAPIRequestByURL**
  - **decodeJSONData**
  */
-public struct NetworkHandler {
+public struct NetworkHandler: Sendable {
     var baseURL: String = "https://rickandmortyapi.com/api/"
     
     /**

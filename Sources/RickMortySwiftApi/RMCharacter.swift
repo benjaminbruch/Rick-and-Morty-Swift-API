@@ -3,7 +3,6 @@
 //  Created by BBruch on 08.04.20.
 //
 
-import Combine
 import Foundation
 
 /**
@@ -75,7 +74,7 @@ public struct RMCharacter {
         let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: characterData)
         let characters: [RMCharacterModel] = try await withThrowingTaskGroup(of: [RMCharacterModel].self) { group in
             for index in 1...infoModel.info.pages {
-                group.addTask {
+                group.addTask { [networkHandler] in
                     let characterData = try await networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(index))
                     let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: characterData)
                     return infoModel.results
@@ -142,7 +141,7 @@ public struct RMCharacter {
  - **gender**: The species of the character.
  - **query**: URL query for HTTP request.
  */
-public struct RMCharacterFilter {
+public struct RMCharacterFilter: Sendable {
     public let name: String
     public let status: String
     public let species: String
@@ -161,7 +160,7 @@ public struct RMCharacterFilter {
  - **Info**: Info struct in Network.swift.
  - **CharacterModel**: CharacterModel struct in Character.swift.
  */
-struct RMCharacterInfoModel: Codable {
+struct RMCharacterInfoModel: Codable, Sendable {
     let info: Info
     let results: [RMCharacterModel]
 }
@@ -182,7 +181,7 @@ struct RMCharacterInfoModel: Codable {
  - **url**: Link to the character's own URL endpoint.
  - **created**: Time at which the character was created in the database.
  */
-public struct RMCharacterModel: Codable, Identifiable {
+public struct RMCharacterModel: Codable, Identifiable, Sendable {
     public let id: Int
     public let name: String
     public let status: String
@@ -203,7 +202,7 @@ public struct RMCharacterModel: Codable, Identifiable {
  - **name**: The name of the origin.
  - **url**: Link to the origin's own URL endpoint.
  */
-public struct RMCharacterOriginModel: Codable {
+public struct RMCharacterOriginModel: Codable, Sendable {
     public let name: String
     public let url: String
 }
@@ -214,7 +213,7 @@ public struct RMCharacterOriginModel: Codable {
  - **name**: The name of the location.
  - **url**: Link to the location's own URL endpoint.
  */
-public struct RMCharacterLocationModel: Codable {
+public struct RMCharacterLocationModel: Codable, Sendable {
     public let name: String
     public let url: String
 }

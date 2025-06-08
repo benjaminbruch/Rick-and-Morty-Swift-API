@@ -3,7 +3,6 @@
 //  Created by BBruch on 11.04.20.
 //
 
-import Combine
 import XCTest
 @testable import RickMortySwiftApi
 
@@ -11,7 +10,6 @@ final class RMCharacterTests: XCTestCase {
     
 
     let client = RMClient()
-    var cancellable: AnyCancellable?
 
     func testRequestCharacterByID() async {
         
@@ -25,7 +23,7 @@ final class RMCharacterTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestCharacterByIDError() async {
@@ -39,7 +37,7 @@ final class RMCharacterTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestCharacterByURL() async {
@@ -54,7 +52,7 @@ final class RMCharacterTests: XCTestCase {
             print("⚠️ \(error)")
         }
 
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestCharacterByURLError() async {
@@ -68,7 +66,7 @@ final class RMCharacterTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestCharactersByIDs() async {
@@ -97,7 +95,7 @@ final class RMCharacterTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     
@@ -116,7 +114,7 @@ final class RMCharacterTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestCharactersByPageError() async {
@@ -130,7 +128,7 @@ final class RMCharacterTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestAllCharacters() async {
@@ -147,7 +145,7 @@ final class RMCharacterTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestFilterCharacters() async {
@@ -166,7 +164,7 @@ final class RMCharacterTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestFilterCharactersError() async {
@@ -183,16 +181,16 @@ final class RMCharacterTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
-    static var allTests = [
+    static let allTests = [
         ("testRequestCharacterByID", testRequestCharacterByID),
         ("testRequestCharacterByIDError", testRequestCharacterByIDError),
         ("testRequestCharacterByURL", testRequestCharacterByURL),
         ("testRequestCharacterByURLError", testRequestCharacterByURLError),
-        ("testRequestCharacterByPage", testRequestCharactersByPage),
-        ("testRequestCharacterByPageError", testRequestCharactersByPageError),
+        ("testRequestCharactersByPage", testRequestCharactersByPage),
+        ("testRequestCharactersByPageError", testRequestCharactersByPageError),
         ("testRequestCharactersByIDs", testRequestCharactersByIDs),
         ("testRequestCharactersByIDsError", testRequestCharactersByIDsError),
         ("testRequestAllCharacters", testRequestAllCharacters),
