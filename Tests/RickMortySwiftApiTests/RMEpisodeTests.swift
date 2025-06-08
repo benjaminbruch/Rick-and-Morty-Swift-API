@@ -3,14 +3,12 @@
 //  Created by BBruch on 11.04.20.
 //
 
-import Combine
 import XCTest
 @testable import RickMortySwiftApi
 
 final class RMEpisodeTests: XCTestCase {
     
     let client = RMClient()
-    var cancellable: AnyCancellable?
     
     func testRequestEpisodeByID() async {
         
@@ -24,7 +22,7 @@ final class RMEpisodeTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestEpisodeByIDError() async {
@@ -38,7 +36,7 @@ final class RMEpisodeTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestEpisodeByURL() async throws {
@@ -53,7 +51,7 @@ final class RMEpisodeTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestEpisodeByURLError() async throws {
@@ -67,7 +65,7 @@ final class RMEpisodeTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestEpisodesByIDs() async {
@@ -84,7 +82,7 @@ final class RMEpisodeTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestEpisodesByIDsError() async {
@@ -98,7 +96,7 @@ final class RMEpisodeTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestEpisodesByPageNumber() async {
@@ -115,7 +113,7 @@ final class RMEpisodeTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestEpisodesByPageNumberError() async {
@@ -129,7 +127,7 @@ final class RMEpisodeTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestAllEpisodes() async {
@@ -146,7 +144,7 @@ final class RMEpisodeTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestFilterEpisodes() async {
@@ -165,7 +163,7 @@ final class RMEpisodeTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestFilterEpisodesError() async {
@@ -181,12 +179,22 @@ final class RMEpisodeTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
+    }
+
+    func testCreateEpisodeFilterQuery() {
+        let filter = client.episode().createEpisodeFilter(name: "Pilot", episode: "S01E01")
+        XCTAssertEqual(filter.query, "episode/?name=Pilot&episode=S01E01&")
+    }
+
+    func testCreateEpisodeFilterQueryNil() {
+        let filter = client.episode().createEpisodeFilter(name: nil, episode: nil)
+        XCTAssertEqual(filter.query, "episode/?")
     }
     
-    static var allTests = [
+    static let allTests = [
         ("testRequestEpisodeByID", testRequestEpisodeByID),
-        ("testRequestEpisodeByID", testRequestEpisodeByIDError),
+        ("testRequestEpisodeByIDError", testRequestEpisodeByIDError),
         ("testRequestEpisodeByURL", testRequestEpisodeByURL),
         ("testRequestEpisodeByURLError", testRequestEpisodeByURLError),
         ("testRequestEpisodesByIDs", testRequestEpisodesByIDs),
@@ -196,5 +204,7 @@ final class RMEpisodeTests: XCTestCase {
         ("testRequestAllEpisodes", testRequestAllEpisodes),
         ("testRequestFilterEpisodes", testRequestFilterEpisodes),
         ("testRequestFilterEpisodesError", testRequestFilterEpisodesError),
+        ("testCreateEpisodeFilterQuery", testCreateEpisodeFilterQuery),
+        ("testCreateEpisodeFilterQueryNil", testCreateEpisodeFilterQueryNil),
     ]
 }
