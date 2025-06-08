@@ -50,6 +50,15 @@ do {
 
 *For more examples, please refer to the [Documentation][doc-link] or visit [Test Section][test-link]*
 
+## Demo App
+
+The repository contains a small SwiftUI demo that uses this package to fetch data and present it in a tab bar with characters, episodes and locations.
+Run it via the executable target `RickMortyDemoApp`:
+
+```bash
+swift run RickMortyDemoApp
+```
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
