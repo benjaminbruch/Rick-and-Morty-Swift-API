@@ -3,6 +3,22 @@
 
 import PackageDescription
 
+#if canImport(SwiftUI)
+let demoProducts: [Product] = [
+    .executable(
+        name: "RickMortyDemoApp",
+        targets: ["RickMortyDemoApp"])
+]
+let demoTargets: [Target] = [
+    .executableTarget(
+        name: "RickMortyDemoApp",
+        dependencies: ["RickMortySwiftApi"])
+]
+#else
+let demoProducts: [Product] = []
+let demoTargets: [Target] = []
+#endif
+
 let package = Package(
     name: "RickMortySwiftApi",
     platforms: [
@@ -14,7 +30,7 @@ let package = Package(
         .library(
             name: "RickMortySwiftApi",
             targets: ["RickMortySwiftApi"]),
-    ],
+    ] + demoProducts,
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
@@ -25,6 +41,7 @@ let package = Package(
         .target(
             name: "RickMortySwiftApi",
             dependencies: []),
+    ] + demoTargets + [
         .testTarget(
             name: "RickMortySwiftApiTests",
             dependencies: ["RickMortySwiftApi"]),
