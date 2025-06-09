@@ -4,14 +4,41 @@ import RickMortySwiftApi
 @MainActor
 final class CharactersViewModel: ObservableObject {
     @Published var characters: [RMCharacterModel] = []
-    private let client = RMClient()
+    @Published var isLoading = false
 
-    func fetch() async {
+    private let client = RMClient()
+    private var currentPage = 1
+    private var canLoadMore = true
+
+    func loadMoreIfNeeded(currentItem item: RMCharacterModel?) async {
+        guard !isLoading && canLoadMore else { return }
+
+        if item == nil {
+            await loadPage()
+            return
+        }
+
+        let thresholdIndex = characters.index(characters.endIndex, offsetBy: -5)
+        if let item = item,
+           let index = characters.firstIndex(where: { $0.id == item.id }),
+           index >= thresholdIndex {
+            await loadPage()
+        }
+    }
+
+    private func loadPage() async {
+        guard !isLoading && canLoadMore else { return }
+        isLoading = true
         do {
-            characters = try await client.character().getAllCharacters()
+            let newCharacters = try await client.character().getCharactersByPageNumber(pageNumber: currentPage)
+            characters.append(contentsOf: newCharacters)
+            currentPage += 1
+        } catch NetworkHandlerError.RequestError {
+            canLoadMore = false
         } catch {
             print("Error fetching characters: \(error)")
         }
+        isLoading = false
     }
 }
 
@@ -24,11 +51,15 @@ struct CharactersView: View {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(viewModel.characters) { character in
                     CharacterCardView(character: character)
+                        .task { await viewModel.loadMoreIfNeeded(currentItem: character) }
+                }
+                if viewModel.isLoading {
+                    ProgressView()
                 }
             }
-            .padding()
+            .padding(16)
         }
-        .task { await viewModel.fetch() }
+        .task { await viewModel.loadMoreIfNeeded(currentItem: nil) }
     }
 }
 
@@ -37,17 +68,9 @@ struct CharacterCardView: View {
 
     var body: some View {
         VStack {
-            AsyncImage(url: URL(string: character.image)) { phase in
-                if let image = phase.image {
-                    image.resizable().aspectRatio(contentMode: .fill)
-                } else if phase.error != nil {
-                    Color.red
-                } else {
-                    ProgressView()
-                }
-            }
-            .frame(width: 150, height: 150)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+            CachedImageView(url: URL(string: character.image))
+                .frame(width: 150, height: 150)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
 
             Text(character.name)
                 .font(.headline)

@@ -52,7 +52,7 @@ do {
 
 ## Demo Application
 
-The package includes a small macOS SwiftUI demo under the `RickMortyDemo` target. Build and run this executable to see characters, episodes and locations presented in card collections.
+The package includes a small macOS SwiftUI demo under the `RickMortyDemo` target. Build and run this executable to see characters, episodes and locations presented in card collections. Characters are loaded lazily using pagination and images are cached for smoother scrolling.
 
 
 <!-- CONTRIBUTING -->
