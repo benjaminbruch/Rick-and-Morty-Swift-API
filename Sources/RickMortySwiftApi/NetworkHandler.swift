@@ -4,9 +4,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 /**
  ResponseInfo struct for decoding api response info.
