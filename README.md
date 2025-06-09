@@ -50,6 +50,10 @@ do {
 
 *For more examples, please refer to the [Documentation][doc-link] or visit [Test Section][test-link]*
 
+## Demo Application
+
+The `DemoApp` directory contains a small macOS SwiftUI application that showcases characters, episodes and locations in a collection of card views. Build the package inside that folder to try the demo.
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
