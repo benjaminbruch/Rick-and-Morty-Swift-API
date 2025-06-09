@@ -1,3 +1,4 @@
+#if canImport(SwiftUI)
 import SwiftUI
 import RickMortySwiftApi
 
@@ -9,3 +10,4 @@ struct RickMortyDemoApp: App {
         }
     }
 }
+#endif

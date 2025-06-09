@@ -1,3 +1,4 @@
+#if canImport(SwiftUI)
 #if os(macOS)
 import AppKit
 public typealias PlatformImage = NSImage
@@ -63,3 +64,4 @@ struct CachedImageView: View {
         }
     }
 }
+#endif

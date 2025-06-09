@@ -1,17 +1,54 @@
+#if canImport(SwiftUI)
 import SwiftUI
 import RickMortySwiftApi
 
 @MainActor
 final class LocationsViewModel: ObservableObject {
     @Published var locations: [RMLocationModel] = []
-    private let client = RMClient()
+    @Published var isLoading = false
 
-    func fetch() async {
+    private let client = RMClient()
+    private var currentPage = 1
+    private var canLoadMore = true
+    private var cache: [Int: [RMLocationModel]] = [:]
+
+    func loadMoreIfNeeded(currentItem item: RMLocationModel?) async {
+        guard !isLoading && canLoadMore else { return }
+
+        if item == nil {
+            await loadPage()
+            return
+        }
+
+        let thresholdIndex = locations.index(locations.endIndex, offsetBy: -5)
+        if let item = item,
+           let index = locations.firstIndex(where: { $0.id == item.id }),
+           index >= thresholdIndex {
+            await loadPage()
+        }
+    }
+
+    private func loadPage() async {
+        guard !isLoading && canLoadMore else { return }
+
+        if let cached = cache[currentPage] {
+            locations.append(contentsOf: cached)
+            currentPage += 1
+            return
+        }
+
+        isLoading = true
         do {
-            locations = try await client.location().getAllLocations()
+            let newLocations = try await client.location().getLocationsByPageNumber(pageNumber: currentPage)
+            cache[currentPage] = newLocations
+            locations.append(contentsOf: newLocations)
+            currentPage += 1
+        } catch NetworkHandlerError.RequestError {
+            canLoadMore = false
         } catch {
             print("Error fetching locations: \(error)")
         }
+        isLoading = false
     }
 }
 
@@ -24,11 +61,15 @@ struct LocationsView: View {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(viewModel.locations) { location in
                     LocationCardView(location: location)
+                        .task { await viewModel.loadMoreIfNeeded(currentItem: location) }
+                }
+                if viewModel.isLoading {
+                    ProgressView()
                 }
             }
-            .padding()
+            .padding(16)
         }
-        .task { await viewModel.fetch() }
+        .task { await viewModel.loadMoreIfNeeded(currentItem: nil) }
     }
 }
 
@@ -49,7 +90,7 @@ struct LocationCardView: View {
         .shadow(radius: 2)
     }
 }
-
 #Preview {
     LocationsView()
 }
+#endif

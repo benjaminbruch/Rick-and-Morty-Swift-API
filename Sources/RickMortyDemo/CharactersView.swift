@@ -1,3 +1,4 @@
+#if canImport(SwiftUI)
 import SwiftUI
 import RickMortySwiftApi
 
@@ -85,3 +86,4 @@ struct CharacterCardView: View {
 #Preview {
     CharactersView()
 }
+#endif
