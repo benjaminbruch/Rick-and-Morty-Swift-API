@@ -3,7 +3,6 @@
 //  Created by BBruch on 11.04.20.
 //
 
-import Combine
 import XCTest
 @testable import RickMortySwiftApi
 
@@ -11,7 +10,6 @@ final class RMLocationTests: XCTestCase {
     
 
     let client = RMClient()
-    var cancellable: AnyCancellable?
 
     func testRequestLocationByID() async {
         
@@ -26,7 +24,7 @@ final class RMLocationTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestLocationByIDError() async {
@@ -40,7 +38,7 @@ final class RMLocationTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestLocationByURL() async {
@@ -55,7 +53,7 @@ final class RMLocationTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestLocationByURLError() async {
@@ -69,7 +67,7 @@ final class RMLocationTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestLocationsByPageNumber() async {
@@ -86,7 +84,7 @@ final class RMLocationTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestLocationsByPageNumberError() async {
@@ -100,7 +98,7 @@ final class RMLocationTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestLocationsByIDs() async {
@@ -117,7 +115,7 @@ final class RMLocationTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestLocationsByIDsError() async {
@@ -131,7 +129,7 @@ final class RMLocationTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestAllLocations() async {
@@ -148,7 +146,7 @@ final class RMLocationTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestFilterLocations() async {
@@ -167,7 +165,7 @@ final class RMLocationTests: XCTestCase {
             print("⚠️ \(error)")
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
     func testRequestFilterLocationsError() async {
@@ -182,10 +180,10 @@ final class RMLocationTests: XCTestCase {
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 10.0)
+        await fulfillment(of: [expectation], timeout: 10.0)
     }
     
-    static var allTests = [
+    static let allTests = [
         ("testRequestLocationByID", testRequestLocationByID),
         ("testRequestLocationByIDError", testRequestLocationByIDError),
         ("testRequestLocationByURL", testRequestLocationByURL),

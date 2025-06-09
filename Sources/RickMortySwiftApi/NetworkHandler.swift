@@ -4,6 +4,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /**
  ResponseInfo struct for decoding api response info.
@@ -13,7 +16,7 @@ import Foundation
  - **next**: Link to the next page (if it exists)
  - **prev**: Link to the previous page (if it exists).
  */
-struct Info: Codable {
+struct Info: Codable, Sendable {
     let count: Int
     let pages: Int
     let next: String?
@@ -28,14 +31,14 @@ struct Info: Codable {
  - **RequestError**
  - **UnknownError**
  */
-enum NetworkHandlerError: Error {
+enum NetworkHandlerError: Error, Sendable {
     case InvalidURL
     case JSONDecodingError
     case RequestError(String)
     case UnknownError
 }
 
-struct ResponseErrorMessage: Codable {
+struct ResponseErrorMessage: Codable, Sendable {
     let error: String
 }
 
@@ -46,8 +49,12 @@ struct ResponseErrorMessage: Codable {
  - **performAPIRequestByURL**
  - **decodeJSONData**
  */
-public struct NetworkHandler {
-    var baseURL: String = "https://rickandmortyapi.com/api/"
+public struct NetworkHandler: Sendable {
+    public let baseURL: String
+
+    public init(baseURL: String = "https://rickandmortyapi.com/api/") {
+        self.baseURL = baseURL
+    }
     
     /**
      Perform API request with given method.
@@ -55,12 +62,12 @@ public struct NetworkHandler {
         - method: URL for API request.
      - Returns: HTTP data response.
      */
-    func performAPIRequestByMethod(method: String) async throws -> Data {
-        if let url = URL(string: baseURL+method) {
+    public func performRequest(method: String) async throws -> Data {
+        if let url = URL(string: baseURL + method) {
             print("📮 RequestURL: \(baseURL)\(method)")
             let (data, response) = try await URLSession.shared.data(from: url)
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
-               let error: ResponseErrorMessage = try decodeJSONData(data: data)
+               let error: ResponseErrorMessage = try decodeJSONData(data)
                throw NetworkHandlerError.RequestError(error.error)
             }
             return data
@@ -75,12 +82,12 @@ public struct NetworkHandler {
         - url: URL for API request.
      - Returns: HTTP data response.
      */
-    func performAPIRequestByURL(url: String) async throws -> Data {
+    public func performRequest(url: String) async throws -> Data {
         if let url = URL(string: url) {
             print("📮 RequestURL: \(url)")
             let (data, response) = try await URLSession.shared.data(from: url)
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, 200..<299 ~= statusCode else {
-               let error: ResponseErrorMessage = try decodeJSONData(data: data)
+               let error: ResponseErrorMessage = try decodeJSONData(data)
                throw NetworkHandlerError.RequestError(error.error)
             }
             return data
@@ -95,7 +102,7 @@ public struct NetworkHandler {
         - data: HTTP data response.
      - Returns: Model struct of associated variable type.
      */
-    func decodeJSONData<T: Codable>(data: Data) throws -> T {
+    public func decodeJSONData<T: Decodable>(_ data: Data) throws -> T {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(T.self, from: data)

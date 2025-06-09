@@ -8,7 +8,7 @@ import Foundation
 /**
  API Client for Rick and Morty API.
  */
-public struct RMClient {
+public struct RMClient: Sendable {
     
     public init() {}
     

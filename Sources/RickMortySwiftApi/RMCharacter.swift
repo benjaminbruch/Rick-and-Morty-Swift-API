@@ -3,13 +3,12 @@
 //  Created by BBruch on 08.04.20.
 //
 
-import Combine
 import Foundation
 
 /**
  Character struct contains all functions to request character(s) information(s).
  */
-public struct RMCharacter {
+public struct RMCharacter: Sendable {
     
     public init(client: RMClient) {self.client = client}
     
@@ -23,8 +22,8 @@ public struct RMCharacter {
      - Returns: Character model struct.
      */
     public func getCharacterByID(id: Int) async throws -> RMCharacterModel {
-        let characterData = try await networkHandler.performAPIRequestByMethod(method: "character/"+String(id))
-        let character: RMCharacterModel = try networkHandler.decodeJSONData(data: characterData)
+        let characterData = try await networkHandler.performRequest(method: "character/" + String(id))
+        let character: RMCharacterModel = try networkHandler.decodeJSONData(characterData)
         return character
     }
     
@@ -35,8 +34,8 @@ public struct RMCharacter {
      - Returns: Character model struct.
      */
     public func getCharacterByURL(url: String) async throws -> RMCharacterModel {
-        let characterData = try await networkHandler.performAPIRequestByURL(url: url)
-        let character: RMCharacterModel = try networkHandler.decodeJSONData(data: characterData)
+        let characterData = try await networkHandler.performRequest(url: url)
+        let character: RMCharacterModel = try networkHandler.decodeJSONData(characterData)
         return character
     }
 
@@ -48,8 +47,8 @@ public struct RMCharacter {
      */
     public func getCharactersByIDs(ids: [Int]) async throws -> [RMCharacterModel] {
         let stringIDs = ids.map { String($0) }
-        let characterData = try await networkHandler.performAPIRequestByMethod(method: "character/"+stringIDs.joined(separator: ","))
-        let characters: [RMCharacterModel] = try networkHandler.decodeJSONData(data: characterData)
+        let characterData = try await networkHandler.performRequest(method: "character/" + stringIDs.joined(separator: ","))
+        let characters: [RMCharacterModel] = try networkHandler.decodeJSONData(characterData)
         return characters
     }
     
@@ -61,8 +60,8 @@ public struct RMCharacter {
      */
     public func getCharactersByPageNumber(pageNumber: Int) async throws -> [RMCharacterModel] {
         
-        let characterData = try await networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(pageNumber))
-        let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: characterData)
+        let characterData = try await networkHandler.performRequest(method: "character/?page=" + String(pageNumber))
+        let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(characterData)
         return infoModel.results
     }
     
@@ -71,18 +70,18 @@ public struct RMCharacter {
      - Returns: Array of Character model struct.
      */
     public func getAllCharacters() async throws -> [RMCharacterModel] {
-        let characterData = try await networkHandler.performAPIRequestByMethod(method: "character")
-        let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: characterData)
+        let characterData = try await networkHandler.performRequest(method: "character")
+        let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(characterData)
         let characters: [RMCharacterModel] = try await withThrowingTaskGroup(of: [RMCharacterModel].self) { group in
             for index in 1...infoModel.info.pages {
-                group.addTask {
-                    let characterData = try await networkHandler.performAPIRequestByMethod(method: "character/"+"?page="+String(index))
-                    let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: characterData)
+                group.addTask { @Sendable in
+                    let characterData = try await networkHandler.performRequest(method: "character/?page=" + String(index))
+                    let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(characterData)
                     return infoModel.results
                 }
             }
             
-            return try await group.reduce(into: [RMCharacterModel]()) { allCharacters, characters in
+            return try await group.reduce(into: [RMCharacterModel]()) { @Sendable allCharacters, characters in
                 allCharacters.append(contentsOf: characters)
             }
         }
@@ -127,8 +126,8 @@ public struct RMCharacter {
      - Returns: Array of Character model struct.
      */
     public func getCharactersByFilter(filter: RMCharacterFilter) async throws -> [RMCharacterModel] {
-        let characterData = try await networkHandler.performAPIRequestByMethod(method: filter.query)
-        let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(data: characterData)
+        let characterData = try await networkHandler.performRequest(method: filter.query)
+        let infoModel: RMCharacterInfoModel = try networkHandler.decodeJSONData(characterData)
         return infoModel.results
     }
 }
@@ -142,7 +141,7 @@ public struct RMCharacter {
  - **gender**: The species of the character.
  - **query**: URL query for HTTP request.
  */
-public struct RMCharacterFilter {
+public struct RMCharacterFilter: Sendable {
     public let name: String
     public let status: String
     public let species: String
@@ -161,7 +160,7 @@ public struct RMCharacterFilter {
  - **Info**: Info struct in Network.swift.
  - **CharacterModel**: CharacterModel struct in Character.swift.
  */
-struct RMCharacterInfoModel: Codable {
+struct RMCharacterInfoModel: Codable, Sendable {
     let info: Info
     let results: [RMCharacterModel]
 }
@@ -182,7 +181,7 @@ struct RMCharacterInfoModel: Codable {
  - **url**: Link to the character's own URL endpoint.
  - **created**: Time at which the character was created in the database.
  */
-public struct RMCharacterModel: Codable, Identifiable {
+public struct RMCharacterModel: Codable, Identifiable, Sendable {
     public let id: Int
     public let name: String
     public let status: String
@@ -203,7 +202,7 @@ public struct RMCharacterModel: Codable, Identifiable {
  - **name**: The name of the origin.
  - **url**: Link to the origin's own URL endpoint.
  */
-public struct RMCharacterOriginModel: Codable {
+public struct RMCharacterOriginModel: Codable, Sendable {
     public let name: String
     public let url: String
 }
@@ -214,7 +213,7 @@ public struct RMCharacterOriginModel: Codable {
  - **name**: The name of the location.
  - **url**: Link to the location's own URL endpoint.
  */
-public struct RMCharacterLocationModel: Codable {
+public struct RMCharacterLocationModel: Codable, Sendable {
     public let name: String
     public let url: String
 }

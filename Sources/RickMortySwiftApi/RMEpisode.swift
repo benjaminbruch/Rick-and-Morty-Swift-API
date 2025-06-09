@@ -3,13 +3,12 @@
 //  Created by BBruch on 08.04.20.
 //
 
-import Combine
 import Foundation
 
 /**
  Episode struct contains all functions to request episode(s) information(s).
  */
-public struct RMEpisode {
+public struct RMEpisode: Sendable {
     
     public init(client: RMClient) {self.client = client}
     
@@ -23,8 +22,8 @@ public struct RMEpisode {
      - Returns: Episode model struct.
      */
     public func getEpisodeByID(id: Int) async throws -> RMEpisodeModel {
-        let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode/"+String(id))
-        let episode: RMEpisodeModel = try networkHandler.decodeJSONData(data: episodeData)
+        let episodeData = try await networkHandler.performRequest(method: "episode/" + String(id))
+        let episode: RMEpisodeModel = try networkHandler.decodeJSONData(episodeData)
         return episode
     }
     
@@ -35,8 +34,8 @@ public struct RMEpisode {
      - Returns: Episode model struct.
      */
     public func getEpisodeByURL(url: String) async throws-> RMEpisodeModel {
-        let episodeData = try await networkHandler.performAPIRequestByURL(url: url)
-        let episode: RMEpisodeModel = try networkHandler.decodeJSONData(data: episodeData)
+        let episodeData = try await networkHandler.performRequest(url: url)
+        let episode: RMEpisodeModel = try networkHandler.decodeJSONData(episodeData)
         return episode
     }
     
@@ -48,8 +47,8 @@ public struct RMEpisode {
      */
     public func getEpisodesByIDs(ids: [Int]) async throws -> [RMEpisodeModel] {
         let stringIDs = ids.map { String($0) }
-        let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode/"+stringIDs.joined(separator: ","))
-        let episodes: [RMEpisodeModel] = try networkHandler.decodeJSONData(data: episodeData)
+        let episodeData = try await networkHandler.performRequest(method: "episode/" + stringIDs.joined(separator: ","))
+        let episodes: [RMEpisodeModel] = try networkHandler.decodeJSONData(episodeData)
         return episodes
     }
     
@@ -60,8 +59,8 @@ public struct RMEpisode {
      - Returns: Array of Episode model struct.
      */
     public func getEpisodesByPageNumber(pageNumber: Int) async throws -> [RMEpisodeModel] {
-        let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(pageNumber))
-        let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(data: episodeData)
+        let episodeData = try await networkHandler.performRequest(method: "episode/?page=" + String(pageNumber))
+        let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(episodeData)
         return infoModel.results
     }
     
@@ -70,18 +69,18 @@ public struct RMEpisode {
      - Returns: Array of Episode model struct.
      */
     public func getAllEpisodes() async throws ->[RMEpisodeModel] {
-        let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode")
-        let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(data: episodeData)
+        let episodeData = try await networkHandler.performRequest(method: "episode")
+        let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(episodeData)
         let episodes: [RMEpisodeModel] = try await withThrowingTaskGroup(of: [RMEpisodeModel].self) { group in
             for index in 1...infoModel.info.pages {
-                group.addTask {
-                    let episodeData = try await networkHandler.performAPIRequestByMethod(method: "episode/"+"?page="+String(index))
-                    let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(data: episodeData)
+                group.addTask { @Sendable in
+                    let episodeData = try await networkHandler.performRequest(method: "episode/?page=" + String(index))
+                    let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(episodeData)
                     return infoModel.results
                 }
             }
             
-            return try await group.reduce(into: [RMEpisodeModel]()) { allEpisodes, episodes in
+            return try await group.reduce(into: [RMEpisodeModel]()) { @Sendable allEpisodes, episodes in
                 allEpisodes.append(contentsOf: episodes)
             }
         }
@@ -121,8 +120,8 @@ public struct RMEpisode {
      - Returns: Array of Episodes model struct.
      */
     public func getEpisodesByFilter(filter: RMEpisodeFilter) async throws -> [RMEpisodeModel] {
-        let episodeData = try await networkHandler.performAPIRequestByMethod(method: filter.query)
-        let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(data: episodeData)
+        let episodeData = try await networkHandler.performRequest(method: filter.query)
+        let infoModel: RMEpisodeInfoModel = try networkHandler.decodeJSONData(episodeData)
         return infoModel.results
     }
 }
@@ -134,7 +133,7 @@ public struct RMEpisode {
  - **episode**: The code of the episode.
  - **query**: URL query for HTTP request.
  */
-public struct RMEpisodeFilter {
+public struct RMEpisodeFilter: Sendable {
     public let name: String
     public let episode: String
     public let query: String
@@ -150,7 +149,7 @@ public struct RMEpisodeFilter {
  - **Info**: Info struct in Network.swift.
  - **EpisodeModel**: EpisodeModel struct in Episode.swift.
  */
-struct RMEpisodeInfoModel: Codable {
+struct RMEpisodeInfoModel: Codable, Sendable {
     let info: Info
     let results: [RMEpisodeModel]
 }
@@ -166,7 +165,7 @@ struct RMEpisodeInfoModel: Codable {
  - **url**: Link to the episode's own endpoint.
  - **created**: Time at which the episode was created in the database.
  */
-public struct RMEpisodeModel: Codable, Identifiable {
+public struct RMEpisodeModel: Codable, Identifiable, Sendable {
     public let id: Int
     public let name: String
     public let airDate: String

@@ -3,13 +3,12 @@
 //  Created by BBruch on 08.04.20.
 //
 
-import Combine
 import Foundation
 
 /**
  Location struct contains all functions to request location(s) information(s).
  */
-public struct RMLocation {
+public struct RMLocation: Sendable {
     
     public init(client: RMClient) {self.client = client}
     
@@ -23,8 +22,8 @@ public struct RMLocation {
      - Returns: Location model struct.
      */
     public func getLocationByID(id: Int) async throws -> RMLocationModel {
-        let locationData = try await networkHandler.performAPIRequestByMethod(method: "location/"+String(id))
-        let location: RMLocationModel = try networkHandler.decodeJSONData(data: locationData)
+        let locationData = try await networkHandler.performRequest(method: "location/" + String(id))
+        let location: RMLocationModel = try networkHandler.decodeJSONData(locationData)
         return location
     }
     
@@ -35,8 +34,8 @@ public struct RMLocation {
      - Returns: Location model struct.
      */
     public func getLocationByURL(url: String) async throws -> RMLocationModel {
-        let locationData = try await networkHandler.performAPIRequestByURL(url: url)
-        let location: RMLocationModel = try self.networkHandler.decodeJSONData(data: locationData)
+        let locationData = try await networkHandler.performRequest(url: url)
+        let location: RMLocationModel = try self.networkHandler.decodeJSONData(locationData)
         return location
     }
     
@@ -48,8 +47,8 @@ public struct RMLocation {
      */
     public func getLocationsByIDs(ids: [Int]) async throws -> [RMLocationModel] {
         let stringIDs = ids.map { String($0) }
-        let locationData = try await networkHandler.performAPIRequestByMethod(method: "location/"+stringIDs.joined(separator: ","))
-        let locations: [RMLocationModel] = try networkHandler.decodeJSONData(data: locationData)
+        let locationData = try await networkHandler.performRequest(method: "location/" + stringIDs.joined(separator: ","))
+        let locations: [RMLocationModel] = try networkHandler.decodeJSONData(locationData)
         return locations
     }
     
@@ -61,8 +60,8 @@ public struct RMLocation {
      */
     public func getLocationsByPageNumber(pageNumber: Int) async throws -> [RMLocationModel] {
        
-            let locationData = try await networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(pageNumber))
-            let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(data: locationData)
+            let locationData = try await networkHandler.performRequest(method: "location/?page=" + String(pageNumber))
+            let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(locationData)
         return infoModel.results
     }
     
@@ -72,18 +71,18 @@ public struct RMLocation {
      */
     public func getAllLocations() async throws -> [RMLocationModel] {
         
-        let locationData = try await networkHandler.performAPIRequestByMethod(method: "location")
-        let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(data: locationData)
+        let locationData = try await networkHandler.performRequest(method: "location")
+        let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(locationData)
         let locations: [RMLocationModel] = try await withThrowingTaskGroup(of: [RMLocationModel].self) { group in
             for index in 1...infoModel.info.pages {
-                group.addTask {
-                    let locationData = try await networkHandler.performAPIRequestByMethod(method: "location/"+"?page="+String(index))
-                    let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(data: locationData)
+                group.addTask { @Sendable in
+                    let locationData = try await networkHandler.performRequest(method: "location/?page=" + String(index))
+                    let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(locationData)
                     return infoModel.results
                 }
             }
             
-            return try await group.reduce(into: [RMLocationModel]()) { allLocations, locations in
+            return try await group.reduce(into: [RMLocationModel]()) { @Sendable allLocations, locations in
                 allLocations.append(contentsOf: locations)
             }
         }
@@ -125,8 +124,8 @@ public struct RMLocation {
      - Returns: Array of Location model struct.
      */
     public func getLocationsByFilter(filter: RMLocationFilter) async throws -> [RMLocationModel] {
-        let locationData = try await networkHandler.performAPIRequestByMethod(method: filter.query)
-        let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(data: locationData)
+        let locationData = try await networkHandler.performRequest(method: filter.query)
+        let infoModel: RMLocationInfoModel = try networkHandler.decodeJSONData(locationData)
         return infoModel.results
     }
 }
@@ -138,7 +137,7 @@ public struct RMLocation {
  - **dimension**: The dimension of the location.
  - **query**: URL query for HTTP request.
  */
-public struct RMLocationFilter {
+public struct RMLocationFilter: Sendable {
     public let name: String
     public let type: String
     public let dimension: String
@@ -155,7 +154,7 @@ public struct RMLocationFilter {
  - **Info**: Info struct in Network.swift.
  - **LocationModel**: LocationModel struct in Location.swift.
  */
-struct RMLocationInfoModel: Codable {
+struct RMLocationInfoModel: Codable, Sendable {
     let info: Info
     let results: [RMLocationModel]
 }
@@ -171,7 +170,7 @@ struct RMLocationInfoModel: Codable {
  - **url**: Link to location's own endpoint.
  - **created**: Time at which the location was created in the database.
  */
-public struct RMLocationModel: Codable, Identifiable  {
+public struct RMLocationModel: Codable, Identifiable, Sendable {
     public let id: Int
     public let name: String
     public let type: String
