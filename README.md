@@ -52,7 +52,7 @@ do {
 
 ## Demo Application
 
-The `DemoApp` directory contains a small macOS SwiftUI application that showcases characters, episodes and locations in a collection of card views. Build the package inside that folder to try the demo.
+The package includes a small macOS SwiftUI demo under the `RickMortyDemo` target. Build and run this executable to see characters, episodes and locations presented in card collections.
 
 
 <!-- CONTRIBUTING -->

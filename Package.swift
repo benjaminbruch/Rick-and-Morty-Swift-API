@@ -14,6 +14,9 @@ let package = Package(
         .library(
             name: "RickMortySwiftApi",
             targets: ["RickMortySwiftApi"]),
+        .executable(
+            name: "RickMortyDemo",
+            targets: ["RickMortyDemo"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -25,6 +28,9 @@ let package = Package(
         .target(
             name: "RickMortySwiftApi",
             dependencies: []),
+        .executableTarget(
+            name: "RickMortyDemo",
+            dependencies: ["RickMortySwiftApi"]),
         .testTarget(
             name: "RickMortySwiftApiTests",
             dependencies: ["RickMortySwiftApi"]),
