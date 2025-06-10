@@ -66,20 +66,42 @@ struct CharactersView: View {
 
 struct CharacterCardView: View {
     let character: RMCharacterModel
+    @State private var isExpanded = false
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, spacing: 8) {
             CachedImageView(url: URL(string: character.image))
                 .frame(width: 150, height: 150)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
 
             Text(character.name)
                 .font(.headline)
-                .multilineTextAlignment(.center)
+
+            Text("ID: \(character.id)")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+            if isExpanded {
+                Divider()
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Status: \(character.status)")
+                    Text("Species: \(character.species)")
+                    if !character.type.isEmpty {
+                        Text("Type: \(character.type)")
+                    }
+                    Text("Gender: \(character.gender)")
+                    Text("Origin: \(character.origin.name)")
+                    Text("Location: \(character.location.name)")
+                }
+                .font(.caption)
+                .transition(.opacity.combined(with: .move(edge: .top)))
+            }
         }
         .padding()
+        .frame(maxWidth: .infinity)
         .background(RoundedRectangle(cornerRadius: 8).fill(Color(.windowBackgroundColor)))
         .shadow(radius: 2)
+        .onTapGesture { withAnimation { isExpanded.toggle() } }
     }
 }
 
