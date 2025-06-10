@@ -45,13 +45,14 @@ final class CharactersViewModel: ObservableObject {
 
 struct CharactersView: View {
     @StateObject private var viewModel = CharactersViewModel()
-    private let columns = [GridItem(.adaptive(minimum: 150))]
+    @State private var expandedCharacterID: Int?
+    private let columns = [GridItem(.adaptive(minimum: 150), spacing: 16)]
 
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(viewModel.characters) { character in
-                    CharacterCardView(character: character)
+                    CharacterCardView(character: character, expandedCharacterID: $expandedCharacterID)
                         .task { await viewModel.loadMoreIfNeeded(currentItem: character) }
                 }
                 if viewModel.isLoading {
@@ -66,7 +67,11 @@ struct CharactersView: View {
 
 struct CharacterCardView: View {
     let character: RMCharacterModel
-    @State private var isExpanded = false
+    @Binding var expandedCharacterID: Int?
+
+    private let collapsedHeight: CGFloat = 220
+
+    private var isExpanded: Bool { expandedCharacterID == character.id }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -76,10 +81,13 @@ struct CharacterCardView: View {
 
             Text(character.name)
                 .font(.headline)
+                .lineLimit(2)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             Text("ID: \(character.id)")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             if isExpanded {
                 Divider()
@@ -98,10 +106,18 @@ struct CharacterCardView: View {
             }
         }
         .padding()
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, minHeight: collapsedHeight, alignment: .topLeading)
         .background(RoundedRectangle(cornerRadius: 8).fill(Color(.windowBackgroundColor)))
         .shadow(radius: 2)
-        .onTapGesture { withAnimation { isExpanded.toggle() } }
+        .onTapGesture {
+            withAnimation {
+                if isExpanded {
+                    expandedCharacterID = nil
+                } else {
+                    expandedCharacterID = character.id
+                }
+            }
+        }
     }
 }
 
