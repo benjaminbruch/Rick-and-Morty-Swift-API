@@ -28,7 +28,7 @@ struct Info: Codable {
  - **RequestError**
  - **UnknownError**
  */
-enum NetworkHandlerError: Error {
+public enum NetworkHandlerError: Error, Sendable {
     case InvalidURL
     case JSONDecodingError
     case RequestError(String)

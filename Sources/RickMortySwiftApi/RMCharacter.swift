@@ -99,7 +99,7 @@ public struct RMCharacter {
      - gender: The species of the character.
      - Returns: CharacterFilter
      */
-    func createCharacterFilter(name: String?, status: Status?, species: String?, type: String?, gender: Gender?) -> RMCharacterFilter {
+    public func createCharacterFilter(name: String?, status: Status?, species: String?, type: String?, gender: Gender?) -> RMCharacterFilter {
         
         let parameterDict: [String: String] = [
             "name" : name ?? "",
